@@ -52,7 +52,7 @@ html:
 
 sphinx:
   config:
-    html_extra_path: ["CNAME", "robots.txt"]
+    html_extra_path: ["CNAME"]
     html_theme_options:
       use_download_button: true
       repository_url: https://github.com/giswqs/duckdb-spatial

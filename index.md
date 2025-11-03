@@ -104,7 +104,7 @@ The code examples can be run using MyBinder.
 
 The code examples can be run using Google Colab.
 
-[![image](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/giswqs/intro-duckdb/blob/main)
+[![image](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/main)
 
 <!-- ### Using Docker
 
