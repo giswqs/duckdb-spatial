@@ -1,0 +1,784 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. Getting Started with DuckDB &#8212; Spatial Data Management with DuckDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/foundations/introduction';</script>
+    <link rel="canonical" href="https://duckdb.gishub.org/book/foundations/introduction.html" />
+    <link rel="icon" href="../../_static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2. Essential SQL for Spatial Analysis" href="sql-basics.html" />
+    <link rel="prev" title="Preface" href="../preface.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Spatial Data Management with DuckDB - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Spatial Data Management with DuckDB - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">DuckDB Foundations</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Getting Started with DuckDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sql-basics.html">2. Essential SQL for Spatial Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api.html">3. DuckDB Python Integration</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spatial Data Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-import.html">4. Loading Spatial Data Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-export.html">5. Exporting and Converting Spatial Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/geometries.html">6. Geometry Operations and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/spatial-relationships.html">7. Spatial Queries and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/spatial-joins.html">8. Advanced Spatial Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-viz.html">9. Interactive Data Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/pmtiles.html">10. Working with Vector Tiles and PMTiles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Real-World Geospatial Analytics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/giswqs/duckdb-spatial/master?urlpath=tree/book/foundations/introduction.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/master/book/foundations/introduction.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/edit/main/book/foundations/introduction.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/issues/new?title=Issue%20on%20page%20%2Fbook/foundations/introduction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/book/foundations/introduction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Getting Started with DuckDB</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">1.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">1.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-makes-duckdb-different-from-traditional-databases">1.3. What Makes DuckDB Different from Traditional Databases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-and-when-not-to-use-duckdb-for-spatial-work">1.4. When (and When Not) to Use DuckDB for Spatial Work</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-duckdb">1.4.1. When to Use DuckDB</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-not-to-use-duckdb">1.4.2. When <em>Not</em> to Use DuckDB</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-cli-and-running-your-first-query">1.5. Installing DuckDB CLI and Running Your First Query</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#windows-installation">1.5.1. Windows Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-or-linux-installation">1.5.2. macOS or Linux Installation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-the-duckdb-python-client">1.6. Installing the DuckDB Python Client</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-using-pip">1.6.1. Installing DuckDB Using pip</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-uv">1.6.1.1. Installing uv</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-uv-usage">1.6.1.2. Basic uv Usage</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-using-conda">1.6.2. Installing DuckDB Using Conda</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-miniconda-on-windows">1.6.2.1. Installing Miniconda on Windows</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-miniconda-on-macos">1.6.2.2. Installing Miniconda on macOS</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-miniconda-on-linux">1.6.2.3. Installing Miniconda on Linux</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-in-the-conda-environment">1.6.2.4. Installing DuckDB in the Conda environment</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verifying-installation">1.6.3. Verifying Installation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-visual-studio-code">1.7. Installing Visual Studio Code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-installation">1.7.1. Download and Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-vs-code-extensions">1.7.2. Installing VS Code Extensions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-extensions">1.7.3. Installing DuckDB Extensions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-duckdb-ui">1.8. Using the DuckDB UI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dbeaver-sql-ide">1.9. Installing DBeaver SQL IDE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">1.10. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.11. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-installation-verification">1.11.1. Exercise 1: Installation Verification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-installing-and-loading-extensions">1.11.2. Exercise 2: Installing and Loading Extensions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-python-environment-setup">1.11.3. Exercise 3: Python Environment Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-dbeaver-sql-editor-setup">1.11.4. Exercise 4: DBeaver SQL Editor Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-exploring-the-duckdb-ui">1.11.5. Exercise 5: Exploring the DuckDB UI</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="getting-started-with-duckdb">
+<h1><span class="section-number">1. </span>Getting Started with DuckDB<a class="headerlink" href="#getting-started-with-duckdb" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">1.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+</section>
+<section id="learning-objectives">
+<h2><span class="section-number">1.2. </span>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+</section>
+<section id="what-makes-duckdb-different-from-traditional-databases">
+<h2><span class="section-number">1.3. </span>What Makes DuckDB Different from Traditional Databases<a class="headerlink" href="#what-makes-duckdb-different-from-traditional-databases" title="Link to this heading">#</a></h2>
+</section>
+<section id="when-and-when-not-to-use-duckdb-for-spatial-work">
+<h2><span class="section-number">1.4. </span>When (and When Not) to Use DuckDB for Spatial Work<a class="headerlink" href="#when-and-when-not-to-use-duckdb-for-spatial-work" title="Link to this heading">#</a></h2>
+<section id="when-to-use-duckdb">
+<h3><span class="section-number">1.4.1. </span>When to Use DuckDB<a class="headerlink" href="#when-to-use-duckdb" title="Link to this heading">#</a></h3>
+</section>
+<section id="when-not-to-use-duckdb">
+<h3><span class="section-number">1.4.2. </span>When <em>Not</em> to Use DuckDB<a class="headerlink" href="#when-not-to-use-duckdb" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="installing-duckdb-cli-and-running-your-first-query">
+<h2><span class="section-number">1.5. </span>Installing DuckDB CLI and Running Your First Query<a class="headerlink" href="#installing-duckdb-cli-and-running-your-first-query" title="Link to this heading">#</a></h2>
+<section id="windows-installation">
+<h3><span class="section-number">1.5.1. </span>Windows Installation<a class="headerlink" href="#windows-installation" title="Link to this heading">#</a></h3>
+</section>
+<section id="macos-or-linux-installation">
+<h3><span class="section-number">1.5.2. </span>macOS or Linux Installation<a class="headerlink" href="#macos-or-linux-installation" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="installing-the-duckdb-python-client">
+<h2><span class="section-number">1.6. </span>Installing the DuckDB Python Client<a class="headerlink" href="#installing-the-duckdb-python-client" title="Link to this heading">#</a></h2>
+<section id="installing-duckdb-using-pip">
+<h3><span class="section-number">1.6.1. </span>Installing DuckDB Using pip<a class="headerlink" href="#installing-duckdb-using-pip" title="Link to this heading">#</a></h3>
+<section id="installing-uv">
+<h4><span class="section-number">1.6.1.1. </span>Installing uv<a class="headerlink" href="#installing-uv" title="Link to this heading">#</a></h4>
+</section>
+<section id="basic-uv-usage">
+<h4><span class="section-number">1.6.1.2. </span>Basic uv Usage<a class="headerlink" href="#basic-uv-usage" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="installing-duckdb-using-conda">
+<h3><span class="section-number">1.6.2. </span>Installing DuckDB Using Conda<a class="headerlink" href="#installing-duckdb-using-conda" title="Link to this heading">#</a></h3>
+<section id="installing-miniconda-on-windows">
+<h4><span class="section-number">1.6.2.1. </span>Installing Miniconda on Windows<a class="headerlink" href="#installing-miniconda-on-windows" title="Link to this heading">#</a></h4>
+</section>
+<section id="installing-miniconda-on-macos">
+<h4><span class="section-number">1.6.2.2. </span>Installing Miniconda on macOS<a class="headerlink" href="#installing-miniconda-on-macos" title="Link to this heading">#</a></h4>
+</section>
+<section id="installing-miniconda-on-linux">
+<h4><span class="section-number">1.6.2.3. </span>Installing Miniconda on Linux<a class="headerlink" href="#installing-miniconda-on-linux" title="Link to this heading">#</a></h4>
+</section>
+<section id="installing-duckdb-in-the-conda-environment">
+<h4><span class="section-number">1.6.2.4. </span>Installing DuckDB in the Conda environment<a class="headerlink" href="#installing-duckdb-in-the-conda-environment" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="verifying-installation">
+<h3><span class="section-number">1.6.3. </span>Verifying Installation<a class="headerlink" href="#verifying-installation" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="installing-visual-studio-code">
+<h2><span class="section-number">1.7. </span>Installing Visual Studio Code<a class="headerlink" href="#installing-visual-studio-code" title="Link to this heading">#</a></h2>
+<section id="download-and-installation">
+<h3><span class="section-number">1.7.1. </span>Download and Installation<a class="headerlink" href="#download-and-installation" title="Link to this heading">#</a></h3>
+</section>
+<section id="installing-vs-code-extensions">
+<h3><span class="section-number">1.7.2. </span>Installing VS Code Extensions<a class="headerlink" href="#installing-vs-code-extensions" title="Link to this heading">#</a></h3>
+</section>
+<section id="installing-duckdb-extensions">
+<h3><span class="section-number">1.7.3. </span>Installing DuckDB Extensions<a class="headerlink" href="#installing-duckdb-extensions" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="using-the-duckdb-ui">
+<h2><span class="section-number">1.8. </span>Using the DuckDB UI<a class="headerlink" href="#using-the-duckdb-ui" title="Link to this heading">#</a></h2>
+</section>
+<section id="installing-dbeaver-sql-ide">
+<h2><span class="section-number">1.9. </span>Installing DBeaver SQL IDE<a class="headerlink" href="#installing-dbeaver-sql-ide" title="Link to this heading">#</a></h2>
+</section>
+<section id="key-takeaways">
+<h2><span class="section-number">1.10. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+</section>
+<section id="exercises">
+<h2><span class="section-number">1.11. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-installation-verification">
+<h3><span class="section-number">1.11.1. </span>Exercise 1: Installation Verification<a class="headerlink" href="#exercise-1-installation-verification" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-2-installing-and-loading-extensions">
+<h3><span class="section-number">1.11.2. </span>Exercise 2: Installing and Loading Extensions<a class="headerlink" href="#exercise-2-installing-and-loading-extensions" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-3-python-environment-setup">
+<h3><span class="section-number">1.11.3. </span>Exercise 3: Python Environment Setup<a class="headerlink" href="#exercise-3-python-environment-setup" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-4-dbeaver-sql-editor-setup">
+<h3><span class="section-number">1.11.4. </span>Exercise 4: DBeaver SQL Editor Setup<a class="headerlink" href="#exercise-4-dbeaver-sql-editor-setup" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-5-exploring-the-duckdb-ui">
+<h3><span class="section-number">1.11.5. </span>Exercise 5: Exploring the DuckDB UI<a class="headerlink" href="#exercise-5-exploring-the-duckdb-ui" title="Link to this heading">#</a></h3>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book/foundations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../preface.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Preface</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="sql-basics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Essential SQL for Spatial Analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">1.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">1.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-makes-duckdb-different-from-traditional-databases">1.3. What Makes DuckDB Different from Traditional Databases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-and-when-not-to-use-duckdb-for-spatial-work">1.4. When (and When Not) to Use DuckDB for Spatial Work</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-duckdb">1.4.1. When to Use DuckDB</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-not-to-use-duckdb">1.4.2. When <em>Not</em> to Use DuckDB</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-cli-and-running-your-first-query">1.5. Installing DuckDB CLI and Running Your First Query</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#windows-installation">1.5.1. Windows Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-or-linux-installation">1.5.2. macOS or Linux Installation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-the-duckdb-python-client">1.6. Installing the DuckDB Python Client</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-using-pip">1.6.1. Installing DuckDB Using pip</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-uv">1.6.1.1. Installing uv</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-uv-usage">1.6.1.2. Basic uv Usage</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-using-conda">1.6.2. Installing DuckDB Using Conda</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-miniconda-on-windows">1.6.2.1. Installing Miniconda on Windows</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-miniconda-on-macos">1.6.2.2. Installing Miniconda on macOS</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-miniconda-on-linux">1.6.2.3. Installing Miniconda on Linux</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-in-the-conda-environment">1.6.2.4. Installing DuckDB in the Conda environment</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verifying-installation">1.6.3. Verifying Installation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-visual-studio-code">1.7. Installing Visual Studio Code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-installation">1.7.1. Download and Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-vs-code-extensions">1.7.2. Installing VS Code Extensions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-duckdb-extensions">1.7.3. Installing DuckDB Extensions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-duckdb-ui">1.8. Using the DuckDB UI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dbeaver-sql-ide">1.9. Installing DBeaver SQL IDE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">1.10. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.11. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-installation-verification">1.11.1. Exercise 1: Installation Verification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-installing-and-loading-extensions">1.11.2. Exercise 2: Installing and Loading Extensions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-python-environment-setup">1.11.3. Exercise 3: Python Environment Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-dbeaver-sql-editor-setup">1.11.4. Exercise 4: DBeaver SQL Editor Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-exploring-the-duckdb-ui">1.11.5. Exercise 5: Exploring the DuckDB UI</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Qiusheng Wu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,983 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Essential SQL for Spatial Analysis &#8212; Spatial Data Management with DuckDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/foundations/sql-basics';</script>
+    <link rel="canonical" href="https://duckdb.gishub.org/book/foundations/sql-basics.html" />
+    <link rel="icon" href="../../_static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3. DuckDB Python Integration" href="python-api.html" />
+    <link rel="prev" title="1. Getting Started with DuckDB" href="introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Spatial Data Management with DuckDB - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Spatial Data Management with DuckDB - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">DuckDB Foundations</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Getting Started with DuckDB</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Essential SQL for Spatial Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api.html">3. DuckDB Python Integration</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spatial Data Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-import.html">4. Loading Spatial Data Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-export.html">5. Exporting and Converting Spatial Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/geometries.html">6. Geometry Operations and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/spatial-relationships.html">7. Spatial Queries and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/spatial-joins.html">8. Advanced Spatial Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-viz.html">9. Interactive Data Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/pmtiles.html">10. Working with Vector Tiles and PMTiles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Real-World Geospatial Analytics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/giswqs/duckdb-spatial/master?urlpath=tree/book/foundations/sql-basics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/master/book/foundations/sql-basics.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/edit/main/book/foundations/sql-basics.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/issues/new?title=Issue%20on%20page%20%2Fbook/foundations/sql-basics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/book/foundations/sql-basics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Essential SQL for Spatial Analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">2.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">2.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-datasets">2.3. Sample Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-environment">2.4. Setting Up the Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-duckdb">2.5. Connecting To DuckDB</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-extensions">2.6. Install Extensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-csv-files-from-urls">2.7. Reading CSV Files from URLs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-tables-for-better-performance">2.8. Creating Tables for Better Performance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sql-select-statement">2.9. The SQL SELECT Statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limiting-results-with-limit">2.9.1. Limiting Results with LIMIT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-specific-columns">2.9.2. Selecting Specific Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-unique-values-with-distinct">2.9.3. Finding Unique Values with DISTINCT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-aggregate-functions">2.9.4. Basic Aggregate Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-features">2.9.4.1. Counting Features</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-unique-categories">2.9.4.2. Counting Unique Categories</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-extremes">2.9.4.3. Finding Extremes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-totals">2.9.4.4. Calculating Totals</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-averages">2.9.4.5. Computing Averages</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sorting-results-with-order-by">2.9.5. Sorting Results with ORDER BY</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-sorting">2.9.5.1. Basic Sorting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-level-sorting">2.9.5.2. Multi-Level Sorting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-sorting-applications">2.9.5.3. Spatial Sorting Applications</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculated-columns-and-expressions">2.9.6. Calculated Columns and Expressions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-calculations">2.9.6.1. Basic Calculations</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geographic-calculations">2.9.6.2. Geographic Calculations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-data-with-the-where-clause">2.10. Filtering Data with the WHERE Clause</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pattern-matching-with-like">2.11. Pattern Matching with LIKE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-in-operator">2.12. The IN Operator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-between-operator">2.13. The BETWEEN Operator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-data-with-sql-joins">2.14. Combining Data with SQL Joins</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-inner-join">2.14.1. SQL Inner Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-left-join">2.14.2. SQL Left Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-right-join">2.14.3. SQL Right Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-full-join">2.14.4. SQL Full Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-union">2.14.5. SQL Union</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-plans-and-performance">2.15. Query Plans and Performance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-data-for-summary-statistics">2.16. Aggregating Data for Summary Statistics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-group-by">2.16.1. Understanding GROUP BY</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-aggregated-results-with-having">2.16.2. Filtering Aggregated Results with HAVING</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-statements">2.17. Conditional Statements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-results">2.18. Saving Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-sql-features-for-spatial-analysis">2.19. Advanced SQL Features for Spatial Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#window-functions">2.19.1. Window Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-cities-by-population">2.19.1.1. Ranking Cities by Population</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#moving-averages-and-spatial-trends">2.19.1.2. Moving Averages and Spatial Trends</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-table-expressions-ctes">2.19.2. Common Table Expressions (CTEs)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-urban-hierarchies">2.19.2.1. Analyzing Urban Hierarchies</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subqueries-for-spatial-comparisons">2.19.3. Subqueries for Spatial Comparisons</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-cities-above-country-average">2.19.3.1. Finding Cities Above Country Average</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#string-functions-for-spatial-data">2.19.4. String Functions for Spatial Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-and-standardizing-place-names">2.19.4.1. Cleaning and Standardizing Place Names</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date-and-time-functions">2.19.5. Date and Time Functions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-comments-and-documentation">2.20. SQL Comments and Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-line-comments">2.20.1. Single-Line Comments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-line-comments">2.20.2. Multi-Line Comments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">2.21. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.22. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-loading-remote-data-and-creating-tables">2.22.1. Exercise 1: Loading Remote Data and Creating Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-basic-column-selection">2.22.2. Exercise 2: Basic Column Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-filtering-rows-with-where">2.22.3. Exercise 3: Filtering Rows with WHERE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-sorting-results-with-order-by">2.22.4. Exercise 4: Sorting Results with ORDER BY</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-finding-unique-values-with-distinct">2.22.5. Exercise 5: Finding Unique Values with DISTINCT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-counting-and-grouping-data">2.22.6. Exercise 6: Counting and Grouping Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-sorting-aggregated-results">2.22.7. Exercise 7: Sorting Aggregated Results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-joining-related-tables">2.22.8. Exercise 8: Joining Related Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-pattern-matching-with-like">2.22.9. Exercise 9: Pattern Matching with LIKE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-multiple-conditions-with-and">2.22.10. Exercise 10: Multiple Conditions with AND</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="essential-sql-for-spatial-analysis">
+<h1><span class="section-number">2. </span>Essential SQL for Spatial Analysis<a class="headerlink" href="#essential-sql-for-spatial-analysis" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">2.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+</section>
+<section id="learning-objectives">
+<h2><span class="section-number">2.2. </span>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+</section>
+<section id="sample-datasets">
+<h2><span class="section-number">2.3. </span>Sample Datasets<a class="headerlink" href="#sample-datasets" title="Link to this heading">#</a></h2>
+</section>
+<section id="setting-up-the-environment">
+<h2><span class="section-number">2.4. </span>Setting Up the Environment<a class="headerlink" href="#setting-up-the-environment" title="Link to this heading">#</a></h2>
+</section>
+<section id="connecting-to-duckdb">
+<h2><span class="section-number">2.5. </span>Connecting To DuckDB<a class="headerlink" href="#connecting-to-duckdb" title="Link to this heading">#</a></h2>
+</section>
+<section id="install-extensions">
+<h2><span class="section-number">2.6. </span>Install Extensions<a class="headerlink" href="#install-extensions" title="Link to this heading">#</a></h2>
+</section>
+<section id="reading-csv-files-from-urls">
+<h2><span class="section-number">2.7. </span>Reading CSV Files from URLs<a class="headerlink" href="#reading-csv-files-from-urls" title="Link to this heading">#</a></h2>
+</section>
+<section id="creating-tables-for-better-performance">
+<h2><span class="section-number">2.8. </span>Creating Tables for Better Performance<a class="headerlink" href="#creating-tables-for-better-performance" title="Link to this heading">#</a></h2>
+</section>
+<section id="the-sql-select-statement">
+<h2><span class="section-number">2.9. </span>The SQL SELECT Statement<a class="headerlink" href="#the-sql-select-statement" title="Link to this heading">#</a></h2>
+<section id="limiting-results-with-limit">
+<h3><span class="section-number">2.9.1. </span>Limiting Results with LIMIT<a class="headerlink" href="#limiting-results-with-limit" title="Link to this heading">#</a></h3>
+</section>
+<section id="selecting-specific-columns">
+<h3><span class="section-number">2.9.2. </span>Selecting Specific Columns<a class="headerlink" href="#selecting-specific-columns" title="Link to this heading">#</a></h3>
+</section>
+<section id="finding-unique-values-with-distinct">
+<h3><span class="section-number">2.9.3. </span>Finding Unique Values with DISTINCT<a class="headerlink" href="#finding-unique-values-with-distinct" title="Link to this heading">#</a></h3>
+</section>
+<section id="basic-aggregate-functions">
+<h3><span class="section-number">2.9.4. </span>Basic Aggregate Functions<a class="headerlink" href="#basic-aggregate-functions" title="Link to this heading">#</a></h3>
+<section id="counting-features">
+<h4><span class="section-number">2.9.4.1. </span>Counting Features<a class="headerlink" href="#counting-features" title="Link to this heading">#</a></h4>
+</section>
+<section id="counting-unique-categories">
+<h4><span class="section-number">2.9.4.2. </span>Counting Unique Categories<a class="headerlink" href="#counting-unique-categories" title="Link to this heading">#</a></h4>
+</section>
+<section id="finding-extremes">
+<h4><span class="section-number">2.9.4.3. </span>Finding Extremes<a class="headerlink" href="#finding-extremes" title="Link to this heading">#</a></h4>
+</section>
+<section id="calculating-totals">
+<h4><span class="section-number">2.9.4.4. </span>Calculating Totals<a class="headerlink" href="#calculating-totals" title="Link to this heading">#</a></h4>
+</section>
+<section id="computing-averages">
+<h4><span class="section-number">2.9.4.5. </span>Computing Averages<a class="headerlink" href="#computing-averages" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="sorting-results-with-order-by">
+<h3><span class="section-number">2.9.5. </span>Sorting Results with ORDER BY<a class="headerlink" href="#sorting-results-with-order-by" title="Link to this heading">#</a></h3>
+<section id="basic-sorting">
+<h4><span class="section-number">2.9.5.1. </span>Basic Sorting<a class="headerlink" href="#basic-sorting" title="Link to this heading">#</a></h4>
+</section>
+<section id="multi-level-sorting">
+<h4><span class="section-number">2.9.5.2. </span>Multi-Level Sorting<a class="headerlink" href="#multi-level-sorting" title="Link to this heading">#</a></h4>
+</section>
+<section id="spatial-sorting-applications">
+<h4><span class="section-number">2.9.5.3. </span>Spatial Sorting Applications<a class="headerlink" href="#spatial-sorting-applications" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="calculated-columns-and-expressions">
+<h3><span class="section-number">2.9.6. </span>Calculated Columns and Expressions<a class="headerlink" href="#calculated-columns-and-expressions" title="Link to this heading">#</a></h3>
+<section id="basic-calculations">
+<h4><span class="section-number">2.9.6.1. </span>Basic Calculations<a class="headerlink" href="#basic-calculations" title="Link to this heading">#</a></h4>
+</section>
+<section id="geographic-calculations">
+<h4><span class="section-number">2.9.6.2. </span>Geographic Calculations<a class="headerlink" href="#geographic-calculations" title="Link to this heading">#</a></h4>
+</section>
+</section>
+</section>
+<section id="filtering-data-with-the-where-clause">
+<h2><span class="section-number">2.10. </span>Filtering Data with the WHERE Clause<a class="headerlink" href="#filtering-data-with-the-where-clause" title="Link to this heading">#</a></h2>
+</section>
+<section id="pattern-matching-with-like">
+<h2><span class="section-number">2.11. </span>Pattern Matching with LIKE<a class="headerlink" href="#pattern-matching-with-like" title="Link to this heading">#</a></h2>
+</section>
+<section id="the-in-operator">
+<h2><span class="section-number">2.12. </span>The IN Operator<a class="headerlink" href="#the-in-operator" title="Link to this heading">#</a></h2>
+</section>
+<section id="the-between-operator">
+<h2><span class="section-number">2.13. </span>The BETWEEN Operator<a class="headerlink" href="#the-between-operator" title="Link to this heading">#</a></h2>
+</section>
+<section id="combining-data-with-sql-joins">
+<h2><span class="section-number">2.14. </span>Combining Data with SQL Joins<a class="headerlink" href="#combining-data-with-sql-joins" title="Link to this heading">#</a></h2>
+<section id="sql-inner-join">
+<h3><span class="section-number">2.14.1. </span>SQL Inner Join<a class="headerlink" href="#sql-inner-join" title="Link to this heading">#</a></h3>
+</section>
+<section id="sql-left-join">
+<h3><span class="section-number">2.14.2. </span>SQL Left Join<a class="headerlink" href="#sql-left-join" title="Link to this heading">#</a></h3>
+</section>
+<section id="sql-right-join">
+<h3><span class="section-number">2.14.3. </span>SQL Right Join<a class="headerlink" href="#sql-right-join" title="Link to this heading">#</a></h3>
+</section>
+<section id="sql-full-join">
+<h3><span class="section-number">2.14.4. </span>SQL Full Join<a class="headerlink" href="#sql-full-join" title="Link to this heading">#</a></h3>
+</section>
+<section id="sql-union">
+<h3><span class="section-number">2.14.5. </span>SQL Union<a class="headerlink" href="#sql-union" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="query-plans-and-performance">
+<h2><span class="section-number">2.15. </span>Query Plans and Performance<a class="headerlink" href="#query-plans-and-performance" title="Link to this heading">#</a></h2>
+</section>
+<section id="aggregating-data-for-summary-statistics">
+<h2><span class="section-number">2.16. </span>Aggregating Data for Summary Statistics<a class="headerlink" href="#aggregating-data-for-summary-statistics" title="Link to this heading">#</a></h2>
+<section id="understanding-group-by">
+<h3><span class="section-number">2.16.1. </span>Understanding GROUP BY<a class="headerlink" href="#understanding-group-by" title="Link to this heading">#</a></h3>
+</section>
+<section id="filtering-aggregated-results-with-having">
+<h3><span class="section-number">2.16.2. </span>Filtering Aggregated Results with HAVING<a class="headerlink" href="#filtering-aggregated-results-with-having" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="conditional-statements">
+<h2><span class="section-number">2.17. </span>Conditional Statements<a class="headerlink" href="#conditional-statements" title="Link to this heading">#</a></h2>
+</section>
+<section id="saving-results">
+<h2><span class="section-number">2.18. </span>Saving Results<a class="headerlink" href="#saving-results" title="Link to this heading">#</a></h2>
+</section>
+<section id="advanced-sql-features-for-spatial-analysis">
+<h2><span class="section-number">2.19. </span>Advanced SQL Features for Spatial Analysis<a class="headerlink" href="#advanced-sql-features-for-spatial-analysis" title="Link to this heading">#</a></h2>
+<section id="window-functions">
+<h3><span class="section-number">2.19.1. </span>Window Functions<a class="headerlink" href="#window-functions" title="Link to this heading">#</a></h3>
+<section id="ranking-cities-by-population">
+<h4><span class="section-number">2.19.1.1. </span>Ranking Cities by Population<a class="headerlink" href="#ranking-cities-by-population" title="Link to this heading">#</a></h4>
+</section>
+<section id="moving-averages-and-spatial-trends">
+<h4><span class="section-number">2.19.1.2. </span>Moving Averages and Spatial Trends<a class="headerlink" href="#moving-averages-and-spatial-trends" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="common-table-expressions-ctes">
+<h3><span class="section-number">2.19.2. </span>Common Table Expressions (CTEs)<a class="headerlink" href="#common-table-expressions-ctes" title="Link to this heading">#</a></h3>
+<section id="analyzing-urban-hierarchies">
+<h4><span class="section-number">2.19.2.1. </span>Analyzing Urban Hierarchies<a class="headerlink" href="#analyzing-urban-hierarchies" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="subqueries-for-spatial-comparisons">
+<h3><span class="section-number">2.19.3. </span>Subqueries for Spatial Comparisons<a class="headerlink" href="#subqueries-for-spatial-comparisons" title="Link to this heading">#</a></h3>
+<section id="finding-cities-above-country-average">
+<h4><span class="section-number">2.19.3.1. </span>Finding Cities Above Country Average<a class="headerlink" href="#finding-cities-above-country-average" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="string-functions-for-spatial-data">
+<h3><span class="section-number">2.19.4. </span>String Functions for Spatial Data<a class="headerlink" href="#string-functions-for-spatial-data" title="Link to this heading">#</a></h3>
+<section id="cleaning-and-standardizing-place-names">
+<h4><span class="section-number">2.19.4.1. </span>Cleaning and Standardizing Place Names<a class="headerlink" href="#cleaning-and-standardizing-place-names" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="date-and-time-functions">
+<h3><span class="section-number">2.19.5. </span>Date and Time Functions<a class="headerlink" href="#date-and-time-functions" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="sql-comments-and-documentation">
+<h2><span class="section-number">2.20. </span>SQL Comments and Documentation<a class="headerlink" href="#sql-comments-and-documentation" title="Link to this heading">#</a></h2>
+<section id="single-line-comments">
+<h3><span class="section-number">2.20.1. </span>Single-Line Comments<a class="headerlink" href="#single-line-comments" title="Link to this heading">#</a></h3>
+</section>
+<section id="multi-line-comments">
+<h3><span class="section-number">2.20.2. </span>Multi-Line Comments<a class="headerlink" href="#multi-line-comments" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="key-takeaways">
+<h2><span class="section-number">2.21. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+</section>
+<section id="exercises">
+<h2><span class="section-number">2.22. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-loading-remote-data-and-creating-tables">
+<h3><span class="section-number">2.22.1. </span>Exercise 1: Loading Remote Data and Creating Tables<a class="headerlink" href="#exercise-1-loading-remote-data-and-creating-tables" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-2-basic-column-selection">
+<h3><span class="section-number">2.22.2. </span>Exercise 2: Basic Column Selection<a class="headerlink" href="#exercise-2-basic-column-selection" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-3-filtering-rows-with-where">
+<h3><span class="section-number">2.22.3. </span>Exercise 3: Filtering Rows with WHERE<a class="headerlink" href="#exercise-3-filtering-rows-with-where" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-4-sorting-results-with-order-by">
+<h3><span class="section-number">2.22.4. </span>Exercise 4: Sorting Results with ORDER BY<a class="headerlink" href="#exercise-4-sorting-results-with-order-by" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-5-finding-unique-values-with-distinct">
+<h3><span class="section-number">2.22.5. </span>Exercise 5: Finding Unique Values with DISTINCT<a class="headerlink" href="#exercise-5-finding-unique-values-with-distinct" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-6-counting-and-grouping-data">
+<h3><span class="section-number">2.22.6. </span>Exercise 6: Counting and Grouping Data<a class="headerlink" href="#exercise-6-counting-and-grouping-data" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-7-sorting-aggregated-results">
+<h3><span class="section-number">2.22.7. </span>Exercise 7: Sorting Aggregated Results<a class="headerlink" href="#exercise-7-sorting-aggregated-results" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-8-joining-related-tables">
+<h3><span class="section-number">2.22.8. </span>Exercise 8: Joining Related Tables<a class="headerlink" href="#exercise-8-joining-related-tables" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-9-pattern-matching-with-like">
+<h3><span class="section-number">2.22.9. </span>Exercise 9: Pattern Matching with LIKE<a class="headerlink" href="#exercise-9-pattern-matching-with-like" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-10-multiple-conditions-with-and">
+<h3><span class="section-number">2.22.10. </span>Exercise 10: Multiple Conditions with AND<a class="headerlink" href="#exercise-10-multiple-conditions-with-and" title="Link to this heading">#</a></h3>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "duckdb_kernel"
+        },
+        kernelOptions: {
+            name: "duckdb_kernel",
+            path: "./book/foundations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'duckdb_kernel'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Getting Started with DuckDB</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="python-api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>DuckDB Python Integration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">2.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">2.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-datasets">2.3. Sample Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-environment">2.4. Setting Up the Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-duckdb">2.5. Connecting To DuckDB</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-extensions">2.6. Install Extensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-csv-files-from-urls">2.7. Reading CSV Files from URLs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-tables-for-better-performance">2.8. Creating Tables for Better Performance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-sql-select-statement">2.9. The SQL SELECT Statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limiting-results-with-limit">2.9.1. Limiting Results with LIMIT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-specific-columns">2.9.2. Selecting Specific Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-unique-values-with-distinct">2.9.3. Finding Unique Values with DISTINCT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-aggregate-functions">2.9.4. Basic Aggregate Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-features">2.9.4.1. Counting Features</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-unique-categories">2.9.4.2. Counting Unique Categories</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-extremes">2.9.4.3. Finding Extremes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-totals">2.9.4.4. Calculating Totals</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-averages">2.9.4.5. Computing Averages</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sorting-results-with-order-by">2.9.5. Sorting Results with ORDER BY</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-sorting">2.9.5.1. Basic Sorting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-level-sorting">2.9.5.2. Multi-Level Sorting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-sorting-applications">2.9.5.3. Spatial Sorting Applications</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculated-columns-and-expressions">2.9.6. Calculated Columns and Expressions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-calculations">2.9.6.1. Basic Calculations</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geographic-calculations">2.9.6.2. Geographic Calculations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-data-with-the-where-clause">2.10. Filtering Data with the WHERE Clause</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pattern-matching-with-like">2.11. Pattern Matching with LIKE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-in-operator">2.12. The IN Operator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-between-operator">2.13. The BETWEEN Operator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-data-with-sql-joins">2.14. Combining Data with SQL Joins</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-inner-join">2.14.1. SQL Inner Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-left-join">2.14.2. SQL Left Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-right-join">2.14.3. SQL Right Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-full-join">2.14.4. SQL Full Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-union">2.14.5. SQL Union</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-plans-and-performance">2.15. Query Plans and Performance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-data-for-summary-statistics">2.16. Aggregating Data for Summary Statistics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-group-by">2.16.1. Understanding GROUP BY</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-aggregated-results-with-having">2.16.2. Filtering Aggregated Results with HAVING</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-statements">2.17. Conditional Statements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-results">2.18. Saving Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-sql-features-for-spatial-analysis">2.19. Advanced SQL Features for Spatial Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#window-functions">2.19.1. Window Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-cities-by-population">2.19.1.1. Ranking Cities by Population</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#moving-averages-and-spatial-trends">2.19.1.2. Moving Averages and Spatial Trends</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-table-expressions-ctes">2.19.2. Common Table Expressions (CTEs)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-urban-hierarchies">2.19.2.1. Analyzing Urban Hierarchies</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subqueries-for-spatial-comparisons">2.19.3. Subqueries for Spatial Comparisons</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-cities-above-country-average">2.19.3.1. Finding Cities Above Country Average</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#string-functions-for-spatial-data">2.19.4. String Functions for Spatial Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-and-standardizing-place-names">2.19.4.1. Cleaning and Standardizing Place Names</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date-and-time-functions">2.19.5. Date and Time Functions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-comments-and-documentation">2.20. SQL Comments and Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-line-comments">2.20.1. Single-Line Comments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-line-comments">2.20.2. Multi-Line Comments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">2.21. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.22. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-loading-remote-data-and-creating-tables">2.22.1. Exercise 1: Loading Remote Data and Creating Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-basic-column-selection">2.22.2. Exercise 2: Basic Column Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-filtering-rows-with-where">2.22.3. Exercise 3: Filtering Rows with WHERE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-sorting-results-with-order-by">2.22.4. Exercise 4: Sorting Results with ORDER BY</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-finding-unique-values-with-distinct">2.22.5. Exercise 5: Finding Unique Values with DISTINCT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-counting-and-grouping-data">2.22.6. Exercise 6: Counting and Grouping Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-sorting-aggregated-results">2.22.7. Exercise 7: Sorting Aggregated Results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-joining-related-tables">2.22.8. Exercise 8: Joining Related Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-pattern-matching-with-like">2.22.9. Exercise 9: Pattern Matching with LIKE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-multiple-conditions-with-and">2.22.10. Exercise 10: Multiple Conditions with AND</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Qiusheng Wu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

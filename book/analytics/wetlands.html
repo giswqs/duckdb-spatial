@@ -1,0 +1,795 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>11. Analyzing US National Wetlands Inventory &#8212; Spatial Data Management with DuckDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/analytics/wetlands';</script>
+    <link rel="canonical" href="https://duckdb.gishub.org/book/analytics/wetlands.html" />
+    <link rel="icon" href="../../_static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="12. Analyzing Global Building Footprints" href="buildings.html" />
+    <link rel="prev" title="10. Working with Vector Tiles and PMTiles" href="../spatial/pmtiles.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Spatial Data Management with DuckDB - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Spatial Data Management with DuckDB - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">DuckDB Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../foundations/introduction.html">1. Getting Started with DuckDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../foundations/sql-basics.html">2. Essential SQL for Spatial Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../foundations/python-api.html">3. DuckDB Python Integration</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spatial Data Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-import.html">4. Loading Spatial Data Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-export.html">5. Exporting and Converting Spatial Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/geometries.html">6. Geometry Operations and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/spatial-relationships.html">7. Spatial Queries and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/spatial-joins.html">8. Advanced Spatial Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-viz.html">9. Interactive Data Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/pmtiles.html">10. Working with Vector Tiles and PMTiles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Real-World Geospatial Analytics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">11. Analyzing US National Wetlands Inventory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="buildings.html">12. Analyzing Global Building Footprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="taxi.html">13. Analyzing NYC Taxi Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/giswqs/duckdb-spatial/master?urlpath=tree/book/analytics/wetlands.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/master/book/analytics/wetlands.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/edit/main/book/analytics/wetlands.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/issues/new?title=Issue%20on%20page%20%2Fbook/analytics/wetlands.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/book/analytics/wetlands.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analyzing US National Wetlands Inventory</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">11.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">11.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasets-used-in-this-chapter">11.3. Datasets Used in This Chapter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#national-wetlands-inventory-nwi-dataset">11.3.1. National Wetlands Inventory (NWI) Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#us-states-boundary-dataset">11.3.2. US States Boundary Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-access-and-format-advantages">11.3.3. Data Access and Format Advantages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-analysis-scale">11.3.4. Understanding the Analysis Scale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-dataset-source">11.4. Understanding the Dataset Source</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-download-from-source">11.4.1. Data Download from Source</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-conversion-to-geoparquet">11.4.2. Data Conversion to GeoParquet</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-wetland-data-with-duckdb">11.5. Accessing Wetland Data with DuckDB</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-setup-and-extension-loading">11.5.1. Environment Setup and Extension Loading</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-a-single-state-s-wetlands">11.5.2. Querying a Single State’s Wetlands</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspecting-the-data-schema">11.5.3. Inspecting the Data Schema</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-access-methods">11.5.4. Alternative Access Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-wetland-distributions">11.6. Visualizing Wetland Distributions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-preparing-state-level-data">11.6.1. Loading and Preparing State-Level Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-thematic-visualizations-by-wetland-type">11.6.2. Creating Thematic Visualizations by Wetland Type</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#national-scale-wetland-analysis">11.7. National-Scale Wetland Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-all-wetland-features-nationally">11.7.1. Counting All Wetland Features Nationally</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-wetlands-by-state">11.7.2. Analyzing Wetlands by State</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-tables-for-spatial-joins">11.7.3. Creating Tables for Spatial Joins</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-state-boundaries-for-mapping">11.7.4. Loading State Boundaries for Mapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#joining-wetland-statistics-with-state-geometries">11.7.5. Joining Wetland Statistics with State Geometries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-data-for-visualization">11.7.6. Preparing Data for Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-choropleth-map">11.7.7. Creating a Choropleth Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-visualizations">11.7.8. Statistical Visualizations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-wetland-area">11.7.9. Analyzing Wetland Area</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-by-wetland-type">11.7.10. Classification by Wetland Type</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">11.8. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">11.9. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-state-level-wetland-analysis">11.9.1. Exercise 1: State-Level Wetland Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-regional-wetland-comparisons">11.9.2. Exercise 2: Regional Wetland Comparisons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-national-wetland-type-classification">11.9.3. Exercise 3: National Wetland Type Classification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-focused-regional-analysis">11.9.4. Exercise 4: Focused Regional Analysis</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analyzing-us-national-wetlands-inventory">
+<h1><span class="section-number">11. </span>Analyzing US National Wetlands Inventory<a class="headerlink" href="#analyzing-us-national-wetlands-inventory" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">11.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+</section>
+<section id="learning-objectives">
+<h2><span class="section-number">11.2. </span>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+</section>
+<section id="datasets-used-in-this-chapter">
+<h2><span class="section-number">11.3. </span>Datasets Used in This Chapter<a class="headerlink" href="#datasets-used-in-this-chapter" title="Link to this heading">#</a></h2>
+<section id="national-wetlands-inventory-nwi-dataset">
+<h3><span class="section-number">11.3.1. </span>National Wetlands Inventory (NWI) Dataset<a class="headerlink" href="#national-wetlands-inventory-nwi-dataset" title="Link to this heading">#</a></h3>
+</section>
+<section id="us-states-boundary-dataset">
+<h3><span class="section-number">11.3.2. </span>US States Boundary Dataset<a class="headerlink" href="#us-states-boundary-dataset" title="Link to this heading">#</a></h3>
+</section>
+<section id="data-access-and-format-advantages">
+<h3><span class="section-number">11.3.3. </span>Data Access and Format Advantages<a class="headerlink" href="#data-access-and-format-advantages" title="Link to this heading">#</a></h3>
+</section>
+<section id="understanding-the-analysis-scale">
+<h3><span class="section-number">11.3.4. </span>Understanding the Analysis Scale<a class="headerlink" href="#understanding-the-analysis-scale" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="understanding-the-dataset-source">
+<h2><span class="section-number">11.4. </span>Understanding the Dataset Source<a class="headerlink" href="#understanding-the-dataset-source" title="Link to this heading">#</a></h2>
+<section id="data-download-from-source">
+<h3><span class="section-number">11.4.1. </span>Data Download from Source<a class="headerlink" href="#data-download-from-source" title="Link to this heading">#</a></h3>
+</section>
+<section id="data-conversion-to-geoparquet">
+<h3><span class="section-number">11.4.2. </span>Data Conversion to GeoParquet<a class="headerlink" href="#data-conversion-to-geoparquet" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="accessing-wetland-data-with-duckdb">
+<h2><span class="section-number">11.5. </span>Accessing Wetland Data with DuckDB<a class="headerlink" href="#accessing-wetland-data-with-duckdb" title="Link to this heading">#</a></h2>
+<section id="environment-setup-and-extension-loading">
+<h3><span class="section-number">11.5.1. </span>Environment Setup and Extension Loading<a class="headerlink" href="#environment-setup-and-extension-loading" title="Link to this heading">#</a></h3>
+</section>
+<section id="querying-a-single-state-s-wetlands">
+<h3><span class="section-number">11.5.2. </span>Querying a Single State’s Wetlands<a class="headerlink" href="#querying-a-single-state-s-wetlands" title="Link to this heading">#</a></h3>
+</section>
+<section id="inspecting-the-data-schema">
+<h3><span class="section-number">11.5.3. </span>Inspecting the Data Schema<a class="headerlink" href="#inspecting-the-data-schema" title="Link to this heading">#</a></h3>
+</section>
+<section id="alternative-access-methods">
+<h3><span class="section-number">11.5.4. </span>Alternative Access Methods<a class="headerlink" href="#alternative-access-methods" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="visualizing-wetland-distributions">
+<h2><span class="section-number">11.6. </span>Visualizing Wetland Distributions<a class="headerlink" href="#visualizing-wetland-distributions" title="Link to this heading">#</a></h2>
+<section id="loading-and-preparing-state-level-data">
+<h3><span class="section-number">11.6.1. </span>Loading and Preparing State-Level Data<a class="headerlink" href="#loading-and-preparing-state-level-data" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-thematic-visualizations-by-wetland-type">
+<h3><span class="section-number">11.6.2. </span>Creating Thematic Visualizations by Wetland Type<a class="headerlink" href="#creating-thematic-visualizations-by-wetland-type" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="national-scale-wetland-analysis">
+<h2><span class="section-number">11.7. </span>National-Scale Wetland Analysis<a class="headerlink" href="#national-scale-wetland-analysis" title="Link to this heading">#</a></h2>
+<section id="counting-all-wetland-features-nationally">
+<h3><span class="section-number">11.7.1. </span>Counting All Wetland Features Nationally<a class="headerlink" href="#counting-all-wetland-features-nationally" title="Link to this heading">#</a></h3>
+</section>
+<section id="analyzing-wetlands-by-state">
+<h3><span class="section-number">11.7.2. </span>Analyzing Wetlands by State<a class="headerlink" href="#analyzing-wetlands-by-state" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-tables-for-spatial-joins">
+<h3><span class="section-number">11.7.3. </span>Creating Tables for Spatial Joins<a class="headerlink" href="#creating-tables-for-spatial-joins" title="Link to this heading">#</a></h3>
+</section>
+<section id="loading-state-boundaries-for-mapping">
+<h3><span class="section-number">11.7.4. </span>Loading State Boundaries for Mapping<a class="headerlink" href="#loading-state-boundaries-for-mapping" title="Link to this heading">#</a></h3>
+</section>
+<section id="joining-wetland-statistics-with-state-geometries">
+<h3><span class="section-number">11.7.5. </span>Joining Wetland Statistics with State Geometries<a class="headerlink" href="#joining-wetland-statistics-with-state-geometries" title="Link to this heading">#</a></h3>
+</section>
+<section id="preparing-data-for-visualization">
+<h3><span class="section-number">11.7.6. </span>Preparing Data for Visualization<a class="headerlink" href="#preparing-data-for-visualization" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-a-choropleth-map">
+<h3><span class="section-number">11.7.7. </span>Creating a Choropleth Map<a class="headerlink" href="#creating-a-choropleth-map" title="Link to this heading">#</a></h3>
+</section>
+<section id="statistical-visualizations">
+<h3><span class="section-number">11.7.8. </span>Statistical Visualizations<a class="headerlink" href="#statistical-visualizations" title="Link to this heading">#</a></h3>
+</section>
+<section id="analyzing-wetland-area">
+<h3><span class="section-number">11.7.9. </span>Analyzing Wetland Area<a class="headerlink" href="#analyzing-wetland-area" title="Link to this heading">#</a></h3>
+</section>
+<section id="classification-by-wetland-type">
+<h3><span class="section-number">11.7.10. </span>Classification by Wetland Type<a class="headerlink" href="#classification-by-wetland-type" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="key-takeaways">
+<h2><span class="section-number">11.8. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+</section>
+<section id="exercises">
+<h2><span class="section-number">11.9. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-state-level-wetland-analysis">
+<h3><span class="section-number">11.9.1. </span>Exercise 1: State-Level Wetland Analysis<a class="headerlink" href="#exercise-1-state-level-wetland-analysis" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-2-regional-wetland-comparisons">
+<h3><span class="section-number">11.9.2. </span>Exercise 2: Regional Wetland Comparisons<a class="headerlink" href="#exercise-2-regional-wetland-comparisons" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-3-national-wetland-type-classification">
+<h3><span class="section-number">11.9.3. </span>Exercise 3: National Wetland Type Classification<a class="headerlink" href="#exercise-3-national-wetland-type-classification" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-4-focused-regional-analysis">
+<h3><span class="section-number">11.9.4. </span>Exercise 4: Focused Regional Analysis<a class="headerlink" href="#exercise-4-focused-regional-analysis" title="Link to this heading">#</a></h3>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book/analytics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../spatial/pmtiles.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Working with Vector Tiles and PMTiles</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="buildings.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>Analyzing Global Building Footprints</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">11.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">11.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datasets-used-in-this-chapter">11.3. Datasets Used in This Chapter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#national-wetlands-inventory-nwi-dataset">11.3.1. National Wetlands Inventory (NWI) Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#us-states-boundary-dataset">11.3.2. US States Boundary Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-access-and-format-advantages">11.3.3. Data Access and Format Advantages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-analysis-scale">11.3.4. Understanding the Analysis Scale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-dataset-source">11.4. Understanding the Dataset Source</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-download-from-source">11.4.1. Data Download from Source</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-conversion-to-geoparquet">11.4.2. Data Conversion to GeoParquet</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-wetland-data-with-duckdb">11.5. Accessing Wetland Data with DuckDB</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-setup-and-extension-loading">11.5.1. Environment Setup and Extension Loading</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-a-single-state-s-wetlands">11.5.2. Querying a Single State’s Wetlands</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspecting-the-data-schema">11.5.3. Inspecting the Data Schema</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-access-methods">11.5.4. Alternative Access Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-wetland-distributions">11.6. Visualizing Wetland Distributions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-preparing-state-level-data">11.6.1. Loading and Preparing State-Level Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-thematic-visualizations-by-wetland-type">11.6.2. Creating Thematic Visualizations by Wetland Type</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#national-scale-wetland-analysis">11.7. National-Scale Wetland Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-all-wetland-features-nationally">11.7.1. Counting All Wetland Features Nationally</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-wetlands-by-state">11.7.2. Analyzing Wetlands by State</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-tables-for-spatial-joins">11.7.3. Creating Tables for Spatial Joins</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-state-boundaries-for-mapping">11.7.4. Loading State Boundaries for Mapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#joining-wetland-statistics-with-state-geometries">11.7.5. Joining Wetland Statistics with State Geometries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-data-for-visualization">11.7.6. Preparing Data for Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-choropleth-map">11.7.7. Creating a Choropleth Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-visualizations">11.7.8. Statistical Visualizations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-wetland-area">11.7.9. Analyzing Wetland Area</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classification-by-wetland-type">11.7.10. Classification by Wetland Type</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">11.8. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">11.9. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-state-level-wetland-analysis">11.9.1. Exercise 1: State-Level Wetland Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-regional-wetland-comparisons">11.9.2. Exercise 2: Regional Wetland Comparisons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-national-wetland-type-classification">11.9.3. Exercise 3: National Wetland Type Classification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-focused-regional-analysis">11.9.4. Exercise 4: Focused Regional Analysis</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Qiusheng Wu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

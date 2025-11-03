@@ -1,0 +1,801 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>9. Interactive Data Visualization &#8212; Spatial Data Management with DuckDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/spatial/data-viz';</script>
+    <link rel="canonical" href="https://duckdb.gishub.org/book/spatial/data-viz.html" />
+    <link rel="icon" href="../../_static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="10. Working with Vector Tiles and PMTiles" href="pmtiles.html" />
+    <link rel="prev" title="8. Advanced Spatial Joins" href="spatial-joins.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Spatial Data Management with DuckDB - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Spatial Data Management with DuckDB - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">DuckDB Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../foundations/introduction.html">1. Getting Started with DuckDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../foundations/sql-basics.html">2. Essential SQL for Spatial Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../foundations/python-api.html">3. DuckDB Python Integration</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spatial Data Operations</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="data-import.html">4. Loading Spatial Data Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-export.html">5. Exporting and Converting Spatial Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geometries.html">6. Geometry Operations and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial-relationships.html">7. Spatial Queries and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial-joins.html">8. Advanced Spatial Joins</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">9. Interactive Data Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pmtiles.html">10. Working with Vector Tiles and PMTiles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Real-World Geospatial Analytics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/giswqs/duckdb-spatial/master?urlpath=tree/book/spatial/data-viz.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/master/book/spatial/data-viz.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/edit/main/book/spatial/data-viz.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/issues/new?title=Issue%20on%20page%20%2Fbook/spatial/data-viz.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/book/spatial/data-viz.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Interactive Data Visualization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">9.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">9.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-datasets">9.3. Sample Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">9.4. Installation and Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-sample-data">9.5. Downloading Sample Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-duckdb-and-loading-extensions">9.6. Connecting to DuckDB and Loading Extensions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-loading-the-spatial-extension">9.6.1. Installing and Loading the Spatial Extension</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-database-contents">9.6.2. Exploring the Database Contents</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-point-data">9.7. Visualizing Point Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-and-converting-point-data">9.7.1. Querying and Converting Point Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-to-geodataframe-with-crs-conversion">9.7.2. Transforming to GeoDataFrame with CRS Conversion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-basic-point-map">9.7.3. Creating a Basic Point Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-point-symbology">9.7.4. Customizing Point Symbology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-line-data">9.8. Visualizing Line Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-and-converting-line-data">9.8.1. Querying and Converting Line Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-streets-to-geodataframe">9.8.2. Transforming Streets to GeoDataFrame</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-basic-line-map">9.8.3. Creating a Basic Line Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-line-symbology">9.8.4. Customizing Line Symbology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-polygon-data">9.9. Visualizing Polygon Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-and-converting-polygon-data">9.9.1. Querying and Converting Polygon Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-census-blocks-to-geodataframe">9.9.2. Transforming Census Blocks to GeoDataFrame</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-basic-polygon-map">9.9.3. Creating a Basic Polygon Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-polygon-symbology">9.9.4. Customizing Polygon Symbology</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-choropleth-maps">9.9.5. Creating Choropleth Maps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-3d-extrusion-maps">9.9.6. Creating 3D Extrusion Maps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">9.10. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">9.11. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-basic-point-visualization">9.11.1. Exercise 1: Basic Point Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-attribute-based-filtering-and-visualization">9.11.2. Exercise 2: Attribute-Based Filtering and Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-line-network-visualization">9.11.3. Exercise 3: Line Network Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-basic-polygon-visualization">9.11.4. Exercise 4: Basic Polygon Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-choropleth-mapping">9.11.5. Exercise 5: Choropleth Mapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-custom-choropleth-color-schemes">9.11.6. Exercise 6: Custom Choropleth Color Schemes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-3d-extrusion-visualization">9.11.7. Exercise 7: 3D Extrusion Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-multi-layer-visualization">9.11.8. Exercise 8: Multi-Layer Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-spatial-query-visualization">9.11.9. Exercise 9: Spatial Query Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-custom-analysis-and-visualization-pipeline">9.11.10. Exercise 10: Custom Analysis and Visualization Pipeline</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="interactive-data-visualization">
+<h1><span class="section-number">9. </span>Interactive Data Visualization<a class="headerlink" href="#interactive-data-visualization" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">9.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+</section>
+<section id="learning-objectives">
+<h2><span class="section-number">9.2. </span>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+</section>
+<section id="sample-datasets">
+<h2><span class="section-number">9.3. </span>Sample Datasets<a class="headerlink" href="#sample-datasets" title="Link to this heading">#</a></h2>
+</section>
+<section id="installation-and-setup">
+<h2><span class="section-number">9.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
+</section>
+<section id="downloading-sample-data">
+<h2><span class="section-number">9.5. </span>Downloading Sample Data<a class="headerlink" href="#downloading-sample-data" title="Link to this heading">#</a></h2>
+</section>
+<section id="connecting-to-duckdb-and-loading-extensions">
+<h2><span class="section-number">9.6. </span>Connecting to DuckDB and Loading Extensions<a class="headerlink" href="#connecting-to-duckdb-and-loading-extensions" title="Link to this heading">#</a></h2>
+<section id="installing-and-loading-the-spatial-extension">
+<h3><span class="section-number">9.6.1. </span>Installing and Loading the Spatial Extension<a class="headerlink" href="#installing-and-loading-the-spatial-extension" title="Link to this heading">#</a></h3>
+</section>
+<section id="exploring-the-database-contents">
+<h3><span class="section-number">9.6.2. </span>Exploring the Database Contents<a class="headerlink" href="#exploring-the-database-contents" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="visualizing-point-data">
+<h2><span class="section-number">9.7. </span>Visualizing Point Data<a class="headerlink" href="#visualizing-point-data" title="Link to this heading">#</a></h2>
+<section id="querying-and-converting-point-data">
+<h3><span class="section-number">9.7.1. </span>Querying and Converting Point Data<a class="headerlink" href="#querying-and-converting-point-data" title="Link to this heading">#</a></h3>
+</section>
+<section id="transforming-to-geodataframe-with-crs-conversion">
+<h3><span class="section-number">9.7.2. </span>Transforming to GeoDataFrame with CRS Conversion<a class="headerlink" href="#transforming-to-geodataframe-with-crs-conversion" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-a-basic-point-map">
+<h3><span class="section-number">9.7.3. </span>Creating a Basic Point Map<a class="headerlink" href="#creating-a-basic-point-map" title="Link to this heading">#</a></h3>
+</section>
+<section id="customizing-point-symbology">
+<h3><span class="section-number">9.7.4. </span>Customizing Point Symbology<a class="headerlink" href="#customizing-point-symbology" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="visualizing-line-data">
+<h2><span class="section-number">9.8. </span>Visualizing Line Data<a class="headerlink" href="#visualizing-line-data" title="Link to this heading">#</a></h2>
+<section id="querying-and-converting-line-data">
+<h3><span class="section-number">9.8.1. </span>Querying and Converting Line Data<a class="headerlink" href="#querying-and-converting-line-data" title="Link to this heading">#</a></h3>
+</section>
+<section id="transforming-streets-to-geodataframe">
+<h3><span class="section-number">9.8.2. </span>Transforming Streets to GeoDataFrame<a class="headerlink" href="#transforming-streets-to-geodataframe" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-a-basic-line-map">
+<h3><span class="section-number">9.8.3. </span>Creating a Basic Line Map<a class="headerlink" href="#creating-a-basic-line-map" title="Link to this heading">#</a></h3>
+</section>
+<section id="customizing-line-symbology">
+<h3><span class="section-number">9.8.4. </span>Customizing Line Symbology<a class="headerlink" href="#customizing-line-symbology" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="visualizing-polygon-data">
+<h2><span class="section-number">9.9. </span>Visualizing Polygon Data<a class="headerlink" href="#visualizing-polygon-data" title="Link to this heading">#</a></h2>
+<section id="querying-and-converting-polygon-data">
+<h3><span class="section-number">9.9.1. </span>Querying and Converting Polygon Data<a class="headerlink" href="#querying-and-converting-polygon-data" title="Link to this heading">#</a></h3>
+</section>
+<section id="transforming-census-blocks-to-geodataframe">
+<h3><span class="section-number">9.9.2. </span>Transforming Census Blocks to GeoDataFrame<a class="headerlink" href="#transforming-census-blocks-to-geodataframe" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-a-basic-polygon-map">
+<h3><span class="section-number">9.9.3. </span>Creating a Basic Polygon Map<a class="headerlink" href="#creating-a-basic-polygon-map" title="Link to this heading">#</a></h3>
+</section>
+<section id="customizing-polygon-symbology">
+<h3><span class="section-number">9.9.4. </span>Customizing Polygon Symbology<a class="headerlink" href="#customizing-polygon-symbology" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-choropleth-maps">
+<h3><span class="section-number">9.9.5. </span>Creating Choropleth Maps<a class="headerlink" href="#creating-choropleth-maps" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-3d-extrusion-maps">
+<h3><span class="section-number">9.9.6. </span>Creating 3D Extrusion Maps<a class="headerlink" href="#creating-3d-extrusion-maps" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="key-takeaways">
+<h2><span class="section-number">9.10. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+</section>
+<section id="exercises">
+<h2><span class="section-number">9.11. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-basic-point-visualization">
+<h3><span class="section-number">9.11.1. </span>Exercise 1: Basic Point Visualization<a class="headerlink" href="#exercise-1-basic-point-visualization" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-2-attribute-based-filtering-and-visualization">
+<h3><span class="section-number">9.11.2. </span>Exercise 2: Attribute-Based Filtering and Visualization<a class="headerlink" href="#exercise-2-attribute-based-filtering-and-visualization" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-3-line-network-visualization">
+<h3><span class="section-number">9.11.3. </span>Exercise 3: Line Network Visualization<a class="headerlink" href="#exercise-3-line-network-visualization" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-4-basic-polygon-visualization">
+<h3><span class="section-number">9.11.4. </span>Exercise 4: Basic Polygon Visualization<a class="headerlink" href="#exercise-4-basic-polygon-visualization" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-5-choropleth-mapping">
+<h3><span class="section-number">9.11.5. </span>Exercise 5: Choropleth Mapping<a class="headerlink" href="#exercise-5-choropleth-mapping" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-6-custom-choropleth-color-schemes">
+<h3><span class="section-number">9.11.6. </span>Exercise 6: Custom Choropleth Color Schemes<a class="headerlink" href="#exercise-6-custom-choropleth-color-schemes" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-7-3d-extrusion-visualization">
+<h3><span class="section-number">9.11.7. </span>Exercise 7: 3D Extrusion Visualization<a class="headerlink" href="#exercise-7-3d-extrusion-visualization" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-8-multi-layer-visualization">
+<h3><span class="section-number">9.11.8. </span>Exercise 8: Multi-Layer Visualization<a class="headerlink" href="#exercise-8-multi-layer-visualization" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-9-spatial-query-visualization">
+<h3><span class="section-number">9.11.9. </span>Exercise 9: Spatial Query Visualization<a class="headerlink" href="#exercise-9-spatial-query-visualization" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-10-custom-analysis-and-visualization-pipeline">
+<h3><span class="section-number">9.11.10. </span>Exercise 10: Custom Analysis and Visualization Pipeline<a class="headerlink" href="#exercise-10-custom-analysis-and-visualization-pipeline" title="Link to this heading">#</a></h3>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book/spatial"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="spatial-joins.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Advanced Spatial Joins</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pmtiles.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Working with Vector Tiles and PMTiles</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">9.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">9.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-datasets">9.3. Sample Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">9.4. Installation and Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-sample-data">9.5. Downloading Sample Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-duckdb-and-loading-extensions">9.6. Connecting to DuckDB and Loading Extensions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-loading-the-spatial-extension">9.6.1. Installing and Loading the Spatial Extension</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-database-contents">9.6.2. Exploring the Database Contents</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-point-data">9.7. Visualizing Point Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-and-converting-point-data">9.7.1. Querying and Converting Point Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-to-geodataframe-with-crs-conversion">9.7.2. Transforming to GeoDataFrame with CRS Conversion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-basic-point-map">9.7.3. Creating a Basic Point Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-point-symbology">9.7.4. Customizing Point Symbology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-line-data">9.8. Visualizing Line Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-and-converting-line-data">9.8.1. Querying and Converting Line Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-streets-to-geodataframe">9.8.2. Transforming Streets to GeoDataFrame</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-basic-line-map">9.8.3. Creating a Basic Line Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-line-symbology">9.8.4. Customizing Line Symbology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-polygon-data">9.9. Visualizing Polygon Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-and-converting-polygon-data">9.9.1. Querying and Converting Polygon Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-census-blocks-to-geodataframe">9.9.2. Transforming Census Blocks to GeoDataFrame</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-basic-polygon-map">9.9.3. Creating a Basic Polygon Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#customizing-polygon-symbology">9.9.4. Customizing Polygon Symbology</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-choropleth-maps">9.9.5. Creating Choropleth Maps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-3d-extrusion-maps">9.9.6. Creating 3D Extrusion Maps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">9.10. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">9.11. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-basic-point-visualization">9.11.1. Exercise 1: Basic Point Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-attribute-based-filtering-and-visualization">9.11.2. Exercise 2: Attribute-Based Filtering and Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-line-network-visualization">9.11.3. Exercise 3: Line Network Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-basic-polygon-visualization">9.11.4. Exercise 4: Basic Polygon Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-choropleth-mapping">9.11.5. Exercise 5: Choropleth Mapping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-custom-choropleth-color-schemes">9.11.6. Exercise 6: Custom Choropleth Color Schemes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-3d-extrusion-visualization">9.11.7. Exercise 7: 3D Extrusion Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-multi-layer-visualization">9.11.8. Exercise 8: Multi-Layer Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-spatial-query-visualization">9.11.9. Exercise 9: Spatial Query Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-custom-analysis-and-visualization-pipeline">9.11.10. Exercise 10: Custom Analysis and Visualization Pipeline</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Qiusheng Wu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

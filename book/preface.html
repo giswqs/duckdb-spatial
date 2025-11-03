@@ -1,0 +1,899 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Preface &#8212; Spatial Data Management with DuckDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/preface';</script>
+    <link rel="canonical" href="https://duckdb.gishub.org/book/preface.html" />
+    <link rel="icon" href="../_static/fav.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1. Getting Started with DuckDB" href="foundations/introduction.html" />
+    <link rel="prev" title="Spatial Data Management with DuckDB" href="../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Spatial Data Management with DuckDB - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="Spatial Data Management with DuckDB - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">DuckDB Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="foundations/introduction.html">1. Getting Started with DuckDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foundations/sql-basics.html">2. Essential SQL for Spatial Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foundations/python-api.html">3. DuckDB Python Integration</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spatial Data Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="spatial/data-import.html">4. Loading Spatial Data Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial/data-export.html">5. Exporting and Converting Spatial Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial/geometries.html">6. Geometry Operations and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial/spatial-relationships.html">7. Spatial Queries and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial/spatial-joins.html">8. Advanced Spatial Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial/data-viz.html">9. Interactive Data Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial/pmtiles.html">10. Working with Vector Tiles and PMTiles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Real-World Geospatial Analytics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/giswqs/duckdb-spatial/master?urlpath=tree/book/preface.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/master/book/preface.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/edit/main/book/preface.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/issues/new?title=Issue%20on%20page%20%2Fbook/preface.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/book/preface.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Preface</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#who-this-book-is-for">Who This Book Is For</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-ll-find-the-most-value-if-you-are">You’ll Find the Most Value If You Are</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#essential-prerequisites">Essential Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helpful-background-but-not-required">Helpful Background (But Not Required)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-re-new-to-python-programming">If You’re New to Python Programming</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-book-covers">What This Book Covers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-duckdb-foundations-chapters-1-3">Part I: DuckDB Foundations <em>(Chapters 1-3)</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-spatial-data-operations-chapters-4-10">Part II: Spatial Data Operations <em>(Chapters 4-10)</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iii-real-world-geospatial-analytics-chapters-11-14">Part III: Real-World Geospatial Analytics <em>(Chapters 11-14)</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-cutting-themes-throughout">Cross-Cutting Themes Throughout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-makes-this-book-different">What Makes This Book Different</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-the-most-out-of-this-book">Getting the Most Out of This Book</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions-used-in-this-book">Conventions Used in This Book</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-the-code-examples">Downloading the Code Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-tutorials-and-supplementary-resources">Video Tutorials and Supplementary Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#community-and-feedback">Community and Feedback</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acknowledgments">Acknowledgments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-author">About the Author</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#licensing-and-copyright">Licensing and Copyright</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="topic abstract" role="doc-abstract">
+<p class="topic-title">Abstract</p>
+<p>This book is a guide to geospatial programming with DuckDB. It is designed for beginners and intermediate users who want to learn how to use DuckDB for geospatial analysis and visualization.</p>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="preface">
+<h1>Preface<a class="headerlink" href="#preface" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>In an increasingly data-driven world, the ability to effectively manage and analyze spatial information has become essential. From urban planning and environmental monitoring to logistics and personalized location-based services, geospatial data forms the backbone of numerous applications that influence our daily lives. However, working with spatial data has often been viewed as a specialized and complex domain, requiring intricate tools and a steep learning curve.</p>
+<p>Enter DuckDB.</p>
+<p>DuckDB is an innovative analytical database designed for efficiency and user-friendliness. As an in-process OLAP (Online Analytical Processing) database, it operates directly within your application, eliminating the need for separate server deployments and cumbersome configurations. This embedded nature, coupled with its column-oriented architecture and vectorized execution engine, makes DuckDB exceptionally fast for analytical queries, even with large datasets. Initially gaining popularity for its general-purpose data processing capabilities, DuckDB’s rapidly expanding ecosystem (especially its extensions for spatial data) represents a transformative shift.</p>
+<p>This book, “<em><strong>Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics</strong></em>,” aims to demystify geospatial data and showcase how DuckDB empowers everyone (from data analysts and scientists to developers and GIS professionals) to leverage its capabilities with unprecedented simplicity and speed. We believe that robust spatial analytics should be accessible, not confined to costly specialized software or complex programming languages. With DuckDB, that accessibility becomes a reality.</p>
+<p>Our journey begins with the fundamental concepts of spatial data and its representation, establishing a solid foundation in SQL for working with points, lines, and polygons. As we advance, you will discover how DuckDB’s native geospatial features (enhanced by its PostGIS-compatible extension) enable sophisticated operations like spatial joins, buffering, and nearest neighbor searches through elegant SQL queries. We will explore various real-world applications, demonstrating how to load, transform, analyze, and visualize spatial datasets, empowering you to extract meaningful insights from geographic information.</p>
+<p>Whether you’re looking to integrate spatial analysis into your data pipelines, perform quick ad-hoc geospatial queries, or develop interactive location-aware applications, this book will serve as your comprehensive guide. We will cover topics ranging from setting up your DuckDB environment and importing diverse spatial file formats (like Shapefiles, GeoJSON, and GeoParquet) to executing complex analytical tasks and integrating with visualization tools.</p>
+<p>Our aim is not just to teach you syntax but to cultivate an understanding of why these tools and techniques are powerful. By the end of this book, you will be proficient in using DuckDB as your go-to engine for spatial data management and analysis, unlocking new possibilities for your projects and empowering you to make informed, spatially-aware decisions.</p>
+<p>Join us as we delve into the exciting intersection of DuckDB’s analytical capabilities and the rich world of geospatial data. The future of accessible spatial analytics is here, and it runs on DuckDB.</p>
+</section>
+<section id="who-this-book-is-for">
+<h2>Who This Book Is For<a class="headerlink" href="#who-this-book-is-for" title="Link to this heading">#</a></h2>
+<p>This book is designed for anyone grappling with the complexities of modern spatial data analysis. If you’ve ever spent hours waiting for a spatial join to finish, struggled to load large geographic datasets into memory, or wished for a more straightforward way to combine SQL’s power with spatial operations, this book is for you.</p>
+<section id="you-ll-find-the-most-value-if-you-are">
+<h3>You’ll Find the Most Value If You Are<a class="headerlink" href="#you-ll-find-the-most-value-if-you-are" title="Link to this heading">#</a></h3>
+<p><strong>A GIS Professional</strong> frustrated by the limitations of desktop software when handling large datasets. You’re familiar with QGIS or ArcGIS, but you need to analyze millions of features, process extensive GPS tracks, or integrate spatial analysis into automated workflows.</p>
+<p><strong>A Data Scientist or Analyst</strong> who frequently encounters location data. You’re comfortable with Python and pandas, but spatial data often feels like a mystery. You want to incorporate geographic dimensions into your analyses without diving into complex GIS software.</p>
+<p><strong>A Software Developer</strong> building applications that incorporate spatial features. You need fast spatial queries, wish to avoid heavy database infrastructure, and prefer working with familiar SQL over specialized spatial libraries.</p>
+<p><strong>A Researcher or Academic</strong> in fields like geography, environmental science, or urban planning. Your research involves large spatial datasets, and you require reproducible, scalable analysis methods that can adapt to growing data volumes.</p>
+<p><strong>A Business Intelligence Professional</strong> dealing with location-based business data. Whether it’s store locations, delivery routes, customer territories, or real estate portfolios, you need to merge business metrics with spatial insights.</p>
+</section>
+<section id="essential-prerequisites">
+<h3>Essential Prerequisites<a class="headerlink" href="#essential-prerequisites" title="Link to this heading">#</a></h3>
+<p>You should be comfortable with:</p>
+<ul class="simple">
+<li><p><strong>Python programming</strong>: understanding variables, functions, and how to import libraries (expertise is not required)</p></li>
+<li><p><strong>Data analysis concepts</strong>: filtering records, aggregating data, and joining tables</p></li>
+<li><p><strong>SQL fundamentals</strong>: familiarity with SELECT, WHERE, and GROUP BY clauses (we’ll cover the spatial aspects)</p></li>
+<li><p><strong>Basics of spatial data</strong>: understanding that data has a location (latitude/longitude, projections)</p></li>
+</ul>
+</section>
+<section id="helpful-background-but-not-required">
+<h3>Helpful Background (But Not Required)<a class="headerlink" href="#helpful-background-but-not-required" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Experience with pandas, GeoPandas, or Jupyter notebooks</p></li>
+<li><p>Prior exposure to databases or data warehouses</p></li>
+<li><p>Familiarity with GIS software (QGIS, ArcGIS, PostGIS)</p></li>
+<li><p>Knowledge of spatial file formats (GeoJSON, Shapefiles, Parquet)</p></li>
+</ul>
+</section>
+<section id="if-you-re-new-to-python-programming">
+<h3>If You’re New to Python Programming<a class="headerlink" href="#if-you-re-new-to-python-programming" title="Link to this heading">#</a></h3>
+<p>If you’re new to geospatial Python programming, the following book provides an excellent introduction to both foundational GIS concepts and Python programming:</p>
+<p>Wu, Q. (2025). <em>Introduction to GIS Programming: A Practical Python Guide to Open Source Geospatial Tools</em>. Independently published. ISBN 979-8286979455. <a class="reference external" href="https://amazon.com/dp/B0FFW34LL3">https://www.amazon.com/dp/B0FFW34LL3</a></p>
+</section>
+</section>
+<section id="what-this-book-covers">
+<h2>What This Book Covers<a class="headerlink" href="#what-this-book-covers" title="Link to this heading">#</a></h2>
+<p>This book offers a structured journey from SQL basics to advanced geospatial analytics, equipping you with practical skills through real-world examples. Each chapter progresses from simple queries to complex spatial analyses, building your expertise in modern geospatial data management.</p>
+<section id="part-i-duckdb-foundations-chapters-1-3">
+<h3>Part I: DuckDB Foundations <em>(Chapters 1-3)</em><a class="headerlink" href="#part-i-duckdb-foundations-chapters-1-3" title="Link to this heading">#</a></h3>
+<p>Master the essential concepts that underpin all subsequent content:</p>
+<ul class="simple">
+<li><p><strong>Chapter 1: Getting Started with DuckDB</strong>: Installation, initial queries, and insights into how DuckDB revolutionizes spatial analytics.</p></li>
+<li><p><strong>Chapter 2: Essential SQL for Spatial Analysis</strong>: Key SQL patterns for filtering, aggregating, joining, and optimizing queries tailored for spatial data.</p></li>
+<li><p><strong>Chapter 3: DuckDB Python Integration</strong>: Combine SQL’s power with pandas’ flexibility to craft a seamless spatial analysis workflow.</p></li>
+</ul>
+<p><em>By the end of Part I</em>, you’ll confidently query spatial datasets and integrate DuckDB into any Python-based analysis pipeline.</p>
+</section>
+<section id="part-ii-spatial-data-operations-chapters-4-10">
+<h3>Part II: Spatial Data Operations <em>(Chapters 4-10)</em><a class="headerlink" href="#part-ii-spatial-data-operations-chapters-4-10" title="Link to this heading">#</a></h3>
+<p>Dive into the core spatial toolkit, covering everything from data loading to advanced analytics:</p>
+<ul class="simple">
+<li><p><strong>Chapter 4: Loading Spatial Data Formats</strong>: Import various formats including CSV coordinates, GeoJSON from APIs, massive Shapefiles, and cloud-hosted GeoParquet.</p></li>
+<li><p><strong>Chapter 5: Exporting and Converting Spatial Data</strong>: Transform your results into any format your stakeholders require.</p></li>
+<li><p><strong>Chapter 6: Geometry Operations and Functions</strong>: Create, measure, and transform spatial features utilizing SQL functions.</p></li>
+<li><p><strong>Chapter 7: Spatial Queries and Relationships</strong>: Master spatial equivalents of table joins: containment, intersection, and proximity.</p></li>
+<li><p><strong>Chapter 8: Advanced Spatial Joins</strong>: Combine datasets by location rather than IDs, which is the essence of spatial analysis.</p></li>
+<li><p><strong>Chapter 9: Interactive Data Visualization</strong>: Generate compelling maps and charts that effectively communicate your data’s spatial narratives.</p></li>
+<li><p><strong>Chapter 10: Working with Vector Tiles and PMTiles</strong>: Deploy interactive maps capable of handling millions of features smoothly.</p></li>
+</ul>
+<p><em>By the end of Part II</em>, you’ll be adept at managing any spatial data format, executing complex operations, and creating professional visualizations.</p>
+</section>
+<section id="part-iii-real-world-geospatial-analytics-chapters-11-14">
+<h3>Part III: Real-World Geospatial Analytics <em>(Chapters 11-14)</em><a class="headerlink" href="#part-iii-real-world-geospatial-analytics-chapters-11-14" title="Link to this heading">#</a></h3>
+<p>Explore four comprehensive case studies using large-scale, real datasets:</p>
+<ul class="simple">
+<li><p><strong>Chapter 11: Analyzing the US National Wetlands Inventory</strong>: Conduct environmental analyses across all 50 states, processing millions of wetland polygons.</p></li>
+<li><p><strong>Chapter 12: Analyzing Global Building Footprints</strong>: Analyze urban data using global building footprints from Overture Maps.</p></li>
+<li><p><strong>Chapter 13: Analyzing NYC Taxi Trip Data</strong>: Uncover spatiotemporal patterns from hundreds of millions of taxi trips, revealing insights into urban mobility.</p></li>
+<li><p><strong>Chapter 14: Developing Interactive Dashboards with Streamlit and Solara</strong>: Build and deploy web applications that make your analyses accessible to stakeholders.</p></li>
+</ul>
+<p><em>By the end of Part III</em>, you’ll have portfolio-worthy projects showcasing your advanced spatial analysis capabilities.</p>
+</section>
+<section id="cross-cutting-themes-throughout">
+<h3>Cross-Cutting Themes Throughout<a class="headerlink" href="#cross-cutting-themes-throughout" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Performance at Scale</strong>: Techniques that are effective whether handling thousands or millions of spatial features.</p></li>
+<li><p><strong>Cloud-Native Workflows</strong>: Process data directly from S3 and integrate seamlessly with modern data stacks.</p></li>
+<li><p><strong>Reproducible Analysis</strong>: Shareable code and methods that can be version-controlled and deployed in production.</p></li>
+<li><p><strong>Real-World Data Challenges</strong>: Tackle projection issues, missing values, and data quality concerns.</p></li>
+<li><p><strong>Integration Patterns</strong>: Combine DuckDB with the broader Python geospatial ecosystem for enhanced functionality.</p></li>
+</ul>
+</section>
+<section id="what-makes-this-book-different">
+<h3>What Makes This Book Different<a class="headerlink" href="#what-makes-this-book-different" title="Link to this heading">#</a></h3>
+<p>Unlike theoretical discussions or tool-specific tutorials, this book emphasizes <em>solving real problems</em>. Each technique is rooted in actual analytical challenges, demonstrated with real datasets, and explained in clear terms of when and why to use it.</p>
+</section>
+</section>
+<section id="getting-the-most-out-of-this-book">
+<h2>Getting the Most Out of This Book<a class="headerlink" href="#getting-the-most-out-of-this-book" title="Link to this heading">#</a></h2>
+<p>To maximize your learning experience with this book, consider the following recommendations:</p>
+<p><strong>Set Up a Proper Development Environment</strong>: Install Python and the required libraries as described in Chapter 1. A well-configured environment will save you time and frustration throughout your learning journey. Consider using conda or uv to manage your Python packages, as this simplifies the installation of geospatial libraries.</p>
+<p><strong>Follow Along with Code Examples</strong>: This book is designed to be interactive. Don’t just read the code; type it out, run it, and experiment with modifications. Understanding comes through practice, and each example builds skills you’ll need later.</p>
+<p><strong>Work Through the Exercises</strong>: Each chapter includes exercises designed to reinforce the concepts you’ve learned. These are not optional extras; they are an integral part of the learning process. Start with the guided exercises, then challenge yourself with your own projects.</p>
+<p><strong>Use Real Data</strong>: While the book provides datasets for examples and exercises, try applying the techniques to data from your own field or interests. This will help you understand how the concepts apply to real-world scenarios and build confidence in your abilities.</p>
+<p><strong>Build Projects</strong>: As you progress through the book, consider working on a personal project that interests you. This could be analyzing data from your research, creating maps for your community, or solving a problem you’ve encountered in your work.</p>
+<p><strong>Be Patient with Yourself</strong>: Programming can be frustrating, especially when you’re learning. Expect to encounter errors, spend time debugging, and occasionally feel stuck. This is normal and part of the learning process. Take breaks when needed, and remember that expertise develops gradually through consistent practice. If you get stuck, don’t hesitate to ask for help on the book’s GitHub repository.</p>
+<p><strong>Keep Practicing</strong>: The skills in this book require regular practice to maintain and develop. Set aside time regularly to work on geospatial programming projects, even if they’re small ones.</p>
+</section>
+<section id="conventions-used-in-this-book">
+<h2>Conventions Used in This Book<a class="headerlink" href="#conventions-used-in-this-book" title="Link to this heading">#</a></h2>
+<p>This book uses several conventions to help you navigate the content and understand the code examples:</p>
+<p><strong>Code Formatting</strong>: All Python code appears in monospaced font within code blocks. When code appears within regular text, it is formatted <code class="docutils literal notranslate"><span class="pre">like</span> <span class="pre">this</span></code>. File and directory names are also formatted in monospaced font.</p>
+<p><strong>Code Examples</strong>: Most code examples are complete and runnable. They include comments explaining the key concepts and techniques being demonstrated. Line numbers may be included for reference in the accompanying text.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is an example of a code block</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;OpenTopoMap&quot;</span><span class="p">)</span>  <span class="c1"># add a basemap to the map</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>SQL Style Guide</strong>: For consistency and readability, SQL examples follow these patterns:</p>
+<ul class="simple">
+<li><p><strong>Keywords in UPPERCASE</strong>: <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">FROM</span></code>, <code class="docutils literal notranslate"><span class="pre">WHERE</span></code>, <code class="docutils literal notranslate"><span class="pre">JOIN</span></code></p></li>
+<li><p><strong>Function names preserve case</strong>: <code class="docutils literal notranslate"><span class="pre">ST_Area()</span></code>, <code class="docutils literal notranslate"><span class="pre">read_csv_auto()</span></code></p></li>
+<li><p><strong>Table and column names in lowercase</strong>: <code class="docutils literal notranslate"><span class="pre">cities</span></code>, <code class="docutils literal notranslate"><span class="pre">population</span></code></p></li>
+<li><p><strong>Indentation for readability</strong>: Multi-line queries are formatted for clarity</p></li>
+</ul>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">ST_Area</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">area</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">neighborhoods</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">borough</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Manhattan&#39;</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Command Line Instructions</strong>: Commands to be entered at the command line or terminal are shown with a <code class="docutils literal notranslate"><span class="pre">$</span></code> prompt (don’t type the <code class="docutils literal notranslate"><span class="pre">$</span></code> symbol itself):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>leafmap
+$<span class="w"> </span>python<span class="w"> </span>script.py
+</pre></div>
+</div>
+</section>
+<section id="downloading-the-code-examples">
+<h2>Downloading the Code Examples<a class="headerlink" href="#downloading-the-code-examples" title="Link to this heading">#</a></h2>
+<p>All code examples, datasets, and supplementary materials for this book are freely available on GitHub:</p>
+<p><strong><a class="github reference external" href="https://github.com/giswqs/duckdb-spatial">giswqs/duckdb-spatial</a></strong></p>
+<p>To download the materials, you can use one of the following methods:</p>
+<ul>
+<li><p><strong>Clone the repository</strong> (if you have Git installed):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/giswqs/duckdb-spatial.git
+</pre></div>
+</div>
+</li>
+<li><p><strong>Download as ZIP</strong> (if you prefer not to use Git):</p>
+<ul class="simple">
+<li><p>Visit the GitHub repository page</p></li>
+<li><p>Click the green <strong>Code</strong> button</p></li>
+<li><p>Select <strong>Download ZIP</strong></p></li>
+<li><p>Extract the files to your preferred location</p></li>
+</ul>
+</li>
+<li><p><strong>Browse individual files</strong> online through the GitHub interface if you only need specific examples</p></li>
+</ul>
+<p>The repository is regularly updated with corrections, improvements, and additional examples. Check back periodically for updates, or <strong>watch</strong> the repository on GitHub to be notified of changes.</p>
+<p>If you find errors in the code or have suggestions for improvements, please open an issue or submit a pull request on GitHub. Community contributions help make this resource better for everyone.</p>
+</section>
+<section id="video-tutorials-and-supplementary-resources">
+<h2>Video Tutorials and Supplementary Resources<a class="headerlink" href="#video-tutorials-and-supplementary-resources" title="Link to this heading">#</a></h2>
+<p>Complementing the written content, this book is supported by a comprehensive series of video tutorials that walk through key concepts and provide additional examples:</p>
+<p><strong><a class="reference external" href="https://tinyurl.com/duckdb-spatial-videos">https://tinyurl.com/duckdb-spatial-videos</a></strong></p>
+<p>The videos are designed to complement, not replace, the written material. They’re particularly helpful for:</p>
+<ul class="simple">
+<li><p>Visual learners who benefit from seeing code being written and executed</p></li>
+<li><p>Understanding complex concepts through multiple explanations</p></li>
+<li><p>Learning about the development workflow and best practices</p></li>
+<li><p>Seeing how to approach problems and debug issues</p></li>
+</ul>
+<p>The playlist is organized to follow the book’s structure. You can watch them in order as you progress through the book, or jump to specific topics as needed.</p>
+<p>The videos were created in Fall 2023 when I was teaching the <a class="reference external" href="https://geog-414.gishub.org"><strong>Spatial Data Management</strong></a> <a class="footnote-reference brackets" href="#geog414" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> course at the University of Tennessee. Although the course has concluded, the videos remain relevant and can be used as references for the book. Additional videos will be added in the future.</p>
+</section>
+<section id="community-and-feedback">
+<h2>Community and Feedback<a class="headerlink" href="#community-and-feedback" title="Link to this heading">#</a></h2>
+<p>I welcome feedback, questions, and suggestions from readers. Your input helps improve the book and makes it more useful for the geospatial programming community.</p>
+<p><strong>For book-related questions and discussions:</strong></p>
+<ul class="simple">
+<li><p>GitHub Issues: <a class="github reference external" href="https://github.com/giswqs/duckdb-spatial/issues">giswqs/duckdb-spatial#issues</a></p></li>
+<li><p>GitHub Discussions: <a class="github reference external" href="https://github.com/giswqs/duckdb-spatial/discussions">giswqs/duckdb-spatial#discussions</a></p></li>
+</ul>
+<p><strong>Types of feedback that are particularly helpful:</strong></p>
+<ul class="simple">
+<li><p>Errors or unclear explanations in the text or code</p></li>
+<li><p>Suggestions for additional examples or use cases</p></li>
+<li><p>Ideas for new topics or chapters</p></li>
+<li><p>Reports of compatibility issues with different operating systems or library versions</p></li>
+<li><p>Success stories of how you’ve applied the techniques from the book</p></li>
+</ul>
+</section>
+<section id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Link to this heading">#</a></h2>
+<p>This book exists thanks to the contributions of many individuals and the broader open-source geospatial community.</p>
+<p>First, I want to thank the <strong>DuckDB development team</strong> for creating such an exceptional database system. Their commitment to performance, simplicity, and open-source principles has made spatial analytics accessible to a much broader audience. Special recognition goes to the team members who’ve contributed to DuckDB’s spatial capabilities.</p>
+<p>I’m grateful to my <strong>colleagues and students</strong> at the University of Tennessee who have provided feedback, tested examples, and helped refine the content through the <strong>Spatial Data Management</strong> course. Their questions and insights have made this book much stronger.</p>
+<p>The <strong>open-source geospatial community</strong> deserves particular recognition. Projects like GDAL, GeoPandas, Shapely, and countless others form the foundation that makes modern spatial analysis possible. The collaborative spirit of this community continues to inspire my work.</p>
+<p>Thanks to the <strong>early readers</strong> who provided feedback on draft chapters and helped identify areas that needed clarification or improvement. Their diverse perspectives (from seasoned GIS professionals to data science newcomers) helped ensure this book serves its intended audience.</p>
+<p>I want to acknowledge <strong>my family</strong> for their patience and support during the many evenings and weekends spent writing. Their understanding and encouragement made this project possible.</p>
+<p>Finally, thanks to <strong>you</strong>, the reader, for your interest in spatial data analysis and open-source tools. It’s practitioners like you who drive innovation and make the geospatial field such an exciting place to work.</p>
+<p>If this book helps you solve spatial problems more effectively, then all the effort has been worthwhile.</p>
+</section>
+<section id="about-the-author">
+<h2>About the Author<a class="headerlink" href="#about-the-author" title="Link to this heading">#</a></h2>
+<p>Dr. Qiusheng Wu is an Associate Professor in the Department of Geography &amp; Sustainability at the University of Tennessee, Knoxville. He is also an Amazon Scholar. Dr. Wu’s research focuses on advancing open-source geospatial analytics through cloud computing and GeoAI. He is the creator and maintainer of several widely used open-source Python packages, including <a class="reference external" href="https://geemap.org">Geemap</a> <a class="footnote-reference brackets" href="#geemap" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, <a class="reference external" href="https://leafmap.org">Leafmap</a> <a class="footnote-reference brackets" href="#leafmap" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, <a class="reference external" href="https://samgeo.gishub.org">SAMGeo</a> <a class="footnote-reference brackets" href="#samgeo" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>, and <a class="reference external" href="https://opengeoai.org">GeoAI</a> <a class="footnote-reference brackets" href="#geoai" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>, which integrate cloud-based geospatial platforms with AI-powered analysis and visualization. Dr. Wu’s work bridges remote sensing, Earth observation, and artificial intelligence to make large-scale geospatial data more accessible, reproducible, and intelligent for researchers, educators, and practitioners worldwide. His open-source projects can be found on GitHub at <a class="github reference external" href="https://github.com/opengeos">opengeos</a>.</p>
+</section>
+<section id="licensing-and-copyright">
+<h2>Licensing and Copyright<a class="headerlink" href="#licensing-and-copyright" title="Link to this heading">#</a></h2>
+<p>This book embraces the principles of open science and open education. To support transparency, learning, and reuse, the <strong>code examples</strong> in this book are released under a <a class="reference external" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a> license. This means you are free to copy, modify, and distribute the code, even for commercial purposes, as long as appropriate credit is given.</p>
+<p>Please attribute code usage by citing the book or linking to the GitHub repository:</p>
+<blockquote>
+<div><p>Wu, Q. (2025). <em>Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics</em>. <a class="reference external" href="https://duckdb.gishub.org">https://duckdb.gishub.org</a></p>
+</div></blockquote>
+<p>While the code is freely available, the <strong>text, figures, and images</strong> in this book are <strong>copyrighted</strong> by the author and may not be reproduced, redistributed, or modified without explicit permission. This includes all written content, custom diagrams, and embedded visualizations unless otherwise noted.</p>
+<p>If you wish to reuse or adapt any non-code material from the book (for example, for teaching, presentations, or publications), please contact the author to request permission.</p>
+<p>This dual licensing approach helps balance open access to learning materials with the protection of original creative work. Thank you for respecting these terms and supporting the open-source geospatial community.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="geog414" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://geog-414.gishub.org">https://geog-414.gishub.org</a></p>
+</aside>
+<aside class="footnote brackets" id="geemap" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://geemap.org">https://geemap.org</a></p>
+</aside>
+<aside class="footnote brackets" id="leafmap" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://leafmap.org">https://leafmap.org</a></p>
+</aside>
+<aside class="footnote brackets" id="samgeo" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://samgeo.gishub.org">https://samgeo.gishub.org</a></p>
+</aside>
+<aside class="footnote brackets" id="geoai" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://opengeoai.org">https://opengeoai.org</a></p>
+</aside>
+</aside>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Spatial Data Management with DuckDB</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="foundations/introduction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Getting Started with DuckDB</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#who-this-book-is-for">Who This Book Is For</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-ll-find-the-most-value-if-you-are">You’ll Find the Most Value If You Are</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#essential-prerequisites">Essential Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helpful-background-but-not-required">Helpful Background (But Not Required)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-re-new-to-python-programming">If You’re New to Python Programming</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-book-covers">What This Book Covers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-duckdb-foundations-chapters-1-3">Part I: DuckDB Foundations <em>(Chapters 1-3)</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-spatial-data-operations-chapters-4-10">Part II: Spatial Data Operations <em>(Chapters 4-10)</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iii-real-world-geospatial-analytics-chapters-11-14">Part III: Real-World Geospatial Analytics <em>(Chapters 11-14)</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-cutting-themes-throughout">Cross-Cutting Themes Throughout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-makes-this-book-different">What Makes This Book Different</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-the-most-out-of-this-book">Getting the Most Out of This Book</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conventions-used-in-this-book">Conventions Used in This Book</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#downloading-the-code-examples">Downloading the Code Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-tutorials-and-supplementary-resources">Video Tutorials and Supplementary Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#community-and-feedback">Community and Feedback</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#acknowledgments">Acknowledgments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-author">About the Author</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#licensing-and-copyright">Licensing and Copyright</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Qiusheng Wu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

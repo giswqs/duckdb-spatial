@@ -1,0 +1,820 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. DuckDB Python Integration &#8212; Spatial Data Management with DuckDB</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'book/foundations/python-api';</script>
+    <link rel="canonical" href="https://duckdb.gishub.org/book/foundations/python-api.html" />
+    <link rel="icon" href="../../_static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4. Loading Spatial Data Formats" href="../spatial/data-import.html" />
+    <link rel="prev" title="2. Essential SQL for Spatial Analysis" href="sql-basics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Spatial Data Management with DuckDB - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Spatial Data Management with DuckDB - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Preface</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../preface.html">Preface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">DuckDB Foundations</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Getting Started with DuckDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sql-basics.html">2. Essential SQL for Spatial Analysis</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. DuckDB Python Integration</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Spatial Data Operations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-import.html">4. Loading Spatial Data Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-export.html">5. Exporting and Converting Spatial Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/geometries.html">6. Geometry Operations and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/spatial-relationships.html">7. Spatial Queries and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/spatial-joins.html">8. Advanced Spatial Joins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/data-viz.html">9. Interactive Data Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spatial/pmtiles.html">10. Working with Vector Tiles and PMTiles</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Real-World Geospatial Analytics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/giswqs/duckdb-spatial/master?urlpath=tree/book/foundations/python-api.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/master/book/foundations/python-api.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/edit/main/book/foundations/python-api.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/giswqs/duckdb-spatial/issues/new?title=Issue%20on%20page%20%2Fbook/foundations/python-api.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/book/foundations/python-api.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>DuckDB Python Integration</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">3.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">3.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-datasets">3.3. Sample Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">3.4. Installation and Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#library-import-and-initial-setup">3.4.1. Library Import and Initial Setup</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-loading-extensions">3.5. Installing and Loading Extensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-data-from-multiple-sources">3.6. Reading Data from Multiple Sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verifying-the-connection">3.6.1. Verifying the Connection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-csv-files-from-urls">3.6.2. Reading CSV Files from URLs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-duckdb-relations">3.6.3. Understanding DuckDB Relations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seamless-integration-with-pandas-dataframes">3.7. Seamless Integration with Pandas DataFrames</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-dataframes-with-sql">3.7.1. Querying DataFrames with SQL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bidirectional-workflow">3.7.2. The Bidirectional Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">3.7.3. Performance Considerations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars-interoperability">3.8. Polars Interoperability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#result-conversion-and-output-formats">3.9. Result Conversion and Output Formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-python-objects">3.9.1. Converting to Python Objects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-pandas-dataframes">3.9.2. Converting to Pandas DataFrames</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-numpy-arrays">3.9.3. Converting to NumPy Arrays</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-apache-arrow-tables">3.9.4. Converting to Apache Arrow Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-format">3.9.5. Choosing the Right Format</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-data-to-disk">3.10. Writing Data To Disk</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistent-storage-and-database-files">3.11. Persistent Storage and Database Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-persistent-database">3.11.1. Creating a Persistent Database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-existing-databases">3.11.2. Connecting to Existing Databases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-management-and-cleanup">3.11.3. Connection Management and Cleanup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases-for-persistent-vs-in-memory-databases">3.11.4. Use Cases for Persistent vs In-Memory Databases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepared-statements-and-parameters">3.12. Prepared Statements and Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">3.13. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.14. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-installation-and-basic-queries">3.14.1. Exercise 1: Installation and Basic Queries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-loading-remote-data">3.14.2. Exercise 2: Loading Remote Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-sql-to-dataframe-conversion">3.14.3. Exercise 3: SQL to DataFrame Conversion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-querying-dataframes-with-sql">3.14.4. Exercise 4: Querying DataFrames with SQL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-bidirectional-workflows">3.14.5. Exercise 5: Bidirectional Workflows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-result-format-conversion">3.14.6. Exercise 6: Result Format Conversion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-persistent-storage">3.14.7. Exercise 7: Persistent Storage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-joining-sql-and-python-logic">3.14.8. Exercise 8: Joining SQL and Python Logic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-writing-results-to-files">3.14.9. Exercise 9: Writing Results to Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-practical-integration-challenge">3.14.10. Exercise 10: Practical Integration Challenge</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="duckdb-python-integration">
+<h1><span class="section-number">3. </span>DuckDB Python Integration<a class="headerlink" href="#duckdb-python-integration" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">3.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+</section>
+<section id="learning-objectives">
+<h2><span class="section-number">3.2. </span>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+</section>
+<section id="sample-datasets">
+<h2><span class="section-number">3.3. </span>Sample Datasets<a class="headerlink" href="#sample-datasets" title="Link to this heading">#</a></h2>
+</section>
+<section id="installation-and-setup">
+<h2><span class="section-number">3.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
+<section id="library-import-and-initial-setup">
+<h3><span class="section-number">3.4.1. </span>Library Import and Initial Setup<a class="headerlink" href="#library-import-and-initial-setup" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="installing-and-loading-extensions">
+<h2><span class="section-number">3.5. </span>Installing and Loading Extensions<a class="headerlink" href="#installing-and-loading-extensions" title="Link to this heading">#</a></h2>
+</section>
+<section id="reading-data-from-multiple-sources">
+<h2><span class="section-number">3.6. </span>Reading Data from Multiple Sources<a class="headerlink" href="#reading-data-from-multiple-sources" title="Link to this heading">#</a></h2>
+<section id="verifying-the-connection">
+<h3><span class="section-number">3.6.1. </span>Verifying the Connection<a class="headerlink" href="#verifying-the-connection" title="Link to this heading">#</a></h3>
+</section>
+<section id="reading-csv-files-from-urls">
+<h3><span class="section-number">3.6.2. </span>Reading CSV Files from URLs<a class="headerlink" href="#reading-csv-files-from-urls" title="Link to this heading">#</a></h3>
+</section>
+<section id="understanding-duckdb-relations">
+<h3><span class="section-number">3.6.3. </span>Understanding DuckDB Relations<a class="headerlink" href="#understanding-duckdb-relations" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="seamless-integration-with-pandas-dataframes">
+<h2><span class="section-number">3.7. </span>Seamless Integration with Pandas DataFrames<a class="headerlink" href="#seamless-integration-with-pandas-dataframes" title="Link to this heading">#</a></h2>
+<section id="querying-dataframes-with-sql">
+<h3><span class="section-number">3.7.1. </span>Querying DataFrames with SQL<a class="headerlink" href="#querying-dataframes-with-sql" title="Link to this heading">#</a></h3>
+</section>
+<section id="the-bidirectional-workflow">
+<h3><span class="section-number">3.7.2. </span>The Bidirectional Workflow<a class="headerlink" href="#the-bidirectional-workflow" title="Link to this heading">#</a></h3>
+</section>
+<section id="performance-considerations">
+<h3><span class="section-number">3.7.3. </span>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="polars-interoperability">
+<h2><span class="section-number">3.8. </span>Polars Interoperability<a class="headerlink" href="#polars-interoperability" title="Link to this heading">#</a></h2>
+</section>
+<section id="result-conversion-and-output-formats">
+<h2><span class="section-number">3.9. </span>Result Conversion and Output Formats<a class="headerlink" href="#result-conversion-and-output-formats" title="Link to this heading">#</a></h2>
+<section id="converting-to-python-objects">
+<h3><span class="section-number">3.9.1. </span>Converting to Python Objects<a class="headerlink" href="#converting-to-python-objects" title="Link to this heading">#</a></h3>
+</section>
+<section id="converting-to-pandas-dataframes">
+<h3><span class="section-number">3.9.2. </span>Converting to Pandas DataFrames<a class="headerlink" href="#converting-to-pandas-dataframes" title="Link to this heading">#</a></h3>
+</section>
+<section id="converting-to-numpy-arrays">
+<h3><span class="section-number">3.9.3. </span>Converting to NumPy Arrays<a class="headerlink" href="#converting-to-numpy-arrays" title="Link to this heading">#</a></h3>
+</section>
+<section id="converting-to-apache-arrow-tables">
+<h3><span class="section-number">3.9.4. </span>Converting to Apache Arrow Tables<a class="headerlink" href="#converting-to-apache-arrow-tables" title="Link to this heading">#</a></h3>
+</section>
+<section id="choosing-the-right-format">
+<h3><span class="section-number">3.9.5. </span>Choosing the Right Format<a class="headerlink" href="#choosing-the-right-format" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="writing-data-to-disk">
+<h2><span class="section-number">3.10. </span>Writing Data To Disk<a class="headerlink" href="#writing-data-to-disk" title="Link to this heading">#</a></h2>
+</section>
+<section id="persistent-storage-and-database-files">
+<h2><span class="section-number">3.11. </span>Persistent Storage and Database Files<a class="headerlink" href="#persistent-storage-and-database-files" title="Link to this heading">#</a></h2>
+<section id="creating-a-persistent-database">
+<h3><span class="section-number">3.11.1. </span>Creating a Persistent Database<a class="headerlink" href="#creating-a-persistent-database" title="Link to this heading">#</a></h3>
+</section>
+<section id="connecting-to-existing-databases">
+<h3><span class="section-number">3.11.2. </span>Connecting to Existing Databases<a class="headerlink" href="#connecting-to-existing-databases" title="Link to this heading">#</a></h3>
+</section>
+<section id="connection-management-and-cleanup">
+<h3><span class="section-number">3.11.3. </span>Connection Management and Cleanup<a class="headerlink" href="#connection-management-and-cleanup" title="Link to this heading">#</a></h3>
+</section>
+<section id="use-cases-for-persistent-vs-in-memory-databases">
+<h3><span class="section-number">3.11.4. </span>Use Cases for Persistent vs In-Memory Databases<a class="headerlink" href="#use-cases-for-persistent-vs-in-memory-databases" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="prepared-statements-and-parameters">
+<h2><span class="section-number">3.12. </span>Prepared Statements and Parameters<a class="headerlink" href="#prepared-statements-and-parameters" title="Link to this heading">#</a></h2>
+</section>
+<section id="key-takeaways">
+<h2><span class="section-number">3.13. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+</section>
+<section id="exercises">
+<h2><span class="section-number">3.14. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-installation-and-basic-queries">
+<h3><span class="section-number">3.14.1. </span>Exercise 1: Installation and Basic Queries<a class="headerlink" href="#exercise-1-installation-and-basic-queries" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-2-loading-remote-data">
+<h3><span class="section-number">3.14.2. </span>Exercise 2: Loading Remote Data<a class="headerlink" href="#exercise-2-loading-remote-data" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-3-sql-to-dataframe-conversion">
+<h3><span class="section-number">3.14.3. </span>Exercise 3: SQL to DataFrame Conversion<a class="headerlink" href="#exercise-3-sql-to-dataframe-conversion" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-4-querying-dataframes-with-sql">
+<h3><span class="section-number">3.14.4. </span>Exercise 4: Querying DataFrames with SQL<a class="headerlink" href="#exercise-4-querying-dataframes-with-sql" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-5-bidirectional-workflows">
+<h3><span class="section-number">3.14.5. </span>Exercise 5: Bidirectional Workflows<a class="headerlink" href="#exercise-5-bidirectional-workflows" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-6-result-format-conversion">
+<h3><span class="section-number">3.14.6. </span>Exercise 6: Result Format Conversion<a class="headerlink" href="#exercise-6-result-format-conversion" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-7-persistent-storage">
+<h3><span class="section-number">3.14.7. </span>Exercise 7: Persistent Storage<a class="headerlink" href="#exercise-7-persistent-storage" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-8-joining-sql-and-python-logic">
+<h3><span class="section-number">3.14.8. </span>Exercise 8: Joining SQL and Python Logic<a class="headerlink" href="#exercise-8-joining-sql-and-python-logic" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-9-writing-results-to-files">
+<h3><span class="section-number">3.14.9. </span>Exercise 9: Writing Results to Files<a class="headerlink" href="#exercise-9-writing-results-to-files" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-10-practical-integration-challenge">
+<h3><span class="section-number">3.14.10. </span>Exercise 10: Practical Integration Challenge<a class="headerlink" href="#exercise-10-practical-integration-challenge" title="Link to this heading">#</a></h3>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./book/foundations"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sql-basics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Essential SQL for Spatial Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../spatial/data-import.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Loading Spatial Data Formats</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">3.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">3.2. Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-datasets">3.3. Sample Datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">3.4. Installation and Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#library-import-and-initial-setup">3.4.1. Library Import and Initial Setup</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-loading-extensions">3.5. Installing and Loading Extensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-data-from-multiple-sources">3.6. Reading Data from Multiple Sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verifying-the-connection">3.6.1. Verifying the Connection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-csv-files-from-urls">3.6.2. Reading CSV Files from URLs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-duckdb-relations">3.6.3. Understanding DuckDB Relations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seamless-integration-with-pandas-dataframes">3.7. Seamless Integration with Pandas DataFrames</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-dataframes-with-sql">3.7.1. Querying DataFrames with SQL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bidirectional-workflow">3.7.2. The Bidirectional Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">3.7.3. Performance Considerations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polars-interoperability">3.8. Polars Interoperability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#result-conversion-and-output-formats">3.9. Result Conversion and Output Formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-python-objects">3.9.1. Converting to Python Objects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-pandas-dataframes">3.9.2. Converting to Pandas DataFrames</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-numpy-arrays">3.9.3. Converting to NumPy Arrays</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-to-apache-arrow-tables">3.9.4. Converting to Apache Arrow Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-format">3.9.5. Choosing the Right Format</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-data-to-disk">3.10. Writing Data To Disk</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistent-storage-and-database-files">3.11. Persistent Storage and Database Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-persistent-database">3.11.1. Creating a Persistent Database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-existing-databases">3.11.2. Connecting to Existing Databases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-management-and-cleanup">3.11.3. Connection Management and Cleanup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases-for-persistent-vs-in-memory-databases">3.11.4. Use Cases for Persistent vs In-Memory Databases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepared-statements-and-parameters">3.12. Prepared Statements and Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">3.13. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.14. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-installation-and-basic-queries">3.14.1. Exercise 1: Installation and Basic Queries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-loading-remote-data">3.14.2. Exercise 2: Loading Remote Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-sql-to-dataframe-conversion">3.14.3. Exercise 3: SQL to DataFrame Conversion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-querying-dataframes-with-sql">3.14.4. Exercise 4: Querying DataFrames with SQL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-bidirectional-workflows">3.14.5. Exercise 5: Bidirectional Workflows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-result-format-conversion">3.14.6. Exercise 6: Result Format Conversion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-persistent-storage">3.14.7. Exercise 7: Persistent Storage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-joining-sql-and-python-logic">3.14.8. Exercise 8: Joining SQL and Python Logic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-writing-results-to-files">3.14.9. Exercise 9: Writing Results to Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-practical-integration-challenge">3.14.10. Exercise 10: Practical Integration Challenge</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Qiusheng Wu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
