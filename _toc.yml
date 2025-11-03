@@ -1,0 +1,40 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+
+parts:
+  - caption: Preface
+    numbered: false
+    maxdepth: 2
+    chapters:
+      - file: book/preface
+  - caption: DuckDB Foundations
+    numbered: true
+    maxdepth: 2
+    chapters:
+      - file: book/foundations/introduction
+      - file: book/foundations/sql-basics
+      - file: book/foundations/python-api
+
+  - caption: Spatial Data Operations
+    numbered: true
+    maxdepth: 2
+    chapters:
+      - file: book/spatial/data-import
+      - file: book/spatial/data-export
+      - file: book/spatial/geometries
+      - file: book/spatial/spatial-relationships
+      - file: book/spatial/spatial-joins
+      - file: book/spatial/data-viz
+      - file: book/spatial/pmtiles
+
+  - caption: Real-World Geospatial Analytics
+    numbered: true
+    maxdepth: 2
+    chapters:
+      - file: book/analytics/wetlands
+      - file: book/analytics/buildings
+      - file: book/analytics/taxi
+      - file: book/analytics/dashboards
