@@ -1,5 +1,7 @@
+duckdb
 ghp-import
 jupyter-book
 jupytext
+leafmap[pmtiles]
 matplotlib
 numpy
