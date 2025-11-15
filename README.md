@@ -13,37 +13,37 @@ Welcome to the official repository for **_Spatial Data Management with DuckDB: F
 
 ## Get the Book
 
-- 🇺🇸 **English Full-Color Print Edition (400 pages):** Coming soon.
+- 🇺🇸 **English Full-Color Print Edition (430 pages):** Coming soon.
 
-- 🇺🇸 **English PDF Edition (400 pages):** Available on Leanpub ([link](https://leanpub.com/duckdb))
+- 🇺🇸 **English PDF Edition (430 pages):** Available on Leanpub ([link](https://leanpub.com/duckdb))
 
-<!-- - 🇨🇳 **Chinese PDF Edition (540 pages):** 中文电子版可在 Leanpub 购买 ([link](https://leanpub.com/duckdb-zh))
+<!-- - 🇨🇳 **Chinese PDF Edition (430 pages):** 中文电子版可在 Leanpub 购买 ([link](https://leanpub.com/duckdb-zh))
 
-- 🇯🇵 **Japanese PDF Edition (573 pages):** 日本語版が Leanpub で利用可能 ([link](https://leanpub.com/duckdb-ja))
+- 🇯🇵 **Japanese PDF Edition (430 pages):** 日本語版が Leanpub で利用可能 ([link](https://leanpub.com/duckdb-ja))
 
-- 🇰🇷 **Korean PDF Edition (555 pages):** 한국어판 Leanpub에서 이용 가능 ([link](https://leanpub.com/duckdb-ko))
+- 🇰🇷 **Korean PDF Edition (430 pages):** 한국어판 Leanpub에서 이용 가능 ([link](https://leanpub.com/duckdb-ko))
 
-- 🇲🇽 **Spanish PDF Edition (572 pages):** Edición en español disponible en Leanpub ([link](https://leanpub.com/duckdb-es))
+- 🇲🇽 **Spanish PDF Edition (430 pages):** Edición en español disponible en Leanpub ([link](https://leanpub.com/duckdb-es))
 
-- 🇫🇷 **French PDF Edition (581 pages):** Édition française disponible sur Leanpub ([link](https://leanpub.com/duckdb-fr))
+- 🇫🇷 **French PDF Edition (430 pages):** Édition française disponible sur Leanpub ([link](https://leanpub.com/duckdb-fr))
 
-- 🇵🇹 **Portuguese PDF Edition (569 pages):** Edição em português disponível na Leanpub ([link](https://leanpub.com/duckdb-pt))
+- 🇵🇹 **Portuguese PDF Edition (430 pages):** Edição em português disponível na Leanpub ([link](https://leanpub.com/duckdb-pt))
 
-- 🇮🇩 **Indonesian PDF Edition (565 pages):** Edisi bahasa Indonesia tersedia di Leanpub ([link](https://leanpub.com/duckdb-id))
+- 🇮🇩 **Indonesian PDF Edition (430 pages):** Edisi bahasa Indonesia tersedia di Leanpub ([link](https://leanpub.com/duckdb-id))
 
-- 🇩🇪 **German PDF Edition (582 pages):** Deutschsprachige Edition auf Leanpub verfügbar ([link](https://leanpub.com/duckdb-de))
+- 🇩🇪 **German PDF Edition (430 pages):** Deutschsprachige Edition auf Leanpub verfügbar ([link](https://leanpub.com/duckdb-de))
 
-- 🇷🇺 **Russian PDF Edition (599 pages):** Российская версия на Leanpub доступна ([link](https://leanpub.com/duckdb-ru))
+- 🇷🇺 **Russian PDF Edition (430 pages):** Российская версия на Leanpub доступна ([link](https://leanpub.com/duckdb-ru))
 
-- 🇮🇹 **Italian PDF Edition (563 pages):** Edizione italiana disponibile su Leanpub ([link](https://leanpub.com/duckdb-it))
+- 🇮🇹 **Italian PDF Edition (430 pages):** Edizione italiana disponibile su Leanpub ([link](https://leanpub.com/duckdb-it))
 
-- 🇨🇿 **Czech PDF Edition (555 pages):** Česká edice dostupná na Leanpub ([link](https://leanpub.com/duckdb-cs)) -->
+- 🇨🇿 **Czech PDF Edition (430 pages):** Česká edice dostupná na Leanpub ([link](https://leanpub.com/duckdb-cs)) -->
 
 ## Cite the Book
 
 If you use this book in your research or teaching, please consider citing it as follows:
 
-> Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. <https://duckdb.gishub.org>
+> Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. ISBN: 979-8993859705. [https://duckdb.gishub.org](https://duckdb.gishub.org)
 
 ![book cover](https://assets.gishub.org/images/duckdb-book-cover.webp)
 
@@ -86,7 +86,7 @@ If you use this book in your research or teaching, please consider citing it as 
   - Analyzing the US National Wetlands Inventory
   - Analyzing Global Building Footprints
   - Analyzing NYC Taxi Data
-  - Developing Interactive Dashboards with Streamlit and Solara
+  - Developing Interactive Dashboards with Voilà and Solara
 
 ## How to Run Code Examples
 
@@ -126,9 +126,7 @@ docker run -it -p 8888:8888 -p 4040:4040 -p 8080:8080 -p 8081:8081 -p 7077:7077 
 
 ## Video Tutorials
 
-Complementing the written content, this book is supported by a comprehensive series of video tutorials that walk through key concepts and provide additional examples:
-
-**https://www.youtube.com/playlist?list=PLAxJ4-o7ZoPe9SkgnophygyLjTDBzIEbi**
+Complementing the written content, this book is supported by a comprehensive series of video tutorials that walk through key concepts and provide additional examples: <https://tinyurl.com/duckdb-spatial-videos>.
 
 The videos are designed to complement, not replace, the written material. They're particularly helpful for:
 
@@ -143,12 +141,7 @@ The videos were created in Fall 2023 when I was teaching the [**Spatial Data Man
 
 ## About the Author
 
-Dr. Qiusheng Wu is an Associate Professor in the Department of Geography & Sustainability at the University of Tennessee, Knoxville. He is also an Amazon Scholar. Dr. Wu’s research focuses on advancing open-source geospatial analytics through cloud computing and GeoAI. He is the creator and maintainer of several widely used open-source Python packages, including [Geemap](https://geemap.org) [^geemap], [Leafmap](https://leafmap.org) [^leafmap], [SAMGeo](https://samgeo.gishub.org) [^samgeo], and [GeoAI](https://opengeoai.org) [^geoai], which integrate cloud-based geospatial platforms with AI-powered analysis and visualization. Dr. Wu’s work bridges remote sensing, Earth observation, and artificial intelligence to make large-scale geospatial data more accessible, reproducible, and intelligent for researchers, educators, and practitioners worldwide. His open-source projects can be found on GitHub at <https://github.com/opengeos>.
-
-[^geemap]: <https://geemap.org>
-[^leafmap]: <https://leafmap.org>
-[^samgeo]: <https://samgeo.gishub.org>
-[^geoai]: <https://opengeoai.org>
+Dr. Qiusheng Wu is an Associate Professor in the Department of Geography & Sustainability at the University of Tennessee, Knoxville. He is also an Amazon Scholar. Dr. Wu’s research focuses on advancing open-source geospatial analytics through cloud computing and GeoAI. He is the creator and maintainer of several widely used open-source Python packages, including [Geemap](https://geemap.org), [Leafmap](https://leafmap.org), [SAMGeo](https://samgeo.gishub.org), and [GeoAI](https://opengeoai.org), which integrate cloud-based geospatial platforms with AI-powered analysis and visualization. Dr. Wu’s work bridges remote sensing, Earth observation, and artificial intelligence to make large-scale geospatial data more accessible, reproducible, and intelligent for researchers, educators, and practitioners worldwide. His open-source projects can be found on GitHub at <https://github.com/opengeos>.
 
 ## Licensing and Copyright
 
@@ -156,7 +149,7 @@ This book embraces the principles of open science and open education. To support
 
 Please attribute code usage by citing the book or linking to the GitHub repository:
 
-> Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. <https://duckdb.gishub.org>
+> Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. ISBN: 979-8993859705. [https://duckdb.gishub.org](https://duckdb.gishub.org)
 
 While the code is freely available, the **text, figures, and images** in this book are **copyrighted** by the author and may not be reproduced, redistributed, or modified without explicit permission. This includes all written content, custom diagrams, and embedded visualizations unless otherwise noted.
 
