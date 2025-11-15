@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -531,68 +531,266 @@ document.write(`
 </section>
 <section id="installation-and-setup">
 <h2><span class="section-number">9.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install -U leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.maplibregl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="downloading-sample-data">
 <h2><span class="section-number">9.5. </span>Downloading Sample Data<a class="headerlink" href="#downloading-sample-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/duckdb/nyc_data.db.zip&quot;</span>
+<span class="n">leafmap</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="connecting-to-duckdb-and-loading-extensions">
 <h2><span class="section-number">9.6. </span>Connecting to DuckDB and Loading Extensions<a class="headerlink" href="#connecting-to-duckdb-and-loading-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;nyc_data.db&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="installing-and-loading-the-spatial-extension">
 <h3><span class="section-number">9.6.1. </span>Installing and Loading the Spatial Extension<a class="headerlink" href="#installing-and-loading-the-spatial-extension" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exploring-the-database-contents">
 <h3><span class="section-number">9.6.2. </span>Exploring the Database Contents<a class="headerlink" href="#exploring-the-database-contents" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SHOW TABLES;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="visualizing-point-data">
 <h2><span class="section-number">9.7. </span>Visualizing Point Data<a class="headerlink" href="#visualizing-point-data" title="Link to this heading">#</a></h2>
 <section id="querying-and-converting-point-data">
 <h3><span class="section-number">9.7.1. </span>Querying and Converting Point Data<a class="headerlink" href="#querying-and-converting-point-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">subway_stations_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT * EXCLUDE geom, ST_AsText(geom) as geometry FROM nyc_subway_stations&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">subway_stations_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="transforming-to-geodataframe-with-crs-conversion">
 <h3><span class="section-number">9.7.2. </span>Transforming to GeoDataFrame with CRS Conversion<a class="headerlink" href="#transforming-to-geodataframe-with-crs-conversion" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">subway_stations_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span>
+    <span class="n">subway_stations_df</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:26918&quot;</span><span class="p">,</span> <span class="n">dst_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="p">)</span>
+<span class="n">subway_stations_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-a-basic-point-map">
 <h3><span class="section-number">9.7.3. </span>Creating a Basic Point Map<a class="headerlink" href="#creating-a-basic-point-map" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;liberty&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_vector</span><span class="p">(</span><span class="n">subway_stations_gdf</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Subway Stations&quot;</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="customizing-point-symbology">
 <h3><span class="section-number">9.7.4. </span>Customizing Point Symbology<a class="headerlink" href="#customizing-point-symbology" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;liberty&quot;</span><span class="p">)</span>
+<span class="n">paint</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;circle-radius&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;circle-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#ff0000&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;circle-opacity&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s2">&quot;circle-stroke-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#ffffff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;circle-stroke-width&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_vector</span><span class="p">(</span>
+    <span class="n">subway_stations_gdf</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="n">paint</span><span class="o">=</span><span class="n">paint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Subway Stations&quot;</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="visualizing-line-data">
 <h2><span class="section-number">9.8. </span>Visualizing Line Data<a class="headerlink" href="#visualizing-line-data" title="Link to this heading">#</a></h2>
 <section id="querying-and-converting-line-data">
 <h3><span class="section-number">9.8.1. </span>Querying and Converting Line Data<a class="headerlink" href="#querying-and-converting-line-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">streets_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT * EXCLUDE geom, ST_AsText(geom) as geometry FROM nyc_streets&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">streets_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="transforming-streets-to-geodataframe">
 <h3><span class="section-number">9.8.2. </span>Transforming Streets to GeoDataFrame<a class="headerlink" href="#transforming-streets-to-geodataframe" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">streets_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">streets_df</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:26918&quot;</span><span class="p">,</span> <span class="n">dst_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+<span class="n">streets_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-a-basic-line-map">
 <h3><span class="section-number">9.8.3. </span>Creating a Basic Line Map<a class="headerlink" href="#creating-a-basic-line-map" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;liberty&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_vector</span><span class="p">(</span><span class="n">streets_gdf</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Streets&quot;</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="customizing-line-symbology">
 <h3><span class="section-number">9.8.4. </span>Customizing Line Symbology<a class="headerlink" href="#customizing-line-symbology" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;liberty&quot;</span><span class="p">)</span>
+<span class="n">paint</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;line-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#ff0000&quot;</span><span class="p">,</span> <span class="s2">&quot;line-width&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;line-opacity&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_vector</span><span class="p">(</span><span class="n">streets_gdf</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="n">paint</span><span class="o">=</span><span class="n">paint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Streets&quot;</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="visualizing-polygon-data">
 <h2><span class="section-number">9.9. </span>Visualizing Polygon Data<a class="headerlink" href="#visualizing-polygon-data" title="Link to this heading">#</a></h2>
 <section id="querying-and-converting-polygon-data">
 <h3><span class="section-number">9.9.1. </span>Querying and Converting Polygon Data<a class="headerlink" href="#querying-and-converting-polygon-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">census_blocks_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT * EXCLUDE geom, ST_AsText(geom) as geometry FROM nyc_census_blocks&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">census_blocks_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="transforming-census-blocks-to-geodataframe">
 <h3><span class="section-number">9.9.2. </span>Transforming Census Blocks to GeoDataFrame<a class="headerlink" href="#transforming-census-blocks-to-geodataframe" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">census_blocks_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span>
+    <span class="n">census_blocks_df</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:26918&quot;</span><span class="p">,</span> <span class="n">dst_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="p">)</span>
+<span class="n">census_blocks_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-a-basic-polygon-map">
 <h3><span class="section-number">9.9.3. </span>Creating a Basic Polygon Map<a class="headerlink" href="#creating-a-basic-polygon-map" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;liberty&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_vector</span><span class="p">(</span><span class="n">census_blocks_gdf</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Census Blocks&quot;</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="customizing-polygon-symbology">
 <h3><span class="section-number">9.9.4. </span>Customizing Polygon Symbology<a class="headerlink" href="#customizing-polygon-symbology" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;liberty&quot;</span><span class="p">)</span>
+<span class="n">paint</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;fill-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#ff0000&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fill-opacity&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s2">&quot;fill-outline-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#ffffff&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_vector</span><span class="p">(</span><span class="n">census_blocks_gdf</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span> <span class="n">paint</span><span class="o">=</span><span class="n">paint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Census Blocks&quot;</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-choropleth-maps">
 <h3><span class="section-number">9.9.5. </span>Creating Choropleth Maps<a class="headerlink" href="#creating-choropleth-maps" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">census_blocks_gdf</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;POPN_TOTAL&quot;</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-3d-extrusion-maps">
 <h3><span class="section-number">9.9.6. </span>Creating 3D Extrusion Maps<a class="headerlink" href="#creating-3d-extrusion-maps" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">bearing</span><span class="o">=</span><span class="mf">73.5</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">73.923449</span><span class="p">,</span> <span class="mf">40.694178</span><span class="p">),</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">11</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+    <span class="n">census_blocks_gdf</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;POPN_TOTAL&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+    <span class="n">extrude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="key-takeaways">

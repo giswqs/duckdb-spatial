@@ -198,7 +198,7 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -554,57 +554,428 @@ document.write(`
 <h2><span class="section-number">11.5. </span>Accessing Wetland Data with DuckDB<a class="headerlink" href="#accessing-wetland-data-with-duckdb" title="Link to this heading">#</a></h2>
 <section id="environment-setup-and-extension-loading">
 <h3><span class="section-number">11.5.1. </span>Environment Setup and Extension Loading<a class="headerlink" href="#environment-setup-and-extension-loading" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install duckdb leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+
+<span class="c1"># Create an in-memory DuckDB connection</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="c1"># Install and load the spatial extension for geometry operations</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="querying-a-single-state-s-wetlands">
 <h3><span class="section-number">11.5.2. </span>Querying a Single State’s Wetlands<a class="headerlink" href="#querying-a-single-state-s-wetlands" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select a state to analyze (DC has a manageable dataset size for initial exploration)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;DC&quot;</span>  <span class="c1"># You can change this to any two-letter state code like &quot;FL&quot;, &quot;CA&quot;, &quot;TX&quot;</span>
+
+<span class="c1"># Construct the URL to the GeoParquet file hosted on Source Cooperative</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://data.source.coop/giswqs/nwi/wetlands/</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">_Wetlands.parquet&quot;</span>
+
+<span class="c1"># Query the wetland data directly from cloud storage</span>
+<span class="c1"># DuckDB automatically handles the HTTPS connection and Parquet parsing</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="inspecting-the-data-schema">
 <h3><span class="section-number">11.5.3. </span>Inspecting the Data Schema<a class="headerlink" href="#inspecting-the-data-schema" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DESCRIBE SELECT * FROM &#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT DISTINCT WETLAND_TYPE FROM &#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="alternative-access-methods">
 <h3><span class="section-number">11.5.4. </span>Alternative Access Methods<a class="headerlink" href="#alternative-access-methods" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>ls<span class="w"> </span>s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>s3<span class="w"> </span>ls<span class="w"> </span>s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/<span class="w"> </span>--recursive<span class="w"> </span>--summarize<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Total Size&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $3/1024/1024/1024 &quot; GB&quot;}&#39;</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="visualizing-wetland-distributions">
 <h2><span class="section-number">11.6. </span>Visualizing Wetland Distributions<a class="headerlink" href="#visualizing-wetland-distributions" title="Link to this heading">#</a></h2>
 <section id="loading-and-preparing-state-level-data">
 <h3><span class="section-number">11.6.1. </span>Loading and Preparing State-Level Data<a class="headerlink" href="#loading-and-preparing-state-level-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.maplibregl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;DC&quot;</span>  <span class="c1"># Washington DC has a manageable dataset size for visualization</span>
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://data.source.coop/giswqs/nwi/wetlands/</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">_Wetlands.parquet&quot;</span>
+
+<span class="c1"># Read the Parquet file from cloud storage and convert to a GeoDataFrame</span>
+<span class="c1"># src_crs=&#39;EPSG:5070&#39; specifies the Albers Equal Area Conic projection (used in NWI data)</span>
+<span class="c1"># dst_crs=&#39;EPSG:4326&#39; reprojects to WGS84 latitude/longitude (required for web mapping)</span>
+<span class="c1"># return_type=&#39;gdf&#39; ensures we get a GeoPandas GeoDataFrame with spatial capabilities</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">read_vector</span><span class="p">(</span>
+    <span class="n">url</span><span class="p">,</span> <span class="n">return_type</span><span class="o">=</span><span class="s2">&quot;gdf&quot;</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:5070&quot;</span><span class="p">,</span> <span class="n">dst_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Display basic statistics about the loaded dataset</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of wetland features: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unique wetland types: </span><span class="si">{</span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;WETLAND_TYPE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total wetland area: </span><span class="si">{</span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;Shape_Area&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> sq km&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-thematic-visualizations-by-wetland-type">
 <h3><span class="section-number">11.6.2. </span>Creating Thematic Visualizations by Wetland Type<a class="headerlink" href="#creating-thematic-visualizations-by-wetland-type" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new interactive map centered on the data</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
+
+<span class="c1"># Add a high-resolution satellite imagery basemap for context</span>
+<span class="c1"># This helps identify wetland relationships with land use and landscape features</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">)</span>
+
+<span class="c1"># Define colors for each wetland type using RGB values</span>
+<span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Freshwater Forested/Shrub Wetland&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">136</span><span class="p">,</span> <span class="mi">55</span><span class="p">),</span>  <span class="c1"># Dark green</span>
+    <span class="s2">&quot;Freshwater Emergent Wetland&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">127</span><span class="p">,</span> <span class="mi">195</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>  <span class="c1"># Bright green</span>
+    <span class="s2">&quot;Freshwater Pond&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">104</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">192</span><span class="p">),</span>  <span class="c1"># Light blue</span>
+    <span class="s2">&quot;Estuarine and Marine Wetland&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">102</span><span class="p">,</span> <span class="mi">194</span><span class="p">,</span> <span class="mi">165</span><span class="p">),</span>  <span class="c1"># Teal</span>
+    <span class="s2">&quot;Riverine&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">144</span><span class="p">,</span> <span class="mi">191</span><span class="p">),</span>  <span class="c1"># Medium blue</span>
+    <span class="s2">&quot;Lake&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">124</span><span class="p">),</span>  <span class="c1"># Dark blue</span>
+    <span class="s2">&quot;Estuarine and Marine Deepwater&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">136</span><span class="p">),</span>  <span class="c1"># Deep teal</span>
+    <span class="s2">&quot;Other&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">178</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">86</span><span class="p">),</span>  <span class="c1"># Brown</span>
+<span class="p">}</span>
+
+
+<span class="c1"># Helper function to convert RGB tuples to RGBA strings with transparency</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rgba</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.85</span><span class="p">):</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">rgb</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;rgba(</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+
+<span class="c1"># Build a MapLibre GL style expression for conditional coloring</span>
+<span class="c1"># The &quot;match&quot; expression looks up each feature&#39;s WETLAND_TYPE and applies the corresponding color</span>
+<span class="n">fill_match</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;WETLAND_TYPE&quot;</span><span class="p">]]</span>
+<span class="k">for</span> <span class="n">wetland_type</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">color_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">fill_match</span> <span class="o">+=</span> <span class="p">[</span><span class="n">wetland_type</span><span class="p">,</span> <span class="n">rgba</span><span class="p">(</span><span class="n">color</span><span class="p">)]</span>
+<span class="c1"># Add a default gray color for any wetland types not in our color map</span>
+<span class="n">fill_match</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;rgba(200,200,200,0.6)&quot;</span><span class="p">]</span>
+
+<span class="c1"># Define the paint properties for the wetland polygons</span>
+<span class="n">paint</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;fill-color&quot;</span><span class="p">:</span> <span class="n">fill_match</span><span class="p">,</span>  <span class="c1"># Apply conditional colors</span>
+    <span class="s2">&quot;fill-outline-color&quot;</span><span class="p">:</span> <span class="s2">&quot;rgba(0,0,0,0.25)&quot;</span><span class="p">,</span>  <span class="c1"># Subtle dark outlines</span>
+<span class="p">}</span>
+
+<span class="c1"># Add the wetland GeoDataFrame to the map as filled polygons</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_vector</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span> <span class="n">paint</span><span class="o">=</span><span class="n">paint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Wetlands&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add a legend explaining the color scheme</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_legend</span><span class="p">(</span><span class="n">builtin_legend</span><span class="o">=</span><span class="s2">&quot;NWI&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Wetland Type&quot;</span><span class="p">)</span>
+
+<span class="c1"># Display the map</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Alternative simplified approach using leafmap&#39;s built-in NWI styling</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_nwi</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Wetlands&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_legend</span><span class="p">(</span><span class="n">builtin_legend</span><span class="o">=</span><span class="s2">&quot;NWI&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Wetland Type&quot;</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="national-scale-wetland-analysis">
 <h2><span class="section-number">11.7. </span>National-Scale Wetland Analysis<a class="headerlink" href="#national-scale-wetland-analysis" title="Link to this heading">#</a></h2>
 <section id="counting-all-wetland-features-nationally">
 <h3><span class="section-number">11.7.1. </span>Counting All Wetland Features Nationally<a class="headerlink" href="#counting-all-wetland-features-nationally" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT COUNT(*) AS Count</span>
+<span class="s2">FROM &#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="analyzing-wetlands-by-state">
 <h3><span class="section-number">11.7.2. </span>Analyzing Wetlands by State<a class="headerlink" href="#analyzing-wetlands-by-state" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT filename, COUNT(*) AS Count</span>
+<span class="s2">FROM read_parquet(&#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;, filename=true)</span>
+<span class="s2">GROUP BY filename</span>
+<span class="s2">ORDER BY COUNT(*) DESC;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">count_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT SUBSTRING(filename, LENGTH(filename) - 18, 2) AS State, COUNT(*) AS Count</span>
+<span class="s2">FROM read_parquet(&#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;, filename=true)</span>
+<span class="s2">GROUP BY State</span>
+<span class="s2">ORDER BY COUNT(*) DESC;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">count_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-tables-for-spatial-joins">
 <h3><span class="section-number">11.7.3. </span>Creating Tables for Spatial Joins<a class="headerlink" href="#creating-tables-for-spatial-joins" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CREATE OR REPLACE TABLE wetlands AS FROM count_df&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;FROM wetlands&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="loading-state-boundaries-for-mapping">
 <h3><span class="section-number">11.7.4. </span>Loading State Boundaries for Mapping<a class="headerlink" href="#loading-state-boundaries-for-mapping" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/us/us_states.parquet&quot;</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE OR REPLACE TABLE states AS</span>
+<span class="s2">SELECT * FROM &#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;FROM states&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="joining-wetland-statistics-with-state-geometries">
 <h3><span class="section-number">11.7.5. </span>Joining Wetland Statistics with State Geometries<a class="headerlink" href="#joining-wetland-statistics-with-state-geometries" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT * FROM states INNER JOIN wetlands ON states.id = wetlands.State</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="preparing-data-for-visualization">
 <h3><span class="section-number">11.7.6. </span>Preparing Data for Visualization<a class="headerlink" href="#preparing-data-for-visualization" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name, State, Count, ST_AsText(geometry) as geometry</span>
+<span class="sd">FROM states INNER JOIN wetlands ON states.id = wetlands.State</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-a-choropleth-map">
 <h3><span class="section-number">11.7.7. </span>Creating a Choropleth Map<a class="headerlink" href="#creating-a-choropleth-map" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">45</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;globe&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">gdf</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;Count&quot;</span><span class="p">,</span>
+    <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;Quantiles&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Greens&quot;</span><span class="p">,</span>
+    <span class="n">legend_title</span><span class="o">=</span><span class="s2">&quot;Wetland Count&quot;</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="statistical-visualizations">
 <h3><span class="section-number">11.7.8. </span>Statistical Visualizations<a class="headerlink" href="#statistical-visualizations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">pie_chart</span><span class="p">(</span>
+    <span class="n">count_df</span><span class="p">,</span> <span class="s2">&quot;State&quot;</span><span class="p">,</span> <span class="s2">&quot;Count&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Number of Wetlands by State&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">bar_chart</span><span class="p">(</span><span class="n">count_df</span><span class="p">,</span> <span class="s2">&quot;State&quot;</span><span class="p">,</span> <span class="s2">&quot;Count&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Number of Wetlands by State&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="analyzing-wetland-area">
 <h3><span class="section-number">11.7.9. </span>Analyzing Wetland Area<a class="headerlink" href="#analyzing-wetland-area" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT SUM(Shape_Area) /  1000000 AS Area_SqKm</span>
+<span class="s2">FROM &#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">area_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT SUBSTRING(filename, LENGTH(filename) - 18, 2) AS State, ROUND(SUM(Shape_Area) /  1000000, 0) AS Area_SqKm</span>
+<span class="s2">FROM read_parquet(&#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;, filename=true)</span>
+<span class="s2">GROUP BY State</span>
+<span class="s2">ORDER BY Area_SqKm DESC;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">area_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">pie_chart</span><span class="p">(</span>
+    <span class="n">area_df</span><span class="p">,</span> <span class="s2">&quot;State&quot;</span><span class="p">,</span> <span class="s2">&quot;Area_SqKm&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Wetland Area by State&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">bar_chart</span><span class="p">(</span><span class="n">area_df</span><span class="p">,</span> <span class="s2">&quot;State&quot;</span><span class="p">,</span> <span class="s2">&quot;Area_SqKm&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Wetland Area by State&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="classification-by-wetland-type">
 <h3><span class="section-number">11.7.10. </span>Classification by Wetland Type<a class="headerlink" href="#classification-by-wetland-type" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">type_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT WETLAND_TYPE,</span>
+<span class="s2">       COUNT(*) AS count,</span>
+<span class="s2">       ROUND(SUM(Shape_Area) / 1e6, 0) AS area_sqkm</span>
+<span class="s2">FROM &#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;</span>
+<span class="s2">GROUP BY WETLAND_TYPE</span>
+<span class="s2">ORDER BY area_sqkm DESC</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">type_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">by_state_type</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT SUBSTRING(filename, LENGTH(filename) - 18, 0) AS State,</span>
+<span class="s2">       WETLAND_TYPE,</span>
+<span class="s2">       ROUND(SUM(Shape_Area) / 1e6, 2) AS area_sqkm</span>
+<span class="s2">FROM read_parquet(&#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;, filename=true)</span>
+<span class="s2">GROUP BY State, WETLAND_TYPE</span>
+<span class="s2">QUALIFY ROW_NUMBER() OVER (PARTITION BY State ORDER BY area_sqkm DESC) &lt;= 10</span>
+<span class="s2">ORDER BY State, area_sqkm DESC</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">by_state_type</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">pie_chart</span><span class="p">(</span>
+    <span class="n">type_df</span><span class="p">,</span> <span class="s2">&quot;WETLAND_TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;area_sqkm&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;National Wetland Area by Type&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="key-takeaways">

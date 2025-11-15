@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -542,20 +542,79 @@ document.write(`
 </section>
 <section id="installation-and-setup">
 <h2><span class="section-number">7.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install duckdb leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="library-import-and-configuration">
 <h3><span class="section-number">7.4.1. </span>Library Import and Configuration<a class="headerlink" href="#library-import-and-configuration" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DuckDB version: </span><span class="si">{</span><span class="n">duckdb</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="downloading-the-sample-database">
 <h3><span class="section-number">7.4.2. </span>Downloading the Sample Database<a class="headerlink" href="#downloading-the-sample-database" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/duckdb/nyc_data.db.zip&quot;</span>
+<span class="n">leafmap</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="connecting-to-duckdb-and-loading-extensions">
 <h2><span class="section-number">7.5. </span>Connecting to DuckDB and Loading Extensions<a class="headerlink" href="#connecting-to-duckdb-and-loading-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;nyc_data.db&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="installing-and-loading-the-spatial-extension">
 <h3><span class="section-number">7.5.1. </span>Installing and Loading the Spatial Extension<a class="headerlink" href="#installing-and-loading-the-spatial-extension" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exploring-the-database-structure">
 <h3><span class="section-number">7.5.2. </span>Exploring the Database Structure<a class="headerlink" href="#exploring-the-database-structure" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SHOW TABLES;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * from nyc_subway_stations LIMIT 5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="understanding-spatial-relationships">
@@ -565,6 +624,32 @@ document.write(`
 <h2><span class="section-number">7.7. </span>Testing Geometric Identity<a class="headerlink" href="#testing-geometric-identity" title="Link to this heading">#</a></h2>
 <section id="finding-an-exact-match">
 <h3><span class="section-number">7.7.1. </span>Finding an Exact Match<a class="headerlink" href="#finding-an-exact-match" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT NAME, geom, ST_AsText(geom)</span>
+<span class="sd">FROM nyc_subway_stations</span>
+<span class="sd">WHERE name = &#39;Broad St&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name</span>
+<span class="sd">FROM nyc_subway_stations</span>
+<span class="sd">WHERE ST_Equals(geom, ST_GeomFromText(&#39;POINT (583571.9059213118 4506714.341192182)&#39;));</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="practical-considerations-for-st-equals">
 <h3><span class="section-number">7.7.2. </span>Practical Considerations for ST_Equals<a class="headerlink" href="#practical-considerations-for-st-equals" title="Link to this heading">#</a></h3>
@@ -607,6 +692,32 @@ document.write(`
 </section>
 <section id="practical-applications-with-nyc-data">
 <h3><span class="section-number">7.8.12. </span>Practical Applications with NYC Data<a class="headerlink" href="#practical-applications-with-nyc-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name, ST_AsText(geom)</span>
+<span class="sd">FROM nyc_subway_stations</span>
+<span class="sd">WHERE name = &#39;Broad St&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name, boroname</span>
+<span class="sd">FROM nyc_neighborhoods</span>
+<span class="sd">WHERE ST_Intersects(geom, ST_GeomFromText(&#39;POINT(583571 4506714)&#39;));</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="distance-based-relationships">
@@ -616,9 +727,40 @@ document.write(`
 </section>
 <section id="basic-distance-example">
 <h3><span class="section-number">7.9.2. </span>Basic Distance Example<a class="headerlink" href="#basic-distance-example" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT ST_Distance(</span>
+<span class="sd">  ST_GeomFromText(&#39;POINT(0 5)&#39;),</span>
+<span class="sd">  ST_GeomFromText(&#39;LINESTRING(-2 2, 2 2)&#39;)) as distance;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="distance-with-real-data">
 <h3><span class="section-number">7.9.3. </span>Distance with Real Data<a class="headerlink" href="#distance-with-real-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">  a.name AS from_station,</span>
+<span class="sd">  b.name AS to_station,</span>
+<span class="sd">  ROUND(ST_Distance(a.geom, b.geom)) AS distance_meters</span>
+<span class="sd">FROM nyc_subway_stations a, nyc_subway_stations b</span>
+<span class="sd">WHERE a.name = &#39;Broad St&#39;</span>
+<span class="sd">  AND b.name IN (&#39;Wall St&#39;, &#39;Bowling Green&#39;, &#39;Fulton St&#39;)</span>
+<span class="sd">ORDER BY distance_meters;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="critical-coordinate-system-units-matter">
 <h3><span class="section-number">7.9.4. </span>Critical: Coordinate System Units Matter<a class="headerlink" href="#critical-coordinate-system-units-matter" title="Link to this heading">#</a></h3>
@@ -631,6 +773,32 @@ document.write(`
 <h2><span class="section-number">7.10. </span>Filtering by Proximity Threshold<a class="headerlink" href="#filtering-by-proximity-threshold" title="Link to this heading">#</a></h2>
 <section id="finding-features-within-a-distance">
 <h3><span class="section-number">7.10.1. </span>Finding Features Within a Distance<a class="headerlink" href="#finding-features-within-a-distance" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT name FROM nyc_streets WHERE name IS NOT NULL LIMIT 5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name</span>
+<span class="sd">FROM nyc_streets</span>
+<span class="sd">WHERE ST_DWithin(</span>
+<span class="sd">        geom,</span>
+<span class="sd">        ST_GeomFromText(&#39;POINT(583571 4506714)&#39;),</span>
+<span class="sd">        10</span>
+<span class="sd">      )</span>
+<span class="sd">AND name IS NOT NULL</span>
+<span class="sd">ORDER BY name;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="when-to-use-st-dwithin">
 <h3><span class="section-number">7.10.2. </span>When to Use ST_DWithin<a class="headerlink" href="#when-to-use-st-dwithin" title="Link to this heading">#</a></h3>
@@ -638,6 +806,21 @@ document.write(`
 </section>
 <section id="nearest-neighbor-queries">
 <h2><span class="section-number">7.11. </span>Nearest Neighbor Queries<a class="headerlink" href="#nearest-neighbor-queries" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name,</span>
+<span class="sd">       ST_Distance(geom, ST_GeomFromText(&#39;POINT(583571 4506714)&#39;)) AS distance_m</span>
+<span class="sd">FROM nyc_subway_stations</span>
+<span class="sd">ORDER BY distance_m</span>
+<span class="sd">LIMIT 3;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="key-takeaways">
 <h2><span class="section-number">7.12. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -555,38 +555,162 @@ document.write(`
 </section>
 <section id="installation-and-setup">
 <h2><span class="section-number">4.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install duckdb leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="library-import-and-initial-setup">
 <h3><span class="section-number">4.4.1. </span>Library Import and Initial Setup<a class="headerlink" href="#library-import-and-initial-setup" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="installing-and-loading-extensions">
 <h2><span class="section-number">4.5. </span>Installing and Loading Extensions<a class="headerlink" href="#installing-and-loading-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="downloading-sample-data">
 <h2><span class="section-number">4.6. </span>Downloading Sample Data<a class="headerlink" href="#downloading-sample-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/duckdb/cities.zip&quot;</span>
+<span class="n">leafmap</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="loading-csv-files-with-coordinates">
 <h2><span class="section-number">4.7. </span>Loading CSV Files with Coordinates<a class="headerlink" href="#loading-csv-files-with-coordinates" title="Link to this heading">#</a></h2>
 <section id="basic-csv-loading-with-automatic-detection">
 <h3><span class="section-number">4.7.1. </span>Basic CSV Loading with Automatic Detection<a class="headerlink" href="#basic-csv-loading-with-automatic-detection" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cities.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="overriding-automatic-detection">
 <h3><span class="section-number">4.7.2. </span>Overriding Automatic Detection<a class="headerlink" href="#overriding-automatic-detection" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cities.csv&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="parallel-csv-reading-for-large-files">
 <h3><span class="section-number">4.7.3. </span>Parallel CSV Reading for Large Files<a class="headerlink" href="#parallel-csv-reading-for-large-files" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cities.csv&quot;</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="querying-csv-files-directly-in-sql">
 <h3><span class="section-number">4.7.4. </span>Querying CSV Files Directly in SQL<a class="headerlink" href="#querying-csv-files-directly-in-sql" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;cities.csv&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM read_csv_auto(&#39;cities.csv&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="performance-considerations-and-best-practices">
 <h3><span class="section-number">4.7.5. </span>Performance Considerations and Best Practices<a class="headerlink" href="#performance-considerations-and-best-practices" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY (SELECT * FROM &#39;cities.csv&#39;) TO &#39;cities-demo.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;DESCRIBE SELECT * FROM &#39;cities.csv&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;cities.csv&#39; LIMIT 100&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="loading-json-files">
 <h2><span class="section-number">4.8. </span>Loading JSON Files<a class="headerlink" href="#loading-json-files" title="Link to this heading">#</a></h2>
 <section id="reading-json-with-automatic-schema-detection">
 <h3><span class="section-number">4.8.1. </span>Reading JSON with Automatic Schema Detection<a class="headerlink" href="#reading-json-with-automatic-schema-detection" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;cities.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;cities.json&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM read_json_auto(&#39;cities.json&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="understanding-json-format-variants">
 <h3><span class="section-number">4.8.2. </span>Understanding JSON Format Variants<a class="headerlink" href="#understanding-json-format-variants" title="Link to this heading">#</a></h3>
@@ -596,12 +720,38 @@ document.write(`
 </section>
 <section id="using-the-json-extension-for-advanced-operations">
 <h3><span class="section-number">4.8.4. </span>Using the JSON Extension for Advanced Operations<a class="headerlink" href="#using-the-json-extension-for-advanced-operations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT json(&#39;{</span><span class="se">\&quot;</span><span class="s2">a</span><span class="se">\&quot;</span><span class="s2">:1,</span><span class="se">\&quot;</span><span class="s2">b</span><span class="se">\&quot;</span><span class="s2">:[2,3]}&#39;) AS js, json_extract(js,&#39;$.b[0]&#39;) AS first&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="querying-pandas-dataframes-directly">
 <h2><span class="section-number">4.9. </span>Querying Pandas DataFrames Directly<a class="headerlink" href="#querying-pandas-dataframes-directly" title="Link to this heading">#</a></h2>
 <section id="loading-data-into-pandas-and-querying-with-sql">
 <h3><span class="section-number">4.9.1. </span>Loading Data into Pandas and Querying with SQL<a class="headerlink" href="#loading-data-into-pandas-and-querying-with-sql" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cities.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM df&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="when-to-use-dataframe-querying">
 <h3><span class="section-number">4.9.2. </span>When to Use DataFrame Querying<a class="headerlink" href="#when-to-use-dataframe-querying" title="Link to this heading">#</a></h3>
@@ -611,33 +761,118 @@ document.write(`
 <h2><span class="section-number">4.10. </span>Loading Parquet Files for Performance<a class="headerlink" href="#loading-parquet-files-for-performance" title="Link to this heading">#</a></h2>
 <section id="reading-parquet-files-in-python">
 <h3><span class="section-number">4.10.1. </span>Reading Parquet Files in Python<a class="headerlink" href="#reading-parquet-files-in-python" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;cities.parquet&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="querying-parquet-files-directly-in-sql">
 <h3><span class="section-number">4.10.2. </span>Querying Parquet Files Directly in SQL<a class="headerlink" href="#querying-parquet-files-directly-in-sql" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;cities.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM read_parquet(&#39;cities.parquet&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="cloud-storage-and-remote-parquet-files">
 <h3><span class="section-number">4.10.3. </span>Cloud Storage and Remote Parquet Files<a class="headerlink" href="#cloud-storage-and-remote-parquet-files" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;https://data.gishub.org/duckdb/cities.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;s3://us-west-2.opendata.source.coop/vida/google-microsoft-osm-open-buildings/geoparquet/by_country/country_iso=USA/USA.parquet&quot;</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM &#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39; LIMIT 10&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="when-to-convert-to-parquet">
 <h3><span class="section-number">4.10.4. </span>When to Convert to Parquet<a class="headerlink" href="#when-to-convert-to-parquet" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY (SELECT * FROM &#39;cities.csv&#39;) TO &#39;cities-demo.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="loading-geojson-files-with-spatial-geometries">
 <h2><span class="section-number">4.11. </span>Loading GeoJSON Files with Spatial Geometries<a class="headerlink" href="#loading-geojson-files-with-spatial-geometries" title="Link to this heading">#</a></h2>
 <section id="discovering-available-spatial-formats">
 <h3><span class="section-number">4.11.1. </span>Discovering Available Spatial Formats<a class="headerlink" href="#discovering-available-spatial-formats" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM ST_Drivers()&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">max_rows</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="loading-geojson-with-st-read">
 <h3><span class="section-number">4.11.2. </span>Loading GeoJSON with ST_Read()<a class="headerlink" href="#loading-geojson-with-st-read" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM ST_Read(&#39;cities.geojson&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="duckdb-s-shorthand-sql-syntax">
 <h3><span class="section-number">4.11.3. </span>DuckDB’s Shorthand SQL Syntax<a class="headerlink" href="#duckdb-s-shorthand-sql-syntax" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;FROM ST_Read(&#39;cities.geojson&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-persistent-spatial-tables">
 <h3><span class="section-number">4.11.4. </span>Creating Persistent Spatial Tables<a class="headerlink" href="#creating-persistent-spatial-tables" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE cities AS SELECT * FROM ST_Read(&#39;cities.geojson&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="querying-the-spatial-table">
 <h3><span class="section-number">4.11.5. </span>Querying the Spatial Table<a class="headerlink" href="#querying-the-spatial-table" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;cities&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM cities&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="understanding-gdal-dependencies">
 <h3><span class="section-number">4.11.6. </span>Understanding GDAL Dependencies<a class="headerlink" href="#understanding-gdal-dependencies" title="Link to this heading">#</a></h3>
@@ -650,28 +885,139 @@ document.write(`
 </section>
 <section id="loading-shapefiles-with-st-read">
 <h3><span class="section-number">4.12.2. </span>Loading Shapefiles with ST_Read()<a class="headerlink" href="#loading-shapefiles-with-st-read" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM ST_Read(&#39;cities.shp&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;FROM ST_Read(&#39;cities.shp&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-tables-from-shapefiles">
 <h3><span class="section-number">4.12.3. </span>Creating Tables from Shapefiles<a class="headerlink" href="#creating-tables-from-shapefiles" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        CREATE TABLE IF NOT EXISTS cities2 AS</span>
+<span class="sd">        SELECT * FROM ST_Read(&#39;cities.shp&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;cities2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM cities2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="shapefile-limitations-and-modern-alternatives">
 <h3><span class="section-number">4.12.4. </span>Shapefile Limitations and Modern Alternatives<a class="headerlink" href="#shapefile-limitations-and-modern-alternatives" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY cities2 TO &#39;cities2.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="loading-geoparquet-for-cloud-native-spatial-analysis">
 <h2><span class="section-number">4.13. </span>Loading GeoParquet for Cloud-Native Spatial Analysis<a class="headerlink" href="#loading-geoparquet-for-cloud-native-spatial-analysis" title="Link to this heading">#</a></h2>
 <section id="reading-local-geoparquet-files">
 <h3><span class="section-number">4.13.1. </span>Reading Local GeoParquet Files<a class="headerlink" href="#reading-local-geoparquet-files" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;cities.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="converting-wkb-geometries-to-duckdb-s-spatial-type">
 <h3><span class="section-number">4.13.2. </span>Converting WKB Geometries to DuckDB’s Spatial Type<a class="headerlink" href="#converting-wkb-geometries-to-duckdb-s-spatial-type" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;FROM &#39;cities.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="loading-geoparquet-from-cloud-storage">
 <h3><span class="section-number">4.13.3. </span>Loading GeoParquet from Cloud Storage<a class="headerlink" href="#loading-geoparquet-from-cloud-storage" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        SELECT *  FROM &#39;s3://us-west-2.opendata.source.coop/fused/overture/2025-06-25-0/theme=divisions/type=division/*.parquet&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        SELECT COUNT(*)  FROM &#39;s3://us-west-2.opendata.source.coop/fused/overture/2025-06-25-0/theme=divisions/type=division/*.parquet&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="data-loading-performance-strategies">
 <h2><span class="section-number">4.14. </span>Data Loading Performance Strategies<a class="headerlink" href="#data-loading-performance-strategies" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;FROM &#39;cities.parquet&#39; USING SAMPLE 10%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT name, population FROM &#39;cities.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;cities.parquet&#39; WHERE population &gt; 1000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM &#39;cities.parquet&#39; LIMIT 100&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="troubleshooting-common-data-loading-issues">
 <h2><span class="section-number">4.15. </span>Troubleshooting Common Data Loading Issues<a class="headerlink" href="#troubleshooting-common-data-loading-issues" title="Link to this heading">#</a></h2>
@@ -681,6 +1027,14 @@ document.write(`
 </section>
 <section id="exercises">
 <h2><span class="section-number">4.17. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/us/us_counties.zip&quot;</span>
+<span class="n">leafmap</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="exercise-1-csv-loading-and-schema-inspection">
 <h3><span class="section-number">4.17.1. </span>Exercise 1: CSV Loading and Schema Inspection<a class="headerlink" href="#exercise-1-csv-loading-and-schema-inspection" title="Link to this heading">#</a></h3>
 </section>

@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -541,39 +541,116 @@ document.write(`
 <h2><span class="section-number">1.5. </span>Installing DuckDB CLI and Running Your First Query<a class="headerlink" href="#installing-duckdb-cli-and-running-your-first-query" title="Link to this heading">#</a></h2>
 <section id="windows-installation">
 <h3><span class="section-number">1.5.1. </span>Windows Installation<a class="headerlink" href="#windows-installation" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>duckdb<span class="w"> </span>--version
+</pre></div>
+</div>
 </section>
 <section id="macos-or-linux-installation">
 <h3><span class="section-number">1.5.2. </span>macOS or Linux Installation<a class="headerlink" href="#macos-or-linux-installation" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://install.duckdb.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>duckdb
+</pre></div>
+</div>
 </section>
 </section>
 <section id="installing-the-duckdb-python-client">
 <h2><span class="section-number">1.6. </span>Installing the DuckDB Python Client<a class="headerlink" href="#installing-the-duckdb-python-client" title="Link to this heading">#</a></h2>
 <section id="installing-duckdb-using-pip">
 <h3><span class="section-number">1.6.1. </span>Installing DuckDB Using pip<a class="headerlink" href="#installing-duckdb-using-pip" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>duckdb
+</pre></div>
+</div>
 <section id="installing-uv">
 <h4><span class="section-number">1.6.1.1. </span>Installing uv<a class="headerlink" href="#installing-uv" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>uv
+</pre></div>
+</div>
 </section>
 <section id="basic-uv-usage">
 <h4><span class="section-number">1.6.1.2. </span>Basic uv Usage<a class="headerlink" href="#basic-uv-usage" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Navigate to your project directory</span>
+<span class="nb">cd</span><span class="w"> </span>/path/to/your/project
+
+<span class="c1"># Create a virtual environment</span>
+uv<span class="w"> </span>venv
+
+<span class="c1"># Create with specific Python version</span>
+uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12
+
+<span class="c1"># Activate the environment (varies by OS)</span>
+<span class="c1"># On macOS/Linux:</span>
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+<span class="c1"># On Windows:</span>
+.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install packages</span>
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jupyterlab<span class="w"> </span>leafmap<span class="w"> </span>duckdb<span class="w"> </span>duckdb-engine<span class="w"> </span>jupyter-duckdb<span class="w"> </span>jupysql
+</pre></div>
+</div>
 </section>
 </section>
 <section id="installing-duckdb-using-conda">
 <h3><span class="section-number">1.6.2. </span>Installing DuckDB Using Conda<a class="headerlink" href="#installing-duckdb-using-conda" title="Link to this heading">#</a></h3>
 <section id="installing-miniconda-on-windows">
 <h4><span class="section-number">1.6.2.1. </span>Installing Miniconda on Windows<a class="headerlink" href="#installing-miniconda-on-windows" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe<span class="w"> </span>-o<span class="w"> </span>.<span class="se">\m</span>iniconda.exe
+start<span class="w"> </span>/wait<span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>.<span class="se">\m</span>iniconda.exe<span class="w"> </span>/S
+del<span class="w"> </span>.<span class="se">\m</span>iniconda.exe
+</pre></div>
+</div>
 </section>
 <section id="installing-miniconda-on-macos">
 <h4><span class="section-number">1.6.2.2. </span>Installing Miniconda on macOS<a class="headerlink" href="#installing-miniconda-on-macos" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/miniconda3
+curl<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh<span class="w"> </span>-o<span class="w"> </span>~/miniconda3/miniconda.sh
+bash<span class="w"> </span>~/miniconda3/miniconda.sh<span class="w"> </span>-b<span class="w"> </span>-u<span class="w"> </span>-p<span class="w"> </span>~/miniconda3
+rm<span class="w"> </span>~/miniconda3/miniconda.sh
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/miniconda3
+curl<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh<span class="w"> </span>-o<span class="w"> </span>~/miniconda3/miniconda.sh
+bash<span class="w"> </span>~/miniconda3/miniconda.sh<span class="w"> </span>-b<span class="w"> </span>-u<span class="w"> </span>-p<span class="w"> </span>~/miniconda3
+rm<span class="w"> </span>~/miniconda3/miniconda.sh
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/miniconda3/bin/activate
+conda<span class="w"> </span>init<span class="w"> </span>--all
+</pre></div>
+</div>
 </section>
 <section id="installing-miniconda-on-linux">
 <h4><span class="section-number">1.6.2.3. </span>Installing Miniconda on Linux<a class="headerlink" href="#installing-miniconda-on-linux" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/miniconda3
+wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh<span class="w"> </span>-O<span class="w"> </span>~/miniconda3/miniconda.sh
+bash<span class="w"> </span>~/miniconda3/miniconda.sh<span class="w"> </span>-b<span class="w"> </span>-u<span class="w"> </span>-p<span class="w"> </span>~/miniconda3
+rm<span class="w"> </span>~/miniconda3/miniconda.sh
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/miniconda3/bin/activate
+conda<span class="w"> </span>init<span class="w"> </span>--all
+</pre></div>
+</div>
 </section>
 <section id="installing-duckdb-in-the-conda-environment">
 <h4><span class="section-number">1.6.2.4. </span>Installing DuckDB in the Conda environment<a class="headerlink" href="#installing-duckdb-in-the-conda-environment" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>geo<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
+conda<span class="w"> </span>activate<span class="w"> </span>geo
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>python-duckdb<span class="w"> </span>duckdb-engine<span class="w"> </span>jupysql<span class="w"> </span>leafmap
+</pre></div>
+</div>
 </section>
 </section>
 <section id="verifying-installation">
 <h3><span class="section-number">1.6.3. </span>Verifying Installation<a class="headerlink" href="#verifying-installation" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>lab
+</pre></div>
+</div>
 </section>
 </section>
 <section id="installing-visual-studio-code">
@@ -583,13 +660,24 @@ document.write(`
 </section>
 <section id="installing-vs-code-extensions">
 <h3><span class="section-number">1.7.2. </span>Installing VS Code Extensions<a class="headerlink" href="#installing-vs-code-extensions" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>--install-extension<span class="w"> </span>ms-python.python
+code<span class="w"> </span>--install-extension<span class="w"> </span>ms-toolsai.jupyter
+code<span class="w"> </span>--install-extension<span class="w"> </span>RandomFractalsInc.duckdb-sql-tools
+</pre></div>
+</div>
 </section>
 <section id="installing-duckdb-extensions">
 <h3><span class="section-number">1.7.3. </span>Installing DuckDB Extensions<a class="headerlink" href="#installing-duckdb-extensions" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>duckdb
+</pre></div>
+</div>
 </section>
 </section>
 <section id="using-the-duckdb-ui">
 <h2><span class="section-number">1.8. </span>Using the DuckDB UI<a class="headerlink" href="#using-the-duckdb-ui" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>duckdb<span class="w"> </span>-ui
+</pre></div>
+</div>
 </section>
 <section id="installing-dbeaver-sql-ide">
 <h2><span class="section-number">1.9. </span>Installing DBeaver SQL IDE<a class="headerlink" href="#installing-dbeaver-sql-ide" title="Link to this heading">#</a></h2>

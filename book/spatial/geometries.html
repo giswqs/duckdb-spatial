@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -556,89 +556,417 @@ document.write(`
 </section>
 <section id="installation-and-setup">
 <h2><span class="section-number">6.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install duckdb leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="library-import-and-configuration">
 <h3><span class="section-number">6.4.1. </span>Library Import and Configuration<a class="headerlink" href="#library-import-and-configuration" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DuckDB version: </span><span class="si">{</span><span class="n">duckdb</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="downloading-the-sample-data">
 <h3><span class="section-number">6.4.2. </span>Downloading the Sample Data<a class="headerlink" href="#downloading-the-sample-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/duckdb/nyc_data.db.zip&quot;</span>
+<span class="n">leafmap</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="connecting-to-duckdb-and-loading-extensions">
 <h2><span class="section-number">6.5. </span>Connecting to DuckDB and Loading Extensions<a class="headerlink" href="#connecting-to-duckdb-and-loading-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;nyc_data.db&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="installing-and-loading-the-spatial-extension">
 <h3><span class="section-number">6.5.1. </span>Installing and Loading the Spatial Extension<a class="headerlink" href="#installing-and-loading-the-spatial-extension" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exploring-the-database-contents">
 <h3><span class="section-number">6.5.2. </span>Exploring the Database Contents<a class="headerlink" href="#exploring-the-database-contents" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SHOW TABLES;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM nyc_subway_stations LIMIT 5;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="understanding-geometry-types">
 <h2><span class="section-number">6.6. </span>Understanding Geometry Types<a class="headerlink" href="#understanding-geometry-types" title="Link to this heading">#</a></h2>
 <section id="creating-sample-geometries-from-wkt">
 <h3><span class="section-number">6.6.1. </span>Creating Sample Geometries from WKT<a class="headerlink" href="#creating-sample-geometries-from-wkt" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CREATE OR REPLACE TABLE samples (name VARCHAR, geom GEOMETRY);</span>
+
+<span class="sd">INSERT INTO samples VALUES</span>
+<span class="sd">  (&#39;Point&#39;, ST_GeomFromText(&#39;POINT(-100 40)&#39;)),</span>
+<span class="sd">  (&#39;Linestring&#39;, ST_GeomFromText(&#39;LINESTRING(0 0, 1 1, 2 1, 2 2)&#39;)),</span>
+<span class="sd">  (&#39;Polygon&#39;, ST_GeomFromText(&#39;POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))&#39;)),</span>
+<span class="sd">  (&#39;PolygonWithHole&#39;, ST_GeomFromText(&#39;POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))&#39;)),</span>
+<span class="sd">  (&#39;Collection&#39;, ST_GeomFromText(&#39;GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))&#39;));</span>
+
+<span class="sd">SELECT * FROM samples;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="converting-geometries-to-readable-text">
 <h3><span class="section-number">6.6.2. </span>Converting Geometries to Readable Text<a class="headerlink" href="#converting-geometries-to-readable-text" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT name, ST_AsText(geom) AS geometry FROM samples;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exporting-sample-geometries">
 <h3><span class="section-number">6.6.3. </span>Exporting Sample Geometries<a class="headerlink" href="#exporting-sample-geometries" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">COPY samples TO &#39;samples.geojson&#39; (FORMAT GDAL, DRIVER &#39;GeoJSON&#39;);</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="working-with-points">
 <h2><span class="section-number">6.7. </span>Working with Points<a class="headerlink" href="#working-with-points" title="Link to this heading">#</a></h2>
 <section id="examining-point-geometry-structure">
 <h3><span class="section-number">6.7.1. </span>Examining Point Geometry Structure<a class="headerlink" href="#examining-point-geometry-structure" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT ST_AsText(geom)</span>
+<span class="sd">FROM samples</span>
+<span class="sd">WHERE name = &#39;Point&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="extracting-coordinate-values">
 <h3><span class="section-number">6.7.2. </span>Extracting Coordinate Values<a class="headerlink" href="#extracting-coordinate-values" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name,</span>
+<span class="sd">       ST_X(geom) AS x_coordinate,</span>
+<span class="sd">       ST_Y(geom) AS y_coordinate</span>
+<span class="sd">FROM samples</span>
+<span class="sd">WHERE name = &#39;Point&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="analyzing-real-world-point-data">
 <h3><span class="section-number">6.7.3. </span>Analyzing Real-World Point Data<a class="headerlink" href="#analyzing-real-world-point-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT * FROM nyc_subway_stations LIMIT 5;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name,</span>
+<span class="sd">       ROUTES,</span>
+<span class="sd">       ST_AsText(geom) AS wkt_geometry,</span>
+<span class="sd">       ST_X(geom) AS easting,</span>
+<span class="sd">       ST_Y(geom) AS northing</span>
+<span class="sd">FROM nyc_subway_stations</span>
+<span class="sd">LIMIT 10;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="working-with-linestrings">
 <h2><span class="section-number">6.8. </span>Working with Linestrings<a class="headerlink" href="#working-with-linestrings" title="Link to this heading">#</a></h2>
 <section id="examining-linestring-geometry-structure">
 <h3><span class="section-number">6.8.1. </span>Examining Linestring Geometry Structure<a class="headerlink" href="#examining-linestring-geometry-structure" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT ST_AsText(geom)</span>
+<span class="sd">  FROM samples</span>
+<span class="sd">  WHERE name = &#39;Linestring&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="extracting-linestring-properties">
 <h3><span class="section-number">6.8.2. </span>Extracting Linestring Properties<a class="headerlink" href="#extracting-linestring-properties" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT ST_Length(geom)</span>
+<span class="sd">  FROM samples</span>
+<span class="sd">  WHERE name = &#39;Linestring&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="working-with-polygons">
 <h2><span class="section-number">6.9. </span>Working with Polygons<a class="headerlink" href="#working-with-polygons" title="Link to this heading">#</a></h2>
 <section id="examining-polygon-geometry-structure">
 <h3><span class="section-number">6.9.1. </span>Examining Polygon Geometry Structure<a class="headerlink" href="#examining-polygon-geometry-structure" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name, ST_AsText(geom)</span>
+<span class="sd">  FROM samples</span>
+<span class="sd">  WHERE name LIKE &#39;Polygon%&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="analyzing-polygon-properties">
 <h3><span class="section-number">6.9.2. </span>Analyzing Polygon Properties<a class="headerlink" href="#analyzing-polygon-properties" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name, ST_Area(geom) AS area_sq_units</span>
+<span class="sd">  FROM samples</span>
+<span class="sd">  WHERE name LIKE &#39;Polygon%&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="working-with-collections">
 <h2><span class="section-number">6.10. </span>Working with Collections<a class="headerlink" href="#working-with-collections" title="Link to this heading">#</a></h2>
 <section id="examining-collection-geometry-structure">
 <h3><span class="section-number">6.10.1. </span>Examining Collection Geometry Structure<a class="headerlink" href="#examining-collection-geometry-structure" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name, ST_AsText(geom)</span>
+<span class="sd">  FROM samples</span>
+<span class="sd">  WHERE name = &#39;Collection&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="visualizing-nyc-spatial-data">
 <h2><span class="section-number">6.11. </span>Visualizing NYC Spatial Data<a class="headerlink" href="#visualizing-nyc-spatial-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SHOW TABLES;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="visualizing-subway-stations-points">
 <h3><span class="section-number">6.11.1. </span>Visualizing Subway Stations (Points)<a class="headerlink" href="#visualizing-subway-stations-points" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">subway_stations_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT * EXCLUDE geom, ST_AsText(geom) as geometry FROM nyc_subway_stations&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">subway_stations_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">subway_stations_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span>
+    <span class="n">subway_stations_df</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:26918&quot;</span><span class="p">,</span> <span class="n">dst_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="p">)</span>
+<span class="n">subway_stations_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">subway_stations_gdf</span><span class="o">.</span><span class="n">explore</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="visualizing-streets-linestrings">
 <h3><span class="section-number">6.11.2. </span>Visualizing Streets (LineStrings)<a class="headerlink" href="#visualizing-streets-linestrings" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nyc_streets_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT * EXCLUDE geom, ST_AsText(geom) as geometry FROM nyc_streets&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">nyc_streets_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nyc_streets_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span>
+    <span class="n">nyc_streets_df</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:26918&quot;</span><span class="p">,</span> <span class="n">dst_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="p">)</span>
+<span class="n">nyc_streets_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nyc_streets_gdf</span><span class="o">.</span><span class="n">explore</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="geometry-processing">
 <h2><span class="section-number">6.12. </span>Geometry Processing<a class="headerlink" href="#geometry-processing" title="Link to this heading">#</a></h2>
 <section id="creating-buffers-and-finding-centroids">
 <h3><span class="section-number">6.12.1. </span>Creating Buffers and Finding Centroids<a class="headerlink" href="#creating-buffers-and-finding-centroids" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name,</span>
+<span class="sd">       ST_AsText(ST_Centroid(geom)) AS centroid,</span>
+<span class="sd">       ST_AsText(ST_Buffer(geom, 50)) AS buffer_50</span>
+<span class="sd">FROM samples</span>
+<span class="sd">WHERE name IN (&#39;Point&#39;,&#39;Linestring&#39;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="simplification-and-envelopes">
 <h3><span class="section-number">6.12.2. </span>Simplification and Envelopes<a class="headerlink" href="#simplification-and-envelopes" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name,</span>
+<span class="sd">       ST_AsText(ST_Simplify(geom, 0.05)) AS simplified,</span>
+<span class="sd">       ST_AsText(ST_Envelope(geom)) AS envelope</span>
+<span class="sd">FROM samples</span>
+<span class="sd">WHERE name LIKE &#39;Polygon%&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="overlay-operations">
 <h3><span class="section-number">6.12.3. </span>Overlay Operations<a class="headerlink" href="#overlay-operations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">WITH a AS (</span>
+<span class="sd">  SELECT ST_GeomFromText(&#39;POLYGON((0 0, 3 0, 3 3, 0 3, 0 0))&#39;) AS g</span>
+<span class="sd">), b AS (</span>
+<span class="sd">  SELECT ST_GeomFromText(&#39;POLYGON((2 -1, 5 -1, 5 2, 2 2, 2 -1))&#39;) AS g</span>
+<span class="sd">)</span>
+<span class="sd">SELECT ST_AsText(ST_Intersection(a.g, b.g)) AS inter,</span>
+<span class="sd">       ST_AsText(ST_Difference(a.g, b.g)) AS only_a,</span>
+<span class="sd">       ST_AsText(ST_Union(a.g, b.g)) AS unioned</span>
+<span class="sd">FROM a, b;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="geometry-validity-and-robustness">
@@ -650,6 +978,58 @@ document.write(`
 <h3><span class="section-number">6.13.2. </span>Testing and Repairing Geometry Validity<a class="headerlink" href="#testing-and-repairing-geometry-validity" title="Link to this heading">#</a></h3>
 <section id="example-1-self-intersecting-polygon-bow-tie-shape">
 <h4><span class="section-number">6.13.2.1. </span>Example 1: Self-Intersecting Polygon (Bow-Tie Shape)<a class="headerlink" href="#example-1-self-intersecting-polygon-bow-tie-shape" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">-- Create a table with a valid and an invalid polygon</span>
+<span class="sd">CREATE TABLE polygons AS</span>
+<span class="sd">SELECT</span>
+<span class="sd">    1 AS id,</span>
+<span class="sd">    ST_GeomFromText(&#39;POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))&#39;) AS geom</span>
+<span class="sd">UNION ALL</span>
+<span class="sd">SELECT</span>
+<span class="sd">    2 AS id,</span>
+<span class="sd">    ST_GeomFromText(&#39;POLYGON((0 0, 1 1, 1 0, 0 1, 0 0))&#39;) AS geom;  -- self-intersecting &quot;bow-tie&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">-- Check which geometries are valid</span>
+<span class="sd">SELECT</span>
+<span class="sd">    id,</span>
+<span class="sd">    ST_AsText(geom) AS wkt,</span>
+<span class="sd">    ST_IsValid(geom) AS is_valid</span>
+<span class="sd">FROM polygons;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">-- Fix invalid geometries using ST_MakeValid()</span>
+<span class="sd">SELECT</span>
+<span class="sd">    id,</span>
+<span class="sd">    ST_IsValid(geom) AS before_valid,</span>
+<span class="sd">    ST_IsValid(ST_MakeValid(geom)) AS after_valid,</span>
+<span class="sd">    ST_AsText(ST_MakeValid(geom)) AS repaired_geom</span>
+<span class="sd">FROM polygons;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 </section>

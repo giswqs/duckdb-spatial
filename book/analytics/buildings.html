@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -463,48 +463,60 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">12.1. Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">12.2. Learning Objectives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-dataset">12.3. About the Dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">12.4. Installation and Setup</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#library-import-and-verification">12.4.1. Library Import and Verification</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">12.4. Installation and Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-loading-extensions">12.5. Installing and Loading Extensions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-available-data">12.6. Exploring Available Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-dataset-scale">12.6.1. Understanding the Dataset Scale</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-the-complete-dataset">12.6.2. Counting the Complete Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-buildings-in-3d">12.6.3. Visualizing Buildings in 3D</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-analysis-with-bounding-box-filtering">12.7. Regional Analysis with Bounding Box Filtering</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-regional-data-with-spatial-filters">12.7.1. Loading Regional Data with Spatial Filters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-statistics">12.7.2. Basic Statistics</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-size-distribution">12.7.3. Building Size Distribution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-sampling-and-visualization">12.7.4. Spatial Sampling and Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-regional-data">12.7.2. Exporting Regional Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-statistics">12.7.3. Basic Statistics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-size-distribution">12.7.4. Building Size Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-sampling-and-visualization">12.7.5. Spatial Sampling and Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-buildings-directly-from-duckdb">12.7.6. Visualizing Buildings Directly from DuckDB</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-driven-styling-by-building-area">12.7.7. Data-Driven Styling by Building Area</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-region-comparison">12.8. Multi-Region Comparison</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-region-comparisons">12.8.1. Visualizing Region Comparisons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-multi-county-analysis">12.8.1. Setting Up Multi-County Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-county-boundaries">12.8.2. Loading County Boundaries</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-source-filtering-and-quality-assessment">12.9. Data Source Filtering and Quality Assessment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-based-spatial-aggregation">12.10. Grid-Based Spatial Aggregation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-scale-analysis">12.11. Global-Scale Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-height-analysis">12.12. Building Height Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#h3-based-aggregation">12.13. H3-Based Aggregation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">12.14. Performance Considerations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-tight-bounding-box-filters">12.14.1. Using Tight Bounding Box Filters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#column-selection">12.14.2. Column Selection</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-for-exploration">12.14.3. Sampling for Exploration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-once-query-many-times">12.14.4. Load Once, Query Many Times</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-source-filtering-and-quality-assessment">12.9. Data Source Filtering and Quality Assessment</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-by-data-source-quality">12.9.1. Filtering by Data Source Quality</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-data-source-distribution">12.9.2. Visualizing Data Source Distribution</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">12.15. Key Takeaways</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">12.16. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-1-regional-deep-dive">12.16.1. Exercise 12.1: Regional Deep Dive</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-2-multi-resolution-grid-analysis">12.16.2. Exercise 12.2: Multi-Resolution Grid Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-3-cross-regional-building-size-analysis">12.16.3. Exercise 12.3: Cross-Regional Building Size Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-4-data-source-quality-analysis">12.16.4. Exercise 12.4: Data Source Quality Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-5-building-height-analysis">12.16.5. Exercise 12.5: Building Height Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-6-query-performance-optimization-challenge">12.16.6. Exercise 12.6: Query Performance Optimization Challenge</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-7-h3-hexagonal-aggregation-analysis">12.16.7. Exercise 12.7: H3 Hexagonal Aggregation Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-8-global-scale-sampling-analysis">12.16.8. Exercise 12.8: Global-Scale Sampling Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-based-spatial-aggregation">12.10. Grid-Based Spatial Aggregation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-grid-analysis">12.10.1. Setting Up Grid Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-a-regular-grid">12.10.2. Generating a Regular Grid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-grid-into-duckdb">12.10.3. Loading Grid into DuckDB</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performing-spatial-aggregation">12.10.4. Performing Spatial Aggregation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-grid-aggregation-results">12.10.5. Visualizing Grid Aggregation Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-building-data-with-h3-hexagonal-grids">12.11. Aggregating Building Data with H3 Hexagonal Grids</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-h3-s-advantages-over-traditional-grids">12.11.1. Understanding H3’s Advantages Over Traditional Grids</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-loading-the-h3-extension">12.11.2. Installing and Loading the H3 Extension</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-appropriate-h3-resolutions">12.11.3. Choosing Appropriate H3 Resolutions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-h3-based-building-aggregations">12.11.4. Creating H3-Based Building Aggregations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-h3-aggregations">12.11.5. Visualizing H3 Aggregations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-visualization-with-extruded-hexagons">12.11.6. 3D Visualization with Extruded Hexagons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-h3-operations">12.11.7. Advanced H3 Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-h3-vs-other-aggregation-methods">12.11.8. When to Use H3 vs. Other Aggregation Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">12.12. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">12.13. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-regional-deep-dive">12.13.1. Exercise 1: Regional Deep Dive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-multi-resolution-grid-analysis">12.13.2. Exercise 2: Multi-Resolution Grid Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-cross-regional-building-size-analysis">12.13.3. Exercise 3: Cross-Regional Building Size Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-data-source-quality-analysis">12.13.4. Exercise 4: Data Source Quality Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-building-height-analysis">12.13.5. Exercise 5: Building Height Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -531,98 +543,921 @@ document.write(`
 </section>
 <section id="installation-and-setup">
 <h2><span class="section-number">12.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
-<section id="library-import-and-verification">
-<h3><span class="section-number">12.4.1. </span>Library Import and Verification<a class="headerlink" href="#library-import-and-verification" title="Link to this heading">#</a></h3>
-</section>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install duckdb &quot;leafmap[duckdb]&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.maplibregl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="installing-and-loading-extensions">
 <h2><span class="section-number">12.5. </span>Installing and Loading Extensions<a class="headerlink" href="#installing-and-loading-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;buildings.db&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exploring-available-data">
 <h2><span class="section-number">12.6. </span>Exploring Available Data<a class="headerlink" href="#exploring-available-data" title="Link to this heading">#</a></h2>
 <section id="understanding-the-dataset-scale">
 <h3><span class="section-number">12.6.1. </span>Understanding the Dataset Scale<a class="headerlink" href="#understanding-the-dataset-scale" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">release</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">get_overture_latest_release</span><span class="p">(</span><span class="n">patch</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">release</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;s3://overturemaps-us-west-2/release/</span><span class="si">{</span><span class="n">release</span><span class="si">}</span><span class="s2">/theme=buildings/type=building/*.parquet&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Examine the first few records to understand the schema</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM read_parquet(&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;)</span>
+<span class="s2">LIMIT 10</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="counting-the-complete-dataset">
+<h3><span class="section-number">12.6.2. </span>Counting the Complete Dataset<a class="headerlink" href="#counting-the-complete-dataset" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT COUNT(*) as count</span>
+<span class="s2">FROM read_parquet(&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-buildings-in-3d">
+<h3><span class="section-number">12.6.3. </span>Visualizing Buildings in 3D<a class="headerlink" href="#visualizing-buildings-in-3d" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+    <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">74.009789</span><span class="p">,</span> <span class="mf">40.709945</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mf">14.65</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">bearing</span><span class="o">=-</span><span class="mi">17</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;OpenStreetMap.Mapnik&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_overture_3d_buildings</span><span class="p">(</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;lightgray&quot;</span><span class="p">,</span> <span class="s2">&quot;royalblue&quot;</span><span class="p">,</span> <span class="s2">&quot;lightblue&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="regional-analysis-with-bounding-box-filtering">
 <h2><span class="section-number">12.7. </span>Regional Analysis with Bounding Box Filtering<a class="headerlink" href="#regional-analysis-with-bounding-box-filtering" title="Link to this heading">#</a></h2>
 <section id="loading-regional-data-with-spatial-filters">
 <h3><span class="section-number">12.7.1. </span>Loading Regional Data with Spatial Filters<a class="headerlink" href="#loading-regional-data-with-spatial-filters" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define bounding box for Colorado (approximate)</span>
+<span class="n">min_lon</span><span class="p">,</span> <span class="n">max_lon</span> <span class="o">=</span> <span class="o">-</span><span class="mf">109.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">102.0</span>
+<span class="n">min_lat</span><span class="p">,</span> <span class="n">max_lat</span> <span class="o">=</span> <span class="mf">37.0</span><span class="p">,</span> <span class="mf">41.0</span>
+
+<span class="c1"># Create a table for the region&#39;s buildings</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE TABLE IF NOT EXISTS buildings AS</span>
+<span class="s2">SELECT</span>
+<span class="s2">    id,</span>
+<span class="s2">    geometry,</span>
+<span class="s2">    bbox,</span>
+<span class="s2">    height,</span>
+<span class="s2">    num_floors,</span>
+<span class="s2">    class,</span>
+<span class="s2">    sources,</span>
+<span class="s2">    REPLACE(CAST(sources-&gt;0-&gt;&#39;dataset&#39; as VARCHAR), &#39;&quot;&#39;, &#39;&#39;) as source,</span>
+<span class="s2">    ROUND(ST_Area(ST_Transform(geometry, &#39;EPSG:4326&#39;, &#39;EPSG:32613&#39;, true)), 2) as area_sq_meters</span>
+<span class="s2">FROM read_parquet(&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;)</span>
+<span class="s2">WHERE bbox.xmin &gt;= </span><span class="si">{</span><span class="n">min_lon</span><span class="si">}</span><span class="s2"> AND bbox.xmax &lt;= </span><span class="si">{</span><span class="n">max_lon</span><span class="si">}</span>
+<span class="s2">  AND bbox.ymin &gt;= </span><span class="si">{</span><span class="n">min_lat</span><span class="si">}</span><span class="s2"> AND bbox.ymax &lt;= </span><span class="si">{</span><span class="n">max_lat</span><span class="si">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;FROM buildings LIMIT 10&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exporting-regional-data">
+<h3><span class="section-number">12.7.2. </span>Exporting Regional Data<a class="headerlink" href="#exporting-regional-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY buildings TO &#39;buildings.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="basic-statistics">
-<h3><span class="section-number">12.7.2. </span>Basic Statistics<a class="headerlink" href="#basic-statistics" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">12.7.3. </span>Basic Statistics<a class="headerlink" href="#basic-statistics" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count total buildings in Colorado</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) as total_buildings FROM buildings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate comprehensive area statistics</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    COUNT(*) as building_count,</span>
+<span class="sd">    ROUND(SUM(area_sq_meters) / 1000000, 2) as total_area_sq_km,</span>
+<span class="sd">    ROUND(AVG(area_sq_meters), 2) as avg_building_area,</span>
+<span class="sd">    ROUND(MIN(area_sq_meters), 2) as min_area,</span>
+<span class="sd">    ROUND(MAX(area_sq_meters), 2) as max_area,</span>
+<span class="sd">    ROUND(MEDIAN(area_sq_meters), 2) as median_area</span>
+<span class="sd">FROM buildings</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="building-size-distribution">
-<h3><span class="section-number">12.7.3. </span>Building Size Distribution<a class="headerlink" href="#building-size-distribution" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">12.7.4. </span>Building Size Distribution<a class="headerlink" href="#building-size-distribution" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Categorize buildings by size</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    CASE</span>
+<span class="sd">        WHEN area_sq_meters &lt; 50 THEN &#39;Small (&lt;50 m²)&#39;</span>
+<span class="sd">        WHEN area_sq_meters &lt; 100 THEN &#39;Medium (50-100 m²)&#39;</span>
+<span class="sd">        WHEN area_sq_meters &lt; 200 THEN &#39;Large (100-200 m²)&#39;</span>
+<span class="sd">        ELSE &#39;Very Large (&gt;200 m²)&#39;</span>
+<span class="sd">    END as size_category,</span>
+<span class="sd">    COUNT(*) as count,</span>
+<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage</span>
+<span class="sd">FROM buildings</span>
+<span class="sd">GROUP BY size_category</span>
+<span class="sd">ORDER BY MIN(area_sq_meters)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="spatial-sampling-and-visualization">
-<h3><span class="section-number">12.7.4. </span>Spatial Sampling and Visualization<a class="headerlink" href="#spatial-sampling-and-visualization" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">12.7.5. </span>Spatial Sampling and Visualization<a class="headerlink" href="#spatial-sampling-and-visualization" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sample 10,000 buildings for visualization</span>
+<span class="n">sample_gdf</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT area_sq_meters, ST_AsText(geometry) as geometry</span>
+<span class="sd">FROM buildings</span>
+<span class="sd">USING SAMPLE 10000</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+
+<span class="c1"># Convert to GeoDataFrame</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">sample_gdf</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize the building sample</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">104.978833</span><span class="p">,</span> <span class="mf">39.740018</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+    <span class="n">gdf</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;area_sq_meters&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlGn&quot;</span><span class="p">,</span>
+    <span class="n">legend_title</span><span class="o">=</span><span class="s2">&quot;Building Area (m²)&quot;</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-buildings-directly-from-duckdb">
+<h3><span class="section-number">12.7.6. </span>Visualizing Buildings Directly from DuckDB<a class="headerlink" href="#visualizing-buildings-directly-from-duckdb" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+    <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">104.991531</span><span class="p">,</span> <span class="mf">39.742043</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;600px&quot;</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_duckdb_layer</span><span class="p">(</span>
+    <span class="n">database_path</span><span class="o">=</span><span class="s2">&quot;buildings.db&quot;</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;buildings&quot;</span><span class="p">,</span>
+    <span class="n">geom_column</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span>
+    <span class="n">layer_name</span><span class="o">=</span><span class="s2">&quot;Buildings&quot;</span><span class="p">,</span>
+    <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span>
+    <span class="n">paint</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fill-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#3388ff&quot;</span><span class="p">,</span> <span class="s2">&quot;fill-outline-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#ffffff&quot;</span><span class="p">},</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+    <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-driven-styling-by-building-area">
+<h3><span class="section-number">12.7.7. </span>Data-Driven Styling by Building Area<a class="headerlink" href="#data-driven-styling-by-building-area" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+    <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">104.991531</span><span class="p">,</span> <span class="mf">39.742043</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;600px&quot;</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">)</span>
+
+<span class="n">paint</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;fill-color&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;interpolate&quot;</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;area_sq_meters&quot;</span><span class="p">],</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;#000004&quot;</span><span class="p">,</span>
+        <span class="mi">50</span><span class="p">,</span>
+        <span class="s2">&quot;#781c6d&quot;</span><span class="p">,</span>
+        <span class="mi">100</span><span class="p">,</span>
+        <span class="s2">&quot;#ed6925&quot;</span><span class="p">,</span>
+        <span class="mi">200</span><span class="p">,</span>
+        <span class="s2">&quot;#fcffa4&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_duckdb_layer</span><span class="p">(</span>
+    <span class="n">database_path</span><span class="o">=</span><span class="s2">&quot;buildings.db&quot;</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;buildings&quot;</span><span class="p">,</span>
+    <span class="n">geom_column</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span>
+    <span class="n">layer_name</span><span class="o">=</span><span class="s2">&quot;Buildings&quot;</span><span class="p">,</span>
+    <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span>
+    <span class="n">paint</span><span class="o">=</span><span class="n">paint</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+    <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">legend_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Small (&lt;50 m²)&quot;</span><span class="p">:</span> <span class="s2">&quot;#000004&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Medium (50-100 m²)&quot;</span><span class="p">:</span> <span class="s2">&quot;#781c6d&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Large (100-200 m²)&quot;</span><span class="p">:</span> <span class="s2">&quot;#ed6925&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Very Large (&gt;200 m²)&quot;</span><span class="p">:</span> <span class="s2">&quot;#fcffa4&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Build Category&quot;</span><span class="p">,</span> <span class="n">legend_dict</span><span class="o">=</span><span class="n">legend_dict</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">close_db_connections</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="multi-region-comparison">
 <h2><span class="section-number">12.8. </span>Multi-Region Comparison<a class="headerlink" href="#multi-region-comparison" title="Link to this heading">#</a></h2>
-<section id="visualizing-region-comparisons">
-<h3><span class="section-number">12.8.1. </span>Visualizing Region Comparisons<a class="headerlink" href="#visualizing-region-comparisons" title="Link to this heading">#</a></h3>
+<section id="setting-up-multi-county-analysis">
+<h3><span class="section-number">12.8.1. </span>Setting Up Multi-County Analysis<a class="headerlink" href="#setting-up-multi-county-analysis" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE buildings AS FROM &#39;buildings.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;DESCRIBE buildings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="loading-county-boundaries">
+<h3><span class="section-number">12.8.2. </span>Loading County Boundaries<a class="headerlink" href="#loading-county-boundaries" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load Colorado county boundaries</span>
+<span class="n">counties_url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/us/us_counties.parquet&quot;</span>
+<span class="n">counties_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">read_vector</span><span class="p">(</span><span class="n">counties_url</span><span class="p">)</span>
+<span class="n">counties_gdf</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="n">counties_gdf</span> <span class="o">=</span> <span class="n">counties_gdf</span><span class="p">[</span><span class="n">counties_gdf</span><span class="p">[</span><span class="s2">&quot;STATE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;08&quot;</span><span class="p">]</span>
+<span class="n">counties_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">counties_gdf</span><span class="o">.</span><span class="n">explore</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, create a temporary table with county boundaries</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CREATE OR REPLACE TABLE counties AS</span>
+<span class="sd">SELECT</span>
+<span class="sd">    NAME as county_name,</span>
+<span class="sd">    geometry</span>
+<span class="sd">FROM read_parquet(&#39;https://data.gishub.org/us/us_counties.parquet&#39;)</span>
+<span class="sd">WHERE STATE = &#39;08&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Perform spatial join and calculate statistics by county</span>
+<span class="n">comparison_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    c.county_name,</span>
+<span class="sd">    COUNT(b.*) as building_count,</span>
+<span class="sd">    ROUND(SUM(b.area_sq_meters) / 1000000, 2) as total_area_sq_km,</span>
+<span class="sd">    ROUND(AVG(b.area_sq_meters), 2) as avg_building_size,</span>
+<span class="sd">    ROUND(MEDIAN(b.area_sq_meters), 2) as median_building_size</span>
+<span class="sd">FROM buildings b</span>
+<span class="sd">JOIN counties c ON ST_Intersects(b.geometry, c.geometry)</span>
+<span class="sd">GROUP BY c.county_name</span>
+<span class="sd">ORDER BY building_count DESC</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">comparison_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a bar chart comparing building counts for top 20 counties</span>
+<span class="n">top_counties</span> <span class="o">=</span> <span class="n">comparison_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">leafmap</span><span class="o">.</span><span class="n">bar_chart</span><span class="p">(</span>
+    <span class="n">top_counties</span><span class="p">,</span>
+    <span class="s2">&quot;county_name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;building_count&quot;</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">&quot;County&quot;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s2">&quot;Building Count&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Building Count by County (Top 20)&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare average building sizes for top counties</span>
+<span class="n">leafmap</span><span class="o">.</span><span class="n">bar_chart</span><span class="p">(</span>
+    <span class="n">top_counties</span><span class="p">,</span>
+    <span class="s2">&quot;county_name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;avg_building_size&quot;</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">&quot;County&quot;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s2">&quot;Average Building Size (m²)&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Average Building Size by County (m²)&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="data-source-filtering-and-quality-assessment">
 <h2><span class="section-number">12.9. </span>Data Source Filtering and Quality Assessment<a class="headerlink" href="#data-source-filtering-and-quality-assessment" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Examine data sources in the buildings</span>
+<span class="n">source_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    source,</span>
+<span class="s2">    COUNT(*) as building_count,</span>
+<span class="s2">    ROUND(AVG(area_sq_meters), 2) as avg_area,</span>
+<span class="s2">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage</span>
+<span class="s2">FROM buildings</span>
+<span class="s2">WHERE sources IS NOT NULL</span>
+<span class="s2">GROUP BY source</span>
+<span class="s2">ORDER BY building_count DESC</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">source_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">source_query</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">source_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">pie_chart</span><span class="p">(</span>
+    <span class="n">source_df</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;building_count&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Building Count by Source&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="filtering-by-data-source-quality">
+<h3><span class="section-number">12.9.1. </span>Filtering by Data Source Quality<a class="headerlink" href="#filtering-by-data-source-quality" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter to OSM buildings only</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    COUNT(*) as osm_building_count,</span>
+<span class="sd">    ROUND(AVG(area_sq_meters), 2) as avg_area,</span>
+<span class="sd">    COUNT(CASE WHEN height IS NOT NULL THEN 1 END) as buildings_with_height,</span>
+<span class="sd">    COUNT(CASE WHEN num_floors IS NOT NULL THEN 1 END) as buildings_with_floors,</span>
+<span class="sd">    COUNT(CASE WHEN class IS NOT NULL THEN 1 END) as buildings_with_class</span>
+<span class="sd">FROM buildings</span>
+<span class="sd">WHERE source=&#39;OpenStreetMap&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-data-source-distribution">
+<h3><span class="section-number">12.9.2. </span>Visualizing Data Source Distribution<a class="headerlink" href="#visualizing-data-source-distribution" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+    <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">105.012019</span><span class="p">,</span> <span class="mf">39.675236</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;600px&quot;</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">)</span>
+
+<span class="n">paint</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;fill-color&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;case&quot;</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">],</span> <span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;#FF0000&quot;</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">],</span> <span class="s2">&quot;Microsoft ML Buildings&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;#00FF00&quot;</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">&quot;==&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">],</span> <span class="s2">&quot;Esri Community Maps&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;#0000FF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#000000&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_duckdb_layer</span><span class="p">(</span>
+    <span class="n">database_path</span><span class="o">=</span><span class="s2">&quot;buildings.db&quot;</span><span class="p">,</span>
+    <span class="n">table_name</span><span class="o">=</span><span class="s2">&quot;buildings&quot;</span><span class="p">,</span>
+    <span class="n">geom_column</span><span class="o">=</span><span class="s2">&quot;geometry&quot;</span><span class="p">,</span>
+    <span class="n">layer_name</span><span class="o">=</span><span class="s2">&quot;Buildings&quot;</span><span class="p">,</span>
+    <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span>
+    <span class="n">paint</span><span class="o">=</span><span class="n">paint</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+    <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">legend_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">:</span> <span class="s2">&quot;#FF0000&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Microsoft ML Buildings&quot;</span><span class="p">:</span> <span class="s2">&quot;#00FF00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Esri Community Maps&quot;</span><span class="p">:</span> <span class="s2">&quot;#0000FF&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Data Source&quot;</span><span class="p">,</span> <span class="n">legend_dict</span><span class="o">=</span><span class="n">legend_dict</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">close_db_connections</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="grid-based-spatial-aggregation">
 <h2><span class="section-number">12.10. </span>Grid-Based Spatial Aggregation<a class="headerlink" href="#grid-based-spatial-aggregation" title="Link to this heading">#</a></h2>
+<section id="setting-up-grid-analysis">
+<h3><span class="section-number">12.10.1. </span>Setting Up Grid Analysis<a class="headerlink" href="#setting-up-grid-analysis" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE buildings AS FROM &#39;buildings.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="global-scale-analysis">
-<h2><span class="section-number">12.11. </span>Global-Scale Analysis<a class="headerlink" href="#global-scale-analysis" title="Link to this heading">#</a></h2>
+<section id="generating-a-regular-grid">
+<h3><span class="section-number">12.10.2. </span>Generating a Regular Grid<a class="headerlink" href="#generating-a-regular-grid" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extent</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">109.1</span><span class="p">,</span> <span class="mf">37.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">102.0</span><span class="p">,</span> <span class="mf">41.0</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">generate_latlon_grid</span><span class="p">(</span><span class="n">extent</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">&quot;grid.geojson&quot;</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of grid cells: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">explore</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="building-height-analysis">
-<h2><span class="section-number">12.12. </span>Building Height Analysis<a class="headerlink" href="#building-height-analysis" title="Link to this heading">#</a></h2>
+<section id="loading-grid-into-duckdb">
+<h3><span class="section-number">12.10.3. </span>Loading Grid into DuckDB<a class="headerlink" href="#loading-grid-into-duckdb" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CREATE OR REPLACE TABLE grid AS</span>
+<span class="sd">SELECT * FROM ST_Read(&#39;grid.geojson&#39;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SHOW TABLES&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="h3-based-aggregation">
-<h2><span class="section-number">12.13. </span>H3-Based Aggregation<a class="headerlink" href="#h3-based-aggregation" title="Link to this heading">#</a></h2>
+<section id="performing-spatial-aggregation">
+<h3><span class="section-number">12.10.4. </span>Performing Spatial Aggregation<a class="headerlink" href="#performing-spatial-aggregation" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CREATE OR REPLACE TABLE grid_building_counts AS</span>
+<span class="sd">SELECT</span>
+<span class="sd">    g.id,</span>
+<span class="sd">    g.lon_min,</span>
+<span class="sd">    g.lat_min,</span>
+<span class="sd">    g.lon_max,</span>
+<span class="sd">    g.lat_max,</span>
+<span class="sd">    g.geom,</span>
+<span class="sd">    COUNT(b.*) AS building_count</span>
+<span class="sd">FROM grid AS g</span>
+<span class="sd">LEFT JOIN buildings AS b</span>
+<span class="sd">    ON ST_Intersects(g.geom, b.geometry)</span>
+<span class="sd">GROUP BY</span>
+<span class="sd">    g.id,</span>
+<span class="sd">    g.lon_min,</span>
+<span class="sd">    g.lat_min,</span>
+<span class="sd">    g.lon_max,</span>
+<span class="sd">    g.lat_max,</span>
+<span class="sd">    g.geom</span>
+<span class="sd">ORDER BY</span>
+<span class="sd">    g.id;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="performance-considerations">
-<h2><span class="section-number">12.14. </span>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h2>
-<section id="using-tight-bounding-box-filters">
-<h3><span class="section-number">12.14.1. </span>Using Tight Bounding Box Filters<a class="headerlink" href="#using-tight-bounding-box-filters" title="Link to this heading">#</a></h3>
+<section id="visualizing-grid-aggregation-results">
+<h3><span class="section-number">12.10.5. </span>Visualizing Grid Aggregation Results<a class="headerlink" href="#visualizing-grid-aggregation-results" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grid_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT * EXCLUDE (geom), ST_AsText(geom) AS geometry FROM grid_building_counts&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">grid_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">grid_df</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+<span class="n">grid_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">,</span> <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+    <span class="n">grid_gdf</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;building_count&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Building Count&quot;</span><span class="p">,</span>
+    <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="column-selection">
-<h3><span class="section-number">12.14.2. </span>Column Selection<a class="headerlink" href="#column-selection" title="Link to this heading">#</a></h3>
 </section>
-<section id="sampling-for-exploration">
-<h3><span class="section-number">12.14.3. </span>Sampling for Exploration<a class="headerlink" href="#sampling-for-exploration" title="Link to this heading">#</a></h3>
+<section id="aggregating-building-data-with-h3-hexagonal-grids">
+<h2><span class="section-number">12.11. </span>Aggregating Building Data with H3 Hexagonal Grids<a class="headerlink" href="#aggregating-building-data-with-h3-hexagonal-grids" title="Link to this heading">#</a></h2>
+<section id="understanding-h3-s-advantages-over-traditional-grids">
+<h3><span class="section-number">12.11.1. </span>Understanding H3’s Advantages Over Traditional Grids<a class="headerlink" href="#understanding-h3-s-advantages-over-traditional-grids" title="Link to this heading">#</a></h3>
 </section>
-<section id="load-once-query-many-times">
-<h3><span class="section-number">12.14.4. </span>Load Once, Query Many Times<a class="headerlink" href="#load-once-query-many-times" title="Link to this heading">#</a></h3>
+<section id="installing-and-loading-the-h3-extension">
+<h3><span class="section-number">12.11.2. </span>Installing and Loading the H3 Extension<a class="headerlink" href="#installing-and-loading-the-h3-extension" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;h3&quot;</span><span class="p">,</span> <span class="n">repository</span><span class="o">=</span><span class="s2">&quot;community&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;h3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="choosing-appropriate-h3-resolutions">
+<h3><span class="section-number">12.11.3. </span>Choosing Appropriate H3 Resolutions<a class="headerlink" href="#choosing-appropriate-h3-resolutions" title="Link to this heading">#</a></h3>
+</section>
+<section id="creating-h3-based-building-aggregations">
+<h3><span class="section-number">12.11.4. </span>Creating H3-Based Building Aggregations<a class="headerlink" href="#creating-h3-based-building-aggregations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aggregate buildings into H3 resolution 6 hexagons</span>
+<span class="n">h3_res4_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE TABLE IF NOT EXISTS h3_res4_aggregation AS</span>
+<span class="s2">SELECT</span>
+<span class="s2">    h3_latlng_to_cell(</span>
+<span class="s2">        ST_Y(ST_Centroid(geometry)),</span>
+<span class="s2">        ST_X(ST_Centroid(geometry)),</span>
+<span class="s2">        4</span>
+<span class="s2">    ) as h3_cell,</span>
+<span class="s2">    COUNT(*) as building_count,</span>
+<span class="s2">FROM read_parquet(&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;)</span>
+<span class="s2">WHERE bbox.xmin BETWEEN -178.5 AND 178.5</span>
+<span class="s2">GROUP BY h3_cell</span>
+<span class="s2">ORDER BY building_count DESC</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="c1"># con.sql(h3_res4_query)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">h3_geo_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE OR REPLACE TABLE h3_res4_geo AS</span>
+<span class="s2">SELECT</span>
+<span class="s2">    CAST(h3_cell AS VARCHAR) as h3_cell,</span>
+<span class="s2">    building_count,</span>
+<span class="s2">    ST_GeomFromText(h3_cell_to_boundary_wkt(h3_cell)) as geometry</span>
+<span class="s2">FROM h3_res4_aggregation</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="c1"># con.sql(h3_geo_query)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CREATE TABLE IF NOT EXISTS h3_res4_geo AS</span>
+<span class="sd">SELECT * FROM &#39;https://data.gishub.org/duckdb/h3_res4_geo.parquet&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SHOW TABLES&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY h3_res4_geo TO &#39;h3_res4_geo.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">h3_res4_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">read_vector</span><span class="p">(</span><span class="s2">&quot;h3_res4_geo.parquet&quot;</span><span class="p">)</span>
+<span class="n">h3_res4_gdf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of H3 cells: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">h3_res4_gdf</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-h3-aggregations">
+<h3><span class="section-number">12.11.5. </span>Visualizing H3 Aggregations<a class="headerlink" href="#visualizing-h3-aggregations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">,</span> <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">h3_res4_gdf</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;building_count&quot;</span><span class="p">,</span>
+    <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;JenksCaspall&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">,</span>
+    <span class="n">outline_color</span><span class="o">=</span><span class="s2">&quot;rgba(255, 255, 255, 0)&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;H3 Hexagon&quot;</span><span class="p">,</span>
+    <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="d-visualization-with-extruded-hexagons">
+<h3><span class="section-number">12.11.6. </span>3D Visualization with Extruded Hexagons<a class="headerlink" href="#d-visualization-with-extruded-hexagons" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mf">7.062832</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.144790</span><span class="p">],</span> <span class="n">pitch</span><span class="o">=</span><span class="mf">45.5</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mf">1.57</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">,</span> <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">h3_res4_gdf</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;building_count&quot;</span><span class="p">,</span>
+    <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;JenksCaspall&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">,</span>
+    <span class="n">outline_color</span><span class="o">=</span><span class="s2">&quot;rgba(255, 255, 255, 0)&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;H3 Hexagon&quot;</span><span class="p">,</span>
+    <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span>
+    <span class="n">extrude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="advanced-h3-operations">
+<h3><span class="section-number">12.11.7. </span>Advanced H3 Operations<a class="headerlink" href="#advanced-h3-operations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the densest H3 cell (urban core)</span>
+<span class="n">densest_cell</span> <span class="o">=</span> <span class="n">h3_res4_gdf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;h3_cell&quot;</span><span class="p">]</span>
+
+<span class="c1"># Get neighboring cells using H3 grid_disk function</span>
+<span class="n">neighbors_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT unnest(h3_grid_disk(</span><span class="si">{</span><span class="n">densest_cell</span><span class="si">}</span><span class="s2">, 1)) as h3_cell</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">neighbors_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">neighbors_query</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cell </span><span class="si">{</span><span class="n">densest_cell</span><span class="si">}</span><span class="s2"> has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">neighbors_df</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2"> neighbors&quot;</span><span class="p">)</span>
+<span class="n">neighbors_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">neighbors_df</span><span class="p">[</span><span class="s2">&quot;h3_cell&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">neighbors_df</span><span class="p">[</span><span class="s2">&quot;h3_cell&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">neighbors_df</span> <span class="o">=</span> <span class="n">neighbors_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">h3_res4_gdf</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;h3_cell&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">neighbors_df</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">neighbors_df</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">neighbors_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">neighbors_df</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+<span class="n">neighbors_gdf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">neighbors_gdf</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s2">&quot;building_count&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="when-to-use-h3-vs-other-aggregation-methods">
+<h3><span class="section-number">12.11.8. </span>When to Use H3 vs. Other Aggregation Methods<a class="headerlink" href="#when-to-use-h3-vs-other-aggregation-methods" title="Link to this heading">#</a></h3>
 </section>
 </section>
 <section id="key-takeaways">
-<h2><span class="section-number">12.15. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">12.12. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 </section>
 <section id="exercises">
-<h2><span class="section-number">12.16. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
-<section id="exercise-12-1-regional-deep-dive">
-<h3><span class="section-number">12.16.1. </span>Exercise 12.1: Regional Deep Dive<a class="headerlink" href="#exercise-12-1-regional-deep-dive" title="Link to this heading">#</a></h3>
+<h2><span class="section-number">12.13. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-regional-deep-dive">
+<h3><span class="section-number">12.13.1. </span>Exercise 1: Regional Deep Dive<a class="headerlink" href="#exercise-1-regional-deep-dive" title="Link to this heading">#</a></h3>
 </section>
-<section id="exercise-12-2-multi-resolution-grid-analysis">
-<h3><span class="section-number">12.16.2. </span>Exercise 12.2: Multi-Resolution Grid Analysis<a class="headerlink" href="#exercise-12-2-multi-resolution-grid-analysis" title="Link to this heading">#</a></h3>
+<section id="exercise-2-multi-resolution-grid-analysis">
+<h3><span class="section-number">12.13.2. </span>Exercise 2: Multi-Resolution Grid Analysis<a class="headerlink" href="#exercise-2-multi-resolution-grid-analysis" title="Link to this heading">#</a></h3>
 </section>
-<section id="exercise-12-3-cross-regional-building-size-analysis">
-<h3><span class="section-number">12.16.3. </span>Exercise 12.3: Cross-Regional Building Size Analysis<a class="headerlink" href="#exercise-12-3-cross-regional-building-size-analysis" title="Link to this heading">#</a></h3>
+<section id="exercise-3-cross-regional-building-size-analysis">
+<h3><span class="section-number">12.13.3. </span>Exercise 3: Cross-Regional Building Size Analysis<a class="headerlink" href="#exercise-3-cross-regional-building-size-analysis" title="Link to this heading">#</a></h3>
 </section>
-<section id="exercise-12-4-data-source-quality-analysis">
-<h3><span class="section-number">12.16.4. </span>Exercise 12.4: Data Source Quality Analysis<a class="headerlink" href="#exercise-12-4-data-source-quality-analysis" title="Link to this heading">#</a></h3>
+<section id="exercise-4-data-source-quality-analysis">
+<h3><span class="section-number">12.13.4. </span>Exercise 4: Data Source Quality Analysis<a class="headerlink" href="#exercise-4-data-source-quality-analysis" title="Link to this heading">#</a></h3>
 </section>
-<section id="exercise-12-5-building-height-analysis">
-<h3><span class="section-number">12.16.5. </span>Exercise 12.5: Building Height Analysis<a class="headerlink" href="#exercise-12-5-building-height-analysis" title="Link to this heading">#</a></h3>
-</section>
-<section id="exercise-12-6-query-performance-optimization-challenge">
-<h3><span class="section-number">12.16.6. </span>Exercise 12.6: Query Performance Optimization Challenge<a class="headerlink" href="#exercise-12-6-query-performance-optimization-challenge" title="Link to this heading">#</a></h3>
-</section>
-<section id="exercise-12-7-h3-hexagonal-aggregation-analysis">
-<h3><span class="section-number">12.16.7. </span>Exercise 12.7: H3 Hexagonal Aggregation Analysis<a class="headerlink" href="#exercise-12-7-h3-hexagonal-aggregation-analysis" title="Link to this heading">#</a></h3>
-</section>
-<section id="exercise-12-8-global-scale-sampling-analysis">
-<h3><span class="section-number">12.16.8. </span>Exercise 12.8: Global-Scale Sampling Analysis<a class="headerlink" href="#exercise-12-8-global-scale-sampling-analysis" title="Link to this heading">#</a></h3>
+<section id="exercise-5-building-height-analysis">
+<h3><span class="section-number">12.13.5. </span>Exercise 5: Building Height Analysis<a class="headerlink" href="#exercise-5-building-height-analysis" title="Link to this heading">#</a></h3>
 </section>
 </section>
 </section>
@@ -694,48 +1529,60 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">12.1. Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">12.2. Learning Objectives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about-the-dataset">12.3. About the Dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">12.4. Installation and Setup</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#library-import-and-verification">12.4.1. Library Import and Verification</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-setup">12.4. Installation and Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-loading-extensions">12.5. Installing and Loading Extensions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-available-data">12.6. Exploring Available Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-dataset-scale">12.6.1. Understanding the Dataset Scale</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counting-the-complete-dataset">12.6.2. Counting the Complete Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-buildings-in-3d">12.6.3. Visualizing Buildings in 3D</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-analysis-with-bounding-box-filtering">12.7. Regional Analysis with Bounding Box Filtering</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-regional-data-with-spatial-filters">12.7.1. Loading Regional Data with Spatial Filters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-statistics">12.7.2. Basic Statistics</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-size-distribution">12.7.3. Building Size Distribution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-sampling-and-visualization">12.7.4. Spatial Sampling and Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-regional-data">12.7.2. Exporting Regional Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-statistics">12.7.3. Basic Statistics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-size-distribution">12.7.4. Building Size Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-sampling-and-visualization">12.7.5. Spatial Sampling and Visualization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-buildings-directly-from-duckdb">12.7.6. Visualizing Buildings Directly from DuckDB</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-driven-styling-by-building-area">12.7.7. Data-Driven Styling by Building Area</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-region-comparison">12.8. Multi-Region Comparison</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-region-comparisons">12.8.1. Visualizing Region Comparisons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-multi-county-analysis">12.8.1. Setting Up Multi-County Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-county-boundaries">12.8.2. Loading County Boundaries</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-source-filtering-and-quality-assessment">12.9. Data Source Filtering and Quality Assessment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-based-spatial-aggregation">12.10. Grid-Based Spatial Aggregation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-scale-analysis">12.11. Global-Scale Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-height-analysis">12.12. Building Height Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#h3-based-aggregation">12.13. H3-Based Aggregation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">12.14. Performance Considerations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-tight-bounding-box-filters">12.14.1. Using Tight Bounding Box Filters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#column-selection">12.14.2. Column Selection</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-for-exploration">12.14.3. Sampling for Exploration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-once-query-many-times">12.14.4. Load Once, Query Many Times</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-source-filtering-and-quality-assessment">12.9. Data Source Filtering and Quality Assessment</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-by-data-source-quality">12.9.1. Filtering by Data Source Quality</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-data-source-distribution">12.9.2. Visualizing Data Source Distribution</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">12.15. Key Takeaways</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">12.16. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-1-regional-deep-dive">12.16.1. Exercise 12.1: Regional Deep Dive</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-2-multi-resolution-grid-analysis">12.16.2. Exercise 12.2: Multi-Resolution Grid Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-3-cross-regional-building-size-analysis">12.16.3. Exercise 12.3: Cross-Regional Building Size Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-4-data-source-quality-analysis">12.16.4. Exercise 12.4: Data Source Quality Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-5-building-height-analysis">12.16.5. Exercise 12.5: Building Height Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-6-query-performance-optimization-challenge">12.16.6. Exercise 12.6: Query Performance Optimization Challenge</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-7-h3-hexagonal-aggregation-analysis">12.16.7. Exercise 12.7: H3 Hexagonal Aggregation Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-12-8-global-scale-sampling-analysis">12.16.8. Exercise 12.8: Global-Scale Sampling Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grid-based-spatial-aggregation">12.10. Grid-Based Spatial Aggregation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-grid-analysis">12.10.1. Setting Up Grid Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-a-regular-grid">12.10.2. Generating a Regular Grid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-grid-into-duckdb">12.10.3. Loading Grid into DuckDB</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performing-spatial-aggregation">12.10.4. Performing Spatial Aggregation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-grid-aggregation-results">12.10.5. Visualizing Grid Aggregation Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-building-data-with-h3-hexagonal-grids">12.11. Aggregating Building Data with H3 Hexagonal Grids</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-h3-s-advantages-over-traditional-grids">12.11.1. Understanding H3’s Advantages Over Traditional Grids</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-loading-the-h3-extension">12.11.2. Installing and Loading the H3 Extension</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-appropriate-h3-resolutions">12.11.3. Choosing Appropriate H3 Resolutions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-h3-based-building-aggregations">12.11.4. Creating H3-Based Building Aggregations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-h3-aggregations">12.11.5. Visualizing H3 Aggregations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-visualization-with-extruded-hexagons">12.11.6. 3D Visualization with Extruded Hexagons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-h3-operations">12.11.7. Advanced H3 Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-h3-vs-other-aggregation-methods">12.11.8. When to Use H3 vs. Other Aggregation Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">12.12. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">12.13. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-regional-deep-dive">12.13.1. Exercise 1: Regional Deep Dive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-multi-resolution-grid-analysis">12.13.2. Exercise 2: Multi-Resolution Grid Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-cross-regional-building-size-analysis">12.13.3. Exercise 3: Cross-Regional Building Size Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-data-source-quality-analysis">12.13.4. Exercise 4: Data Source Quality Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-building-height-analysis">12.13.5. Exercise 5: Building Height Analysis</a></li>
 </ul>
 </li>
 </ul>

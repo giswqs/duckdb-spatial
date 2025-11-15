@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -577,117 +577,555 @@ document.write(`
 </section>
 <section id="setting-up-the-environment">
 <h2><span class="section-number">2.4. </span>Setting Up the Environment<a class="headerlink" href="#setting-up-the-environment" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>duckdb<span class="w"> </span>duckdb-engine<span class="w"> </span>jupyter-duckdb<span class="w"> </span>jupysql
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import duckdb_kernel, os; print(os.path.dirname(duckdb_kernel.__file__))&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>kernelspec<span class="w"> </span>install<span class="w"> </span>&lt;path_to_duckdb_kernel&gt;<span class="w"> </span>--user
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>lab
+</pre></div>
+</div>
 </section>
 <section id="connecting-to-duckdb">
 <h2><span class="section-number">2.5. </span>Connecting To DuckDB<a class="headerlink" href="#connecting-to-duckdb" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>%LOAD :memory:
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="install-extensions">
 <h2><span class="section-number">2.6. </span>Install Extensions<a class="headerlink" href="#install-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM duckdb_extensions();
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>INSTALL httpfs;
+LOAD httpfs;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="reading-csv-files-from-urls">
 <h2><span class="section-number">2.7. </span>Reading CSV Files from URLs<a class="headerlink" href="#reading-csv-files-from-urls" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM &#39;https://data.gishub.org/duckdb/cities.csv&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM &#39;https://data.gishub.org/duckdb/countries.csv&#39;;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="creating-tables-for-better-performance">
 <h2><span class="section-number">2.8. </span>Creating Tables for Better Performance<a class="headerlink" href="#creating-tables-for-better-performance" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CREATE TABLE cities AS SELECT * FROM &#39;https://data.gishub.org/duckdb/cities.csv&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CREATE TABLE countries AS SELECT * FROM &#39;https://data.gishub.org/duckdb/countries.csv&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FROM countries;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="the-sql-select-statement">
 <h2><span class="section-number">2.9. </span>The SQL SELECT Statement<a class="headerlink" href="#the-sql-select-statement" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
 <section id="limiting-results-with-limit">
 <h3><span class="section-number">2.9.1. </span>Limiting Results with LIMIT<a class="headerlink" href="#limiting-results-with-limit" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="selecting-specific-columns">
 <h3><span class="section-number">2.9.2. </span>Selecting Specific Columns<a class="headerlink" href="#selecting-specific-columns" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, country, population FROM cities LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="finding-unique-values-with-distinct">
 <h3><span class="section-number">2.9.3. </span>Finding Unique Values with DISTINCT<a class="headerlink" href="#finding-unique-values-with-distinct" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT DISTINCT country FROM cities LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="basic-aggregate-functions">
 <h3><span class="section-number">2.9.4. </span>Basic Aggregate Functions<a class="headerlink" href="#basic-aggregate-functions" title="Link to this heading">#</a></h3>
 <section id="counting-features">
 <h4><span class="section-number">2.9.4.1. </span>Counting Features<a class="headerlink" href="#counting-features" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT COUNT(*) FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="counting-unique-categories">
 <h4><span class="section-number">2.9.4.2. </span>Counting Unique Categories<a class="headerlink" href="#counting-unique-categories" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT COUNT(DISTINCT country) FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="finding-extremes">
 <h4><span class="section-number">2.9.4.3. </span>Finding Extremes<a class="headerlink" href="#finding-extremes" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT MAX(population) FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT MIN(population) FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="calculating-totals">
 <h4><span class="section-number">2.9.4.4. </span>Calculating Totals<a class="headerlink" href="#calculating-totals" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT SUM(population) FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="computing-averages">
 <h4><span class="section-number">2.9.4.5. </span>Computing Averages<a class="headerlink" href="#computing-averages" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT AVG(population) FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="sorting-results-with-order-by">
 <h3><span class="section-number">2.9.5. </span>Sorting Results with ORDER BY<a class="headerlink" href="#sorting-results-with-order-by" title="Link to this heading">#</a></h3>
 <section id="basic-sorting">
 <h4><span class="section-number">2.9.5.1. </span>Basic Sorting<a class="headerlink" href="#basic-sorting" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, country, population FROM cities ORDER BY country LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="multi-level-sorting">
 <h4><span class="section-number">2.9.5.2. </span>Multi-Level Sorting<a class="headerlink" href="#multi-level-sorting" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, country, population FROM cities
+ORDER BY country ASC, population DESC LIMIT 15;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="spatial-sorting-applications">
 <h4><span class="section-number">2.9.5.3. </span>Spatial Sorting Applications<a class="headerlink" href="#spatial-sorting-applications" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, country, population FROM cities
+ORDER BY population DESC LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, latitude, longitude FROM cities
+ORDER BY latitude DESC, longitude ASC LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="calculated-columns-and-expressions">
 <h3><span class="section-number">2.9.6. </span>Calculated Columns and Expressions<a class="headerlink" href="#calculated-columns-and-expressions" title="Link to this heading">#</a></h3>
 <section id="basic-calculations">
 <h4><span class="section-number">2.9.6.1. </span>Basic Calculations<a class="headerlink" href="#basic-calculations" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, population,
+       population / 1000000 AS population_millions,
+       ROUND(population / 1000000, 2) AS population_millions_rounded
+FROM cities
+WHERE population &gt; 5000000
+ORDER BY population DESC LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="geographic-calculations">
 <h4><span class="section-number">2.9.6.2. </span>Geographic Calculations<a class="headerlink" href="#geographic-calculations" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, latitude, longitude,
+       CASE
+           WHEN latitude &gt; 0 THEN &#39;Northern Hemisphere&#39;
+           ELSE &#39;Southern Hemisphere&#39;
+       END AS hemisphere,
+       ABS(latitude) AS distance_from_equator
+FROM cities
+ORDER BY ABS(latitude) DESC LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 </section>
 <section id="filtering-data-with-the-where-clause">
 <h2><span class="section-number">2.10. </span>Filtering Data with the WHERE Clause<a class="headerlink" href="#filtering-data-with-the-where-clause" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities WHERE country=&#39;USA&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities WHERE country=&#39;USA&#39; OR country=&#39;CAN&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities WHERE country=&#39;USA&#39; AND population&gt;1000000;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="pattern-matching-with-like">
 <h2><span class="section-number">2.11. </span>Pattern Matching with LIKE<a class="headerlink" href="#pattern-matching-with-like" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities WHERE country LIKE &#39;U%&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities WHERE country LIKE &#39;%A&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities WHERE country LIKE &#39;_S_&#39;;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="the-in-operator">
 <h2><span class="section-number">2.12. </span>The IN Operator<a class="headerlink" href="#the-in-operator" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities WHERE country IN (&#39;USA&#39;, &#39;CAN&#39;);
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="the-between-operator">
 <h2><span class="section-number">2.13. </span>The BETWEEN Operator<a class="headerlink" href="#the-between-operator" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities WHERE population BETWEEN 1000000 AND 10000000;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="combining-data-with-sql-joins">
 <h2><span class="section-number">2.14. </span>Combining Data with SQL Joins<a class="headerlink" href="#combining-data-with-sql-joins" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT COUNT(*) FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT COUNT(*) FROM countries;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM countries LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 <section id="sql-inner-join">
 <h3><span class="section-number">2.14.1. </span>SQL Inner Join<a class="headerlink" href="#sql-inner-join" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities INNER JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, cities.&quot;country&quot;, countries.&quot;Country&quot; FROM cities INNER JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="sql-left-join">
 <h3><span class="section-number">2.14.2. </span>SQL Left Join<a class="headerlink" href="#sql-left-join" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities LEFT JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="sql-right-join">
 <h3><span class="section-number">2.14.3. </span>SQL Right Join<a class="headerlink" href="#sql-right-join" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities RIGHT JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="sql-full-join">
 <h3><span class="section-number">2.14.4. </span>SQL Full Join<a class="headerlink" href="#sql-full-join" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT * FROM cities FULL JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="sql-union">
 <h3><span class="section-number">2.14.5. </span>SQL Union<a class="headerlink" href="#sql-union" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT country FROM cities
+UNION
+SELECT &quot;Alpha3_code&quot; FROM countries;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="query-plans-and-performance">
 <h2><span class="section-number">2.15. </span>Query Plans and Performance<a class="headerlink" href="#query-plans-and-performance" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>EXPLAIN SELECT country, COUNT(*) FROM cities GROUP BY country;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>EXPLAIN ANALYZE SELECT country, COUNT(*) FROM cities GROUP BY country;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="aggregating-data-for-summary-statistics">
 <h2><span class="section-number">2.16. </span>Aggregating Data for Summary Statistics<a class="headerlink" href="#aggregating-data-for-summary-statistics" title="Link to this heading">#</a></h2>
 <section id="understanding-group-by">
 <h3><span class="section-number">2.16.1. </span>Understanding GROUP BY<a class="headerlink" href="#understanding-group-by" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT COUNT(name), country
+FROM cities
+GROUP BY country
+ORDER BY COUNT(name) DESC;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT countries.&quot;Country&quot;, COUNT(name)
+FROM cities
+LEFT JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;
+GROUP BY countries.&quot;Country&quot;
+ORDER BY COUNT(name) DESC;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="filtering-aggregated-results-with-having">
 <h3><span class="section-number">2.16.2. </span>Filtering Aggregated Results with HAVING<a class="headerlink" href="#filtering-aggregated-results-with-having" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT COUNT(name), country
+FROM cities
+GROUP BY country
+HAVING COUNT(name) &gt; 40
+ORDER BY COUNT(name) DESC;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT countries.&quot;Country&quot;, COUNT(name)
+FROM cities
+LEFT JOIN countries ON cities.country = countries.&quot;Alpha3_code&quot;
+GROUP BY countries.&quot;Country&quot;
+HAVING COUNT(name) &gt; 40
+ORDER BY COUNT(name) DESC;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="conditional-statements">
 <h2><span class="section-number">2.17. </span>Conditional Statements<a class="headerlink" href="#conditional-statements" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, population,
+CASE
+    WHEN population &gt; 10000000 THEN &#39;Megacity&#39;
+    WHEN population &gt; 1000000 THEN &#39;Large city&#39;
+    ELSE &#39;Small city&#39;
+END AS category
+FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="saving-results">
 <h2><span class="section-number">2.18. </span>Saving Results<a class="headerlink" href="#saving-results" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CREATE TABLE cities2 AS SELECT * FROM cities;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FROM cities2;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>DROP TABLE IF EXISTS cities_usa;
+CREATE TABLE cities_usa AS (SELECT * FROM cities WHERE country = &#39;USA&#39;);
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FROM cities_usa;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>INSERT INTO cities_usa (SELECT * FROM cities WHERE country = &#39;CAN&#39;);
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="advanced-sql-features-for-spatial-analysis">
 <h2><span class="section-number">2.19. </span>Advanced SQL Features for Spatial Analysis<a class="headerlink" href="#advanced-sql-features-for-spatial-analysis" title="Link to this heading">#</a></h2>
@@ -695,40 +1133,178 @@ document.write(`
 <h3><span class="section-number">2.19.1. </span>Window Functions<a class="headerlink" href="#window-functions" title="Link to this heading">#</a></h3>
 <section id="ranking-cities-by-population">
 <h4><span class="section-number">2.19.1.1. </span>Ranking Cities by Population<a class="headerlink" href="#ranking-cities-by-population" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, country, population,
+       ROW_NUMBER() OVER (ORDER BY population DESC) AS global_rank,
+       RANK() OVER (PARTITION BY country ORDER BY population DESC) AS country_rank
+FROM cities
+WHERE population &gt; 1000000
+ORDER BY population DESC LIMIT 15;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="moving-averages-and-spatial-trends">
 <h4><span class="section-number">2.19.1.2. </span>Moving Averages and Spatial Trends<a class="headerlink" href="#moving-averages-and-spatial-trends" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, country, population,
+       AVG(population) OVER (
+           PARTITION BY country
+           ORDER BY population
+           ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING
+       ) AS local_avg_population
+FROM cities
+WHERE country IN (&#39;USA&#39;, &#39;CHN&#39;, &#39;IND&#39;)
+ORDER BY country, population DESC;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="common-table-expressions-ctes">
 <h3><span class="section-number">2.19.2. </span>Common Table Expressions (CTEs)<a class="headerlink" href="#common-table-expressions-ctes" title="Link to this heading">#</a></h3>
 <section id="analyzing-urban-hierarchies">
 <h4><span class="section-number">2.19.2.1. </span>Analyzing Urban Hierarchies<a class="headerlink" href="#analyzing-urban-hierarchies" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>WITH country_stats AS (
+    SELECT country,
+           COUNT(*) AS city_count,
+           SUM(population) AS total_urban_population,
+           AVG(population) AS avg_city_size,
+           MAX(population) AS largest_city_population
+    FROM cities
+    GROUP BY country
+),
+urban_categories AS (
+    SELECT *,
+           CASE
+               WHEN city_count &gt;= 20 THEN &#39;Highly Urbanized&#39;
+               WHEN city_count &gt;= 10 THEN &#39;Moderately Urbanized&#39;
+               WHEN city_count &gt;= 5 THEN &#39;Developing Urban&#39;
+               ELSE &#39;Limited Urban&#39;
+           END AS urbanization_level
+    FROM country_stats
+)
+SELECT urbanization_level,
+       COUNT(*) AS countries_in_category,
+       AVG(avg_city_size) AS avg_city_size_in_category,
+       SUM(total_urban_population) AS total_pop_in_category
+FROM urban_categories
+GROUP BY urbanization_level
+ORDER BY AVG(avg_city_size) DESC;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="subqueries-for-spatial-comparisons">
 <h3><span class="section-number">2.19.3. </span>Subqueries for Spatial Comparisons<a class="headerlink" href="#subqueries-for-spatial-comparisons" title="Link to this heading">#</a></h3>
 <section id="finding-cities-above-country-average">
 <h4><span class="section-number">2.19.3.1. </span>Finding Cities Above Country Average<a class="headerlink" href="#finding-cities-above-country-average" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT c1.name, c1.country, c1.population,
+       country_avg.avg_population,
+       ROUND((c1.population - country_avg.avg_population) / country_avg.avg_population * 100, 1) AS pct_above_avg
+FROM cities c1
+JOIN (
+    SELECT country, AVG(population) AS avg_population
+    FROM cities
+    GROUP BY country
+) country_avg ON c1.country = country_avg.country
+WHERE c1.population &gt; country_avg.avg_population
+ORDER BY pct_above_avg DESC LIMIT 15;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="string-functions-for-spatial-data">
 <h3><span class="section-number">2.19.4. </span>String Functions for Spatial Data<a class="headerlink" href="#string-functions-for-spatial-data" title="Link to this heading">#</a></h3>
 <section id="cleaning-and-standardizing-place-names">
 <h4><span class="section-number">2.19.4.1. </span>Cleaning and Standardizing Place Names<a class="headerlink" href="#cleaning-and-standardizing-place-names" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name,
+       UPPER(name) AS name_upper,
+       LENGTH(name) AS name_length,
+       SUBSTRING(name, 1, 3) AS name_prefix,
+       CASE
+           WHEN name LIKE &#39;%City%&#39; THEN REPLACE(name, &#39;City&#39;, &#39;&#39;)
+           WHEN name LIKE &#39;%town%&#39; THEN REPLACE(name, &#39;town&#39;, &#39;&#39;)
+           ELSE name
+       END AS cleaned_name
+FROM cities
+WHERE name LIKE &#39;%City%&#39; OR name LIKE &#39;%town%&#39;
+ORDER BY name LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="date-and-time-functions">
 <h3><span class="section-number">2.19.5. </span>Date and Time Functions<a class="headerlink" href="#date-and-time-functions" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-- Example patterns for temporal spatial data
+SELECT
+    -- Current date and time functions
+    CURRENT_DATE AS today,
+    CURRENT_TIMESTAMP AS now,
+
+    -- Date arithmetic examples
+    CURRENT_DATE - INTERVAL &#39;30 days&#39; AS thirty_days_ago,
+    CURRENT_DATE + INTERVAL &#39;1 year&#39; AS next_year,
+
+    -- Date formatting
+    STRFTIME(CURRENT_DATE, &#39;%Y-%m&#39;) AS year_month,
+    DATE_TRUNC(&#39;month&#39;, CURRENT_DATE) AS month_start;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="sql-comments-and-documentation">
 <h2><span class="section-number">2.20. </span>SQL Comments and Documentation<a class="headerlink" href="#sql-comments-and-documentation" title="Link to this heading">#</a></h2>
 <section id="single-line-comments">
 <h3><span class="section-number">2.20.1. </span>Single-Line Comments<a class="headerlink" href="#single-line-comments" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT name, population FROM cities
+WHERE population &gt; 1000000 -- Filter for major cities only
+ORDER BY population DESC LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="multi-line-comments">
 <h3><span class="section-number">2.20.2. </span>Multi-Line Comments<a class="headerlink" href="#multi-line-comments" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SELECT COUNT(name), country
+FROM cities
+/*
+ * This query analyzes urban distribution by country
+ * Useful for understanding global urbanization patterns
+ * Results can be used for comparative demographic analysis
+ */
+GROUP BY country
+ORDER BY COUNT(name) DESC
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="key-takeaways">

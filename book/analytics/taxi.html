@@ -62,7 +62,7 @@
     <link rel="icon" href="../../_static/fav.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="14. Developing Interactive Dashboards with Streamlit and Solara" href="dashboards.html" />
+    <link rel="next" title="14. Developing Interactive Dashboards with Voilà and Solara" href="dashboards.html" />
     <link rel="prev" title="12. Analyzing Global Building Footprints" href="buildings.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -472,39 +472,54 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-analysis">13.8. Temporal Analysis</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trips-by-hour-of-day">13.8.1. Trips by Hour of Day</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#as-of-joins-time-aware-joins">13.8.2. As-Of Joins (Time-Aware Joins)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trips-by-day-of-week">13.8.3. Trips by Day of Week</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#peak-vs-off-peak-analysis">13.8.4. Peak vs Off-Peak Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trips-by-day-of-week">13.8.2. Trips by Day of Week</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#peak-vs-off-peak-analysis">13.8.3. Peak vs Off-Peak Analysis</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-analysis">13.9. Spatial Analysis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pickup-location-hotspots">13.9.1. Pickup Location Hotspots</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trip-distance-distribution">13.9.2. Trip Distance Distribution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geographic-distribution-using-h3">13.9.3. Geographic Distribution Using H3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-taxi-zone-lookup-data">13.9. Loading Taxi Zone Lookup Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-analysis">13.10. Spatial Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pickup-location-hotspots">13.10.1. Pickup Location Hotspots</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trip-distance-distribution">13.10.2. Trip Distance Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geographic-distribution-using-h3">13.10.3. Geographic Distribution Using H3</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trip-flow-analysis">13.10. Trip Flow Analysis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#top-origin-destination-pairs">13.10.1. Top Origin-Destination Pairs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#airport-trips-analysis">13.10.2. Airport Trips Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trip-flow-analysis">13.11. Trip Flow Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#top-origin-destination-pairs">13.11.1. Top Origin-Destination Pairs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#airport-trips-analysis">13.11.2. Airport Trips Analysis</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#payment-and-economic-analysis">13.11. Payment and Economic Analysis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#payment-type-analysis">13.11.1. Payment Type Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tipping-patterns">13.11.2. Tipping Patterns</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fare-per-mile-analysis">13.11.3. Fare per Mile Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#payment-and-economic-analysis">13.12. Payment and Economic Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#payment-type-analysis">13.12.1. Payment Type Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tipping-patterns">13.12.2. Tipping Patterns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fare-per-mile-analysis">13.12.3. Fare per Mile Analysis</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#passenger-behavior-analysis">13.12. Passenger Behavior Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-month-analysis">13.13. Multi-Month Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization">13.14. Visualization</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization-tips">13.15. Performance Optimization Tips</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-early">13.15.1. Filter Early</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-parquet-partitioning">13.15.2. Use Parquet Partitioning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-for-exploration">13.15.3. Sample for Exploration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#passenger-behavior-analysis">13.13. Passenger Behavior Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-month-analysis">13.14. Multi-Month Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization">13.15. Visualization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-trip-data-by-zone">13.15.1. Aggregating Trip Data by Zone</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-with-geographic-data">13.15.2. Merging with Geographic Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-choropleth-maps">13.15.3. 2D Choropleth Maps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-extruded-visualizations">13.15.4. 3D Extruded Visualizations</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">13.16. Key Takeaways</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">13.17. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization-tips">13.16. Performance Optimization Tips</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-early">13.16.1. Filter Early</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-for-exploration">13.16.2. Sample for Exploration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">13.17. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">13.18. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-peak-hour-deep-dive">13.18.1. Exercise 1: Peak Hour Deep Dive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-weekend-vs-weekday-patterns">13.18.2. Exercise 2: Weekend vs. Weekday Patterns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-airport-connection-analysis">13.18.3. Exercise 3: Airport Connection Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-tipping-behavior-study">13.18.4. Exercise 4: Tipping Behavior Study</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-speed-and-congestion-analysis">13.18.5. Exercise 5: Speed and Congestion Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-neighborhood-connectivity">13.18.6. Exercise 6: Neighborhood Connectivity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-economic-revenue-analysis">13.18.7. Exercise 7: Economic Revenue Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-multi-month-trend-analysis">13.18.8. Exercise 8: Multi-Month Trend Analysis</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -529,93 +544,849 @@ document.write(`
 </section>
 <section id="installation">
 <h2><span class="section-number">13.4. </span>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install duckdb leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="library-import">
 <h2><span class="section-number">13.5. </span>Library Import<a class="headerlink" href="#library-import" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="installing-and-loading-extensions">
 <h2><span class="section-number">13.6. </span>Installing and Loading Extensions<a class="headerlink" href="#installing-and-loading-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="loading-taxi-data">
 <h2><span class="section-number">13.7. </span>Loading Taxi Data<a class="headerlink" href="#loading-taxi-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_url</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-09.parquet&quot;</span>
+<span class="p">)</span>
+
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE OR REPLACE TABLE trips AS</span>
+<span class="s2">SELECT * FROM &#39;</span><span class="si">{</span><span class="n">data_url</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="inspecting-the-data">
 <h3><span class="section-number">13.7.1. </span>Inspecting the Data<a class="headerlink" href="#inspecting-the-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;DESCRIBE trips&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM trips LIMIT 10&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    COUNT(*) as total_trips,</span>
+<span class="sd">    MIN(tpep_pickup_datetime) as earliest_trip,</span>
+<span class="sd">    MAX(tpep_pickup_datetime) as latest_trip,</span>
+<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance_miles,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_total_amount</span>
+<span class="sd">FROM trips</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="temporal-analysis">
 <h2><span class="section-number">13.8. </span>Temporal Analysis<a class="headerlink" href="#temporal-analysis" title="Link to this heading">#</a></h2>
 <section id="trips-by-hour-of-day">
 <h3><span class="section-number">13.8.1. </span>Trips by Hour of Day<a class="headerlink" href="#trips-by-hour-of-day" title="Link to this heading">#</a></h3>
-</section>
-<section id="as-of-joins-time-aware-joins">
-<h3><span class="section-number">13.8.2. </span>As-Of Joins (Time-Aware Joins)<a class="headerlink" href="#as-of-joins-time-aware-joins" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hourly_trips</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    EXTRACT(HOUR FROM tpep_pickup_datetime) as hour,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare</span>
+<span class="sd">FROM trips</span>
+<span class="sd">GROUP BY hour</span>
+<span class="sd">ORDER BY hour</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">hourly_trips</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">line_chart</span><span class="p">(</span>
+    <span class="n">hourly_trips</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;trip_count&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;NYC Taxi Trips by Hour of Day&quot;</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">&quot;Hour of Day&quot;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s2">&quot;Number of Trips&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="s2">&quot;taxi-hourly-trips.png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="trips-by-day-of-week">
-<h3><span class="section-number">13.8.3. </span>Trips by Day of Week<a class="headerlink" href="#trips-by-day-of-week" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.8.2. </span>Trips by Day of Week<a class="headerlink" href="#trips-by-day-of-week" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">daily_trips</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    DAYNAME(tpep_pickup_datetime) as day_name,</span>
+<span class="sd">    DAYOFWEEK(tpep_pickup_datetime) as day_num,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare</span>
+<span class="sd">FROM trips</span>
+<span class="sd">GROUP BY day_name, day_num</span>
+<span class="sd">ORDER BY day_num</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">daily_trips</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">bar_chart</span><span class="p">(</span>
+    <span class="n">daily_trips</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;day_name&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;trip_count&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;NYC Taxi Trips by Day of Week&quot;</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">&quot;Day of Week&quot;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s2">&quot;Number of Trips&quot;</span><span class="p">,</span>
+    <span class="n">sort_column</span><span class="o">=</span><span class="s2">&quot;day_num&quot;</span><span class="p">,</span>
+    <span class="n">descending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="peak-vs-off-peak-analysis">
-<h3><span class="section-number">13.8.4. </span>Peak vs Off-Peak Analysis<a class="headerlink" href="#peak-vs-off-peak-analysis" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.8.3. </span>Peak vs Off-Peak Analysis<a class="headerlink" href="#peak-vs-off-peak-analysis" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time_period_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    CASE</span>
+<span class="sd">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 6 AND 9 THEN &#39;Morning Rush (6-9 AM)&#39;</span>
+<span class="sd">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 16 AND 19 THEN &#39;Evening Rush (4-7 PM)&#39;</span>
+<span class="sd">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 10 AND 15 THEN &#39;Midday (10 AM-3 PM)&#39;</span>
+<span class="sd">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 20 AND 23 THEN &#39;Evening (8-11 PM)&#39;</span>
+<span class="sd">        ELSE &#39;Night/Early Morning&#39;</span>
+<span class="sd">    END as time_period,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare,</span>
+<span class="sd">    ROUND(AVG(trip_distance / NULLIF(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 3600, 0)), 2) as avg_speed_mph,</span>
+<span class="sd">FROM trips</span>
+<span class="sd">WHERE tpep_dropoff_datetime &gt; tpep_pickup_datetime</span>
+<span class="sd">GROUP BY time_period</span>
+<span class="sd">ORDER BY trip_count DESC</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">time_period_analysis</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
+</section>
+<section id="loading-taxi-zone-lookup-data">
+<h2><span class="section-number">13.9. </span>Loading Taxi Zone Lookup Data<a class="headerlink" href="#loading-taxi-zone-lookup-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load taxi zone boundaries from CloudFront</span>
+<span class="n">taxi_zone_url</span> <span class="o">=</span> <span class="s2">&quot;https://d37ci6vzurychx.cloudfront.net/misc/taxi_zones.zip&quot;</span>
+<span class="n">taxi_zones_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">read_vector</span><span class="p">(</span><span class="n">taxi_zone_url</span><span class="p">)</span>
+
+<span class="c1"># Display first few zones to understand the structure</span>
+<span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the structure and coordinate reference system</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of zones: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">taxi_zones_gdf</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Coordinate Reference System: </span><span class="si">{</span><span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">crs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columns: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">taxi_zones_gdf</span> <span class="o">=</span> <span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+<span class="n">taxi_zones_gdf</span><span class="p">[</span><span class="s2">&quot;centroid_lon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span>
+<span class="n">taxi_zones_gdf</span><span class="p">[</span><span class="s2">&quot;centroid_lat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">y</span>
+<span class="n">taxi_zones_df</span> <span class="o">=</span> <span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">])</span>
+<span class="n">taxi_zones_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CREATE OR REPLACE TABLE taxi_zones AS</span>
+<span class="sd">SELECT LocationID, borough, zone, centroid_lon, centroid_lat</span>
+<span class="sd">FROM taxi_zones_df</span>
+<span class="sd">ORDER BY LocationID</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM taxi_zones LIMIT 5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s2">&quot;borough&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;tab10&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="spatial-analysis">
-<h2><span class="section-number">13.9. </span>Spatial Analysis<a class="headerlink" href="#spatial-analysis" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.10. </span>Spatial Analysis<a class="headerlink" href="#spatial-analysis" title="Link to this heading">#</a></h2>
 <section id="pickup-location-hotspots">
-<h3><span class="section-number">13.9.1. </span>Pickup Location Hotspots<a class="headerlink" href="#pickup-location-hotspots" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.10.1. </span>Pickup Location Hotspots<a class="headerlink" href="#pickup-location-hotspots" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pickup_hotspots</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    t.PULocationID,</span>
+<span class="sd">    z.zone as zone_name,</span>
+<span class="sd">    z.borough as borough,</span>
+<span class="sd">    COUNT(*) as pickup_count,</span>
+<span class="sd">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
+<span class="sd">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
+<span class="sd">    z.centroid_lon,</span>
+<span class="sd">    z.centroid_lat</span>
+<span class="sd">FROM trips t</span>
+<span class="sd">JOIN taxi_zones z ON t.PULocationID = z.LocationID</span>
+<span class="sd">GROUP BY t.PULocationID, z.zone, z.borough, z.centroid_lon, z.centroid_lat</span>
+<span class="sd">ORDER BY pickup_count DESC</span>
+<span class="sd">LIMIT 50</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">pickup_hotspots</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="trip-distance-distribution">
-<h3><span class="section-number">13.9.2. </span>Trip Distance Distribution<a class="headerlink" href="#trip-distance-distribution" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.10.2. </span>Trip Distance Distribution<a class="headerlink" href="#trip-distance-distribution" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distance_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    CASE</span>
+<span class="sd">        WHEN trip_distance &lt; 1 THEN &#39;Very Short (&lt;1 mi)&#39;</span>
+<span class="sd">        WHEN trip_distance &lt; 2 THEN &#39;Short (1-2 mi)&#39;</span>
+<span class="sd">        WHEN trip_distance &lt; 5 THEN &#39;Medium (2-5 mi)&#39;</span>
+<span class="sd">        WHEN trip_distance &lt; 10 THEN &#39;Long (5-10 mi)&#39;</span>
+<span class="sd">        ELSE &#39;Very Long (&gt;10 mi)&#39;</span>
+<span class="sd">    END as distance_category,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare</span>
+<span class="sd">FROM trips</span>
+<span class="sd">WHERE trip_distance &gt; 0</span>
+<span class="sd">GROUP BY distance_category</span>
+<span class="sd">ORDER BY MIN(trip_distance)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">distance_analysis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">pie_chart</span><span class="p">(</span>
+    <span class="n">distance_analysis</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="s2">&quot;trip_count&quot;</span><span class="p">,</span>
+    <span class="n">names</span><span class="o">=</span><span class="s2">&quot;distance_category&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Distribution of Trip Distances&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="geographic-distribution-using-h3">
-<h3><span class="section-number">13.9.3. </span>Geographic Distribution Using H3<a class="headerlink" href="#geographic-distribution-using-h3" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.10.3. </span>Geographic Distribution Using H3<a class="headerlink" href="#geographic-distribution-using-h3" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install H3 extension</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;h3&quot;</span><span class="p">,</span> <span class="n">repository</span><span class="o">=</span><span class="s2">&quot;community&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;h3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM taxi_zones&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aggregate pickups to H3 hexagons (resolution 8) using zone centroids</span>
+<span class="n">h3_pickups_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    h3_latlng_to_cell(z.centroid_lat, z.centroid_lon, 8) as h3_index,</span>
+<span class="sd">    COUNT(*) as pickup_count,</span>
+<span class="sd">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
+<span class="sd">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
+<span class="sd">    COUNT(DISTINCT t.PULocationID) as num_zones,</span>
+<span class="sd">    h3_cell_to_boundary_wkt(h3_index) as geometry</span>
+<span class="sd">FROM trips t</span>
+<span class="sd">JOIN taxi_zones z ON t.PULocationID = z.LocationID</span>
+<span class="sd">GROUP BY h3_index</span>
+<span class="sd">HAVING COUNT(*) &gt; 50</span>
+<span class="sd">ORDER BY pickup_count DESC</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">h3_pickups_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">h3_pickups_gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">h3_pickups_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">h3_pickups_gdf</span><span class="p">,</span> <span class="s2">&quot;pickup_count&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">,</span> <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="trip-flow-analysis">
-<h2><span class="section-number">13.10. </span>Trip Flow Analysis<a class="headerlink" href="#trip-flow-analysis" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.11. </span>Trip Flow Analysis<a class="headerlink" href="#trip-flow-analysis" title="Link to this heading">#</a></h2>
 <section id="top-origin-destination-pairs">
-<h3><span class="section-number">13.10.1. </span>Top Origin-Destination Pairs<a class="headerlink" href="#top-origin-destination-pairs" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.11.1. </span>Top Origin-Destination Pairs<a class="headerlink" href="#top-origin-destination-pairs" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze common origin-destination pairs using taxi zones</span>
+<span class="n">od_pairs</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    t.PULocationID as origin_zone_id,</span>
+<span class="sd">    zo.zone as origin_zone_name,</span>
+<span class="sd">    zo.borough as origin_borough,</span>
+<span class="sd">    t.DOLocationID as dest_zone_id,</span>
+<span class="sd">    zd.zone as dest_zone_name,</span>
+<span class="sd">    zd.borough as dest_borough,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
+<span class="sd">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
+<span class="sd">    ROUND(AVG(EXTRACT(EPOCH FROM (t.tpep_dropoff_datetime - t.tpep_pickup_datetime)) / 60), 1) as avg_duration_min</span>
+<span class="sd">FROM trips t</span>
+<span class="sd">JOIN taxi_zones zo ON t.PULocationID = zo.LocationID</span>
+<span class="sd">JOIN taxi_zones zd ON t.DOLocationID = zd.LocationID</span>
+<span class="sd">WHERE t.tpep_dropoff_datetime &gt; t.tpep_pickup_datetime</span>
+<span class="sd">GROUP BY t.PULocationID, zo.zone, zo.Borough, t.DOLocationID, zd.zone, zd.Borough</span>
+<span class="sd">HAVING COUNT(*) &gt; 100</span>
+<span class="sd">ORDER BY trip_count DESC</span>
+<span class="sd">LIMIT 50</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+
+<span class="n">od_pairs</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="airport-trips-analysis">
-<h3><span class="section-number">13.10.2. </span>Airport Trips Analysis<a class="headerlink" href="#airport-trips-analysis" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.11.2. </span>Airport Trips Analysis<a class="headerlink" href="#airport-trips-analysis" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    CASE RatecodeID</span>
+<span class="sd">        WHEN 1 THEN &#39;Standard Rate&#39;</span>
+<span class="sd">        WHEN 2 THEN &#39;JFK Airport&#39;</span>
+<span class="sd">        WHEN 3 THEN &#39;Newark Airport&#39;</span>
+<span class="sd">        WHEN 4 THEN &#39;Nassau/Westchester&#39;</span>
+<span class="sd">        WHEN 5 THEN &#39;Negotiated Fare&#39;</span>
+<span class="sd">        WHEN 6 THEN &#39;Group Ride&#39;</span>
+<span class="sd">        ELSE &#39;Unknown&#39;</span>
+<span class="sd">    END as trip_type,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare,</span>
+<span class="sd">    ROUND(AVG(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 60), 1) as avg_duration_min</span>
+<span class="sd">FROM trips</span>
+<span class="sd">GROUP BY trip_type</span>
+<span class="sd">ORDER BY trip_count DESC</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">pie_chart</span><span class="p">(</span>
+    <span class="n">airport_trips</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="s2">&quot;trip_count&quot;</span><span class="p">,</span>
+    <span class="n">names</span><span class="o">=</span><span class="s2">&quot;trip_type&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Trip Types by Rate Code&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="payment-and-economic-analysis">
-<h2><span class="section-number">13.11. </span>Payment and Economic Analysis<a class="headerlink" href="#payment-and-economic-analysis" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.12. </span>Payment and Economic Analysis<a class="headerlink" href="#payment-and-economic-analysis" title="Link to this heading">#</a></h2>
 <section id="payment-type-analysis">
-<h3><span class="section-number">13.11.1. </span>Payment Type Analysis<a class="headerlink" href="#payment-type-analysis" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.12.1. </span>Payment Type Analysis<a class="headerlink" href="#payment-type-analysis" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    CASE payment_type</span>
+<span class="sd">        WHEN 1 THEN &#39;Credit Card&#39;</span>
+<span class="sd">        WHEN 2 THEN &#39;Cash&#39;</span>
+<span class="sd">        WHEN 3 THEN &#39;No Charge&#39;</span>
+<span class="sd">        WHEN 4 THEN &#39;Dispute&#39;</span>
+<span class="sd">        ELSE &#39;Unknown&#39;</span>
+<span class="sd">    END as payment_method,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(AVG(fare_amount), 2) as avg_fare,</span>
+<span class="sd">    ROUND(AVG(tip_amount), 2) as avg_tip,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_total,</span>
+<span class="sd">    ROUND(AVG(tip_amount) / NULLIF(AVG(fare_amount), 0) * 100, 1) as avg_tip_percentage,</span>
+<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="sd">FROM trips</span>
+<span class="sd">WHERE fare_amount &gt; 0</span>
+<span class="sd">GROUP BY payment_method</span>
+<span class="sd">ORDER BY trip_count DESC</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="tipping-patterns">
-<h3><span class="section-number">13.11.2. </span>Tipping Patterns<a class="headerlink" href="#tipping-patterns" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.12.2. </span>Tipping Patterns<a class="headerlink" href="#tipping-patterns" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    CASE</span>
+<span class="sd">        WHEN trip_distance &lt; 2 THEN &#39;Short (&lt;2 mi)&#39;</span>
+<span class="sd">        WHEN trip_distance &lt; 5 THEN &#39;Medium (2-5 mi)&#39;</span>
+<span class="sd">        WHEN trip_distance &lt; 10 THEN &#39;Long (5-10 mi)&#39;</span>
+<span class="sd">        ELSE &#39;Very Long (&gt;10 mi)&#39;</span>
+<span class="sd">    END AS distance_category,</span>
+<span class="sd">    COUNT(*) AS trip_count,</span>
+<span class="sd">    ROUND(AVG(tip_amount), 2) AS avg_tip,</span>
+<span class="sd">    ROUND(AVG(tip_amount / NULLIF(fare_amount, 0)) * 100, 1) AS avg_tip_percentage,</span>
+<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="sd">FROM trips</span>
+<span class="sd">WHERE payment_type = 1  -- Credit card only</span>
+<span class="sd">  AND fare_amount &gt; 0</span>
+<span class="sd">  AND tip_amount &gt;= 0</span>
+<span class="sd">GROUP BY distance_category</span>
+<span class="sd">ORDER BY MIN(trip_distance)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="fare-per-mile-analysis">
-<h3><span class="section-number">13.11.3. </span>Fare per Mile Analysis<a class="headerlink" href="#fare-per-mile-analysis" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.12.3. </span>Fare per Mile Analysis<a class="headerlink" href="#fare-per-mile-analysis" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fare_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    EXTRACT(HOUR FROM tpep_pickup_datetime) as hour,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(AVG(fare_amount / NULLIF(trip_distance, 0)), 2) as avg_fare_per_mile,</span>
+<span class="sd">    ROUND(AVG(trip_distance / NULLIF(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 3600, 0)), 2) as avg_speed_mph,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_total_fare,</span>
+<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="sd">FROM trips</span>
+<span class="sd">WHERE trip_distance &gt; 0</span>
+<span class="sd">  AND tpep_dropoff_datetime &gt; tpep_pickup_datetime</span>
+<span class="sd">  AND EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) &gt; 60  -- At least 1 minute</span>
+<span class="sd">GROUP BY hour</span>
+<span class="sd">ORDER BY hour</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">fare_analysis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">leafmap</span><span class="o">.</span><span class="n">line_chart</span><span class="p">(</span>
+    <span class="n">fare_analysis</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;hour&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;avg_fare_per_mile&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Average Fare Per Mile by Hour of Day&quot;</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">&quot;Hour of Day&quot;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s2">&quot;Average Fare Per Mile&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="passenger-behavior-analysis">
-<h2><span class="section-number">13.12. </span>Passenger Behavior Analysis<a class="headerlink" href="#passenger-behavior-analysis" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.13. </span>Passenger Behavior Analysis<a class="headerlink" href="#passenger-behavior-analysis" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT</span>
+<span class="sd">    passenger_count,</span>
+<span class="sd">    COUNT(*) as trip_count,</span>
+<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="sd">    ROUND(AVG(total_amount), 2) as avg_total,</span>
+<span class="sd">    ROUND(AVG(total_amount / passenger_count), 2) as avg_per_passenger,</span>
+<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="sd">FROM trips</span>
+<span class="sd">WHERE passenger_count BETWEEN 1 AND 6</span>
+<span class="sd">GROUP BY passenger_count</span>
+<span class="sd">ORDER BY passenger_count</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="multi-month-analysis">
-<h2><span class="section-number">13.13. </span>Multi-Month Analysis<a class="headerlink" href="#multi-month-analysis" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.14. </span>Multi-Month Analysis<a class="headerlink" href="#multi-month-analysis" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">months</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">months_to_analyze</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;yellow_tripdata_2025-</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">.parquet&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">months</span><span class="p">]</span>
+
+<span class="n">monthly_comparison</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    EXTRACT(YEAR FROM tpep_pickup_datetime) as year,</span>
+<span class="s2">    EXTRACT(MONTH FROM tpep_pickup_datetime) as month,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_fare,</span>
+<span class="s2">    SUM(total_amount) as total_revenue,</span>
+<span class="s2">FROM read_parquet([</span><span class="si">{</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;&#39;https://d37ci6vzurychx.cloudfront.net/trip-data/</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">months_to_analyze</span><span class="p">])</span><span class="si">}</span><span class="s2">])</span>
+<span class="s2">WHERE year = 2025</span>
+<span class="s2">GROUP BY year, month</span>
+<span class="s2">ORDER BY year, month</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+
+<span class="n">monthly_comparison</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize monthly trends</span>
+<span class="n">monthly_comparison</span><span class="p">[</span><span class="s2">&quot;month_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">monthly_comparison</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">leafmap</span><span class="o">.</span><span class="n">bar_chart</span><span class="p">(</span>
+    <span class="n">monthly_comparison</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;month_label&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;trip_count&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Monthly Taxi Trip Volume&quot;</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">&quot;Month&quot;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s2">&quot;Number of Trips&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="visualization">
-<h2><span class="section-number">13.14. </span>Visualization<a class="headerlink" href="#visualization" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.15. </span>Visualization<a class="headerlink" href="#visualization" title="Link to this heading">#</a></h2>
+<section id="aggregating-trip-data-by-zone">
+<h3><span class="section-number">13.15.1. </span>Aggregating Trip Data by Zone<a class="headerlink" href="#aggregating-trip-data-by-zone" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pickup_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT PULocationID, COUNT(*) as pickup_count</span>
+<span class="sd">    FROM trips</span>
+<span class="sd">    GROUP BY PULocationID</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">pickup_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dropoff_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT DOLocationID, COUNT(*) as dropoff_count</span>
+<span class="sd">    FROM trips</span>
+<span class="sd">    GROUP BY DOLocationID</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">dropoff_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="merging-with-geographic-data">
+<h3><span class="section-number">13.15.2. </span>Merging with Geographic Data<a class="headerlink" href="#merging-with-geographic-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pickup_gdf</span> <span class="o">=</span> <span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">pickup_df</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;LocationID&quot;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s2">&quot;PULocationID&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
+<span class="p">)</span>
+<span class="n">pickup_gdf</span><span class="p">[</span><span class="s2">&quot;pickup_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickup_gdf</span><span class="p">[</span><span class="s2">&quot;pickup_count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">dropoff_gdf</span> <span class="o">=</span> <span class="n">taxi_zones_gdf</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">dropoff_df</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;LocationID&quot;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s2">&quot;DOLocationID&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
+<span class="p">)</span>
+<span class="n">dropoff_gdf</span><span class="p">[</span><span class="s2">&quot;dropoff_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dropoff_gdf</span><span class="p">[</span><span class="s2">&quot;dropoff_count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pickup_gdf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dropoff_gdf</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="d-choropleth-maps">
+<h3><span class="section-number">13.15.3. </span>2D Choropleth Maps<a class="headerlink" href="#d-choropleth-maps" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">pickup_gdf</span><span class="p">,</span> <span class="s2">&quot;pickup_count&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlOrRd&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">dropoff_gdf</span><span class="p">,</span> <span class="s2">&quot;dropoff_count&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlOrRd&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="d-extruded-visualizations">
+<h3><span class="section-number">13.15.4. </span>3D Extruded Visualizations<a class="headerlink" href="#d-extruded-visualizations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.maplibregl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">pitch</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+    <span class="n">pickup_gdf</span><span class="p">,</span>
+    <span class="s2">&quot;pickup_count&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlOrRd&quot;</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">extrude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">scale_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">pitch</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;positron&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">dropoff_gdf</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;dropoff_count&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlOrRd&quot;</span><span class="p">,</span>
+    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">extrude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">scale_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="performance-optimization-tips">
-<h2><span class="section-number">13.15. </span>Performance Optimization Tips<a class="headerlink" href="#performance-optimization-tips" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.16. </span>Performance Optimization Tips<a class="headerlink" href="#performance-optimization-tips" title="Link to this heading">#</a></h2>
 <section id="filter-early">
-<h3><span class="section-number">13.15.1. </span>Filter Early<a class="headerlink" href="#filter-early" title="Link to this heading">#</a></h3>
-</section>
-<section id="use-parquet-partitioning">
-<h3><span class="section-number">13.15.2. </span>Use Parquet Partitioning<a class="headerlink" href="#use-parquet-partitioning" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.16.1. </span>Filter Early<a class="headerlink" href="#filter-early" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: Filter before aggregation</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT COUNT(*)</span>
+<span class="sd">FROM trips</span>
+<span class="sd">WHERE tpep_pickup_datetime &gt;= &#39;2025-09-15&#39;</span>
+<span class="sd">  AND tpep_pickup_datetime &lt; &#39;2025-09-16&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="sample-for-exploration">
-<h3><span class="section-number">13.15.3. </span>Sample for Exploration<a class="headerlink" href="#sample-for-exploration" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">13.16.2. </span>Sample for Exploration<a class="headerlink" href="#sample-for-exploration" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT *</span>
+<span class="sd">FROM trips</span>
+<span class="sd">USING SAMPLE 1%  -- Analyze 1% of data quickly</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="key-takeaways">
-<h2><span class="section-number">13.16. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.17. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 </section>
 <section id="exercises">
-<h2><span class="section-number">13.17. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">13.18. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-peak-hour-deep-dive">
+<h3><span class="section-number">13.18.1. </span>Exercise 1: Peak Hour Deep Dive<a class="headerlink" href="#exercise-1-peak-hour-deep-dive" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-2-weekend-vs-weekday-patterns">
+<h3><span class="section-number">13.18.2. </span>Exercise 2: Weekend vs. Weekday Patterns<a class="headerlink" href="#exercise-2-weekend-vs-weekday-patterns" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-3-airport-connection-analysis">
+<h3><span class="section-number">13.18.3. </span>Exercise 3: Airport Connection Analysis<a class="headerlink" href="#exercise-3-airport-connection-analysis" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-4-tipping-behavior-study">
+<h3><span class="section-number">13.18.4. </span>Exercise 4: Tipping Behavior Study<a class="headerlink" href="#exercise-4-tipping-behavior-study" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-5-speed-and-congestion-analysis">
+<h3><span class="section-number">13.18.5. </span>Exercise 5: Speed and Congestion Analysis<a class="headerlink" href="#exercise-5-speed-and-congestion-analysis" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-6-neighborhood-connectivity">
+<h3><span class="section-number">13.18.6. </span>Exercise 6: Neighborhood Connectivity<a class="headerlink" href="#exercise-6-neighborhood-connectivity" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-7-economic-revenue-analysis">
+<h3><span class="section-number">13.18.7. </span>Exercise 7: Economic Revenue Analysis<a class="headerlink" href="#exercise-7-economic-revenue-analysis" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-8-multi-month-trend-analysis">
+<h3><span class="section-number">13.18.8. </span>Exercise 8: Multi-Month Trend Analysis<a class="headerlink" href="#exercise-8-multi-month-trend-analysis" title="Link to this heading">#</a></h3>
+</section>
 </section>
 </section>
 
@@ -663,7 +1434,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">14. </span>Developing Interactive Dashboards with Streamlit and Solara</p>
+        <p class="prev-next-title"><span class="section-number">14. </span>Developing Interactive Dashboards with Voilà and Solara</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -695,39 +1466,54 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-analysis">13.8. Temporal Analysis</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trips-by-hour-of-day">13.8.1. Trips by Hour of Day</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#as-of-joins-time-aware-joins">13.8.2. As-Of Joins (Time-Aware Joins)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trips-by-day-of-week">13.8.3. Trips by Day of Week</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#peak-vs-off-peak-analysis">13.8.4. Peak vs Off-Peak Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trips-by-day-of-week">13.8.2. Trips by Day of Week</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#peak-vs-off-peak-analysis">13.8.3. Peak vs Off-Peak Analysis</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-analysis">13.9. Spatial Analysis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pickup-location-hotspots">13.9.1. Pickup Location Hotspots</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trip-distance-distribution">13.9.2. Trip Distance Distribution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geographic-distribution-using-h3">13.9.3. Geographic Distribution Using H3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-taxi-zone-lookup-data">13.9. Loading Taxi Zone Lookup Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spatial-analysis">13.10. Spatial Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pickup-location-hotspots">13.10.1. Pickup Location Hotspots</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trip-distance-distribution">13.10.2. Trip Distance Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geographic-distribution-using-h3">13.10.3. Geographic Distribution Using H3</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trip-flow-analysis">13.10. Trip Flow Analysis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#top-origin-destination-pairs">13.10.1. Top Origin-Destination Pairs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#airport-trips-analysis">13.10.2. Airport Trips Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trip-flow-analysis">13.11. Trip Flow Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#top-origin-destination-pairs">13.11.1. Top Origin-Destination Pairs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#airport-trips-analysis">13.11.2. Airport Trips Analysis</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#payment-and-economic-analysis">13.11. Payment and Economic Analysis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#payment-type-analysis">13.11.1. Payment Type Analysis</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tipping-patterns">13.11.2. Tipping Patterns</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fare-per-mile-analysis">13.11.3. Fare per Mile Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#payment-and-economic-analysis">13.12. Payment and Economic Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#payment-type-analysis">13.12.1. Payment Type Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tipping-patterns">13.12.2. Tipping Patterns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fare-per-mile-analysis">13.12.3. Fare per Mile Analysis</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#passenger-behavior-analysis">13.12. Passenger Behavior Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-month-analysis">13.13. Multi-Month Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization">13.14. Visualization</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization-tips">13.15. Performance Optimization Tips</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-early">13.15.1. Filter Early</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-parquet-partitioning">13.15.2. Use Parquet Partitioning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-for-exploration">13.15.3. Sample for Exploration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#passenger-behavior-analysis">13.13. Passenger Behavior Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-month-analysis">13.14. Multi-Month Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization">13.15. Visualization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aggregating-trip-data-by-zone">13.15.1. Aggregating Trip Data by Zone</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-with-geographic-data">13.15.2. Merging with Geographic Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-choropleth-maps">13.15.3. 2D Choropleth Maps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-extruded-visualizations">13.15.4. 3D Extruded Visualizations</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">13.16. Key Takeaways</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">13.17. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization-tips">13.16. Performance Optimization Tips</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-early">13.16.1. Filter Early</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-for-exploration">13.16.2. Sample for Exploration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">13.17. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">13.18. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-peak-hour-deep-dive">13.18.1. Exercise 1: Peak Hour Deep Dive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-weekend-vs-weekday-patterns">13.18.2. Exercise 2: Weekend vs. Weekday Patterns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-airport-connection-analysis">13.18.3. Exercise 3: Airport Connection Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-tipping-behavior-study">13.18.4. Exercise 4: Tipping Behavior Study</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-speed-and-congestion-analysis">13.18.5. Exercise 5: Speed and Congestion Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-neighborhood-connectivity">13.18.6. Exercise 6: Neighborhood Connectivity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-economic-revenue-analysis">13.18.7. Exercise 7: Economic Revenue Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-multi-month-trend-analysis">13.18.8. Exercise 8: Multi-Month Trend Analysis</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

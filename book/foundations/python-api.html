@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -536,32 +536,181 @@ document.write(`
 </section>
 <section id="installation-and-setup">
 <h2><span class="section-number">3.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install duckdb pandas &#39;polars[pyarrow]&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="library-import-and-initial-setup">
 <h3><span class="section-number">3.4.1. </span>Library Import and Initial Setup<a class="headerlink" href="#library-import-and-initial-setup" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DuckDB version: </span><span class="si">{</span><span class="n">duckdb</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pandas version: </span><span class="si">{</span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="installing-and-loading-extensions">
 <h2><span class="section-number">3.5. </span>Installing and Loading Extensions<a class="headerlink" href="#installing-and-loading-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT extension_name, loaded, installed FROM duckdb_extensions()&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Common extensions for spatial data analysis</span>
+<span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;httpfs&quot;</span><span class="p">,</span> <span class="s2">&quot;spatial&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Extensions loaded successfully&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="reading-data-from-multiple-sources">
 <h2><span class="section-number">3.6. </span>Reading Data from Multiple Sources<a class="headerlink" href="#reading-data-from-multiple-sources" title="Link to this heading">#</a></h2>
 <section id="verifying-the-connection">
 <h3><span class="section-number">3.6.1. </span>Verifying the Connection<a class="headerlink" href="#verifying-the-connection" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT 42&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="reading-csv-files-from-urls">
 <h3><span class="section-number">3.6.2. </span>Reading CSV Files from URLs<a class="headerlink" href="#reading-csv-files-from-urls" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://data.gishub.org/duckdb/cities.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://data.gishub.org/duckdb/countries.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="understanding-duckdb-relations">
 <h3><span class="section-number">3.6.3. </span>Understanding DuckDB Relations<a class="headerlink" href="#understanding-duckdb-relations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cities</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://data.gishub.org/duckdb/cities.csv&quot;</span><span class="p">)</span>
+<span class="n">large_cities</span> <span class="o">=</span> <span class="n">cities</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s2">&quot;population &gt; 1000000&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s2">&quot;population DESC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">large_cities</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="seamless-integration-with-pandas-dataframes">
 <h2><span class="section-number">3.7. </span>Seamless Integration with Pandas DataFrames<a class="headerlink" href="#seamless-integration-with-pandas-dataframes" title="Link to this heading">#</a></h2>
 <section id="querying-dataframes-with-sql">
 <h3><span class="section-number">3.7.1. </span>Querying DataFrames with SQL<a class="headerlink" href="#querying-dataframes-with-sql" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pandas_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">42</span><span class="p">]})</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM pandas_df&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load cities data into a pandas DataFrame</span>
+<span class="n">cities_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;https://data.gishub.org/duckdb/cities.csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cities_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> cities into pandas DataFrame&quot;</span><span class="p">)</span>
+<span class="n">cities_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="the-bidirectional-workflow">
 <h3><span class="section-number">3.7.2. </span>The Bidirectional Workflow<a class="headerlink" href="#the-bidirectional-workflow" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Query the pandas DataFrame using SQL</span>
+<span class="n">large_cities</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT name, country, population</span>
+<span class="sd">    FROM cities_df</span>
+<span class="sd">    WHERE population &gt; 5000000</span>
+<span class="sd">    ORDER BY population DESC</span>
+<span class="sd">    LIMIT 10</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">large_cities</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1: Use SQL for initial filtering (DuckDB&#39;s strength)</span>
+<span class="n">cities_rel</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT * FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/cities.csv&#39;)</span>
+<span class="sd">    WHERE population &gt; 100000</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Step 2: Convert to DataFrame for pandas operations</span>
+<span class="n">cities_df</span> <span class="o">=</span> <span class="n">cities_rel</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+
+<span class="c1"># Step 3: Use pandas for complex transformations</span>
+<span class="n">cities_df</span><span class="p">[</span><span class="s2">&quot;pop_millions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cities_df</span><span class="p">[</span><span class="s2">&quot;population&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1_000_000</span>
+<span class="n">cities_df</span><span class="p">[</span><span class="s2">&quot;hemisphere&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cities_df</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;North&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;South&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Step 4: Query the transformed DataFrame with SQL</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT hemisphere, COUNT(*) as city_count,</span>
+<span class="sd">           AVG(pop_millions) as avg_pop_millions</span>
+<span class="sd">    FROM cities_df</span>
+<span class="sd">    GROUP BY hemisphere</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="performance-considerations">
 <h3><span class="section-number">3.7.3. </span>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h3>
@@ -569,20 +718,84 @@ document.write(`
 </section>
 <section id="polars-interoperability">
 <h2><span class="section-number">3.8. </span>Polars Interoperability<a class="headerlink" href="#polars-interoperability" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install polars</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+
+<span class="c1"># Convert DuckDB result to Polars via pandas</span>
+<span class="n">pl_df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM range(10)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">())</span>
+<span class="n">pl_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="c1"># Query Polars DataFrame in DuckDB</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) AS n FROM pl_df&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="result-conversion-and-output-formats">
 <h2><span class="section-number">3.9. </span>Result Conversion and Output Formats<a class="headerlink" href="#result-conversion-and-output-formats" title="Link to this heading">#</a></h2>
 <section id="converting-to-python-objects">
 <h3><span class="section-number">3.9.1. </span>Converting to Python Objects<a class="headerlink" href="#converting-to-python-objects" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT 42&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>  <span class="c1"># Returns [(42,)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch a single row as a tuple</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT 42, 43&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>  <span class="c1"># Returns (42, 43)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch many rows (useful for batch processing)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM range(100)&quot;</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">fetchmany</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Returns first 10 rows as list of tuples</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="converting-to-pandas-dataframes">
 <h3><span class="section-number">3.9.2. </span>Converting to Pandas DataFrames<a class="headerlink" href="#converting-to-pandas-dataframes" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT 42 AS answer&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="converting-to-numpy-arrays">
 <h3><span class="section-number">3.9.3. </span>Converting to NumPy Arrays<a class="headerlink" href="#converting-to-numpy-arrays" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT range as id, range * 2 as doubled FROM range(5)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fetchnumpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Keys: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ID array: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Doubled array: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;doubled&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="converting-to-apache-arrow-tables">
 <h3><span class="section-number">3.9.4. </span>Converting to Apache Arrow Tables<a class="headerlink" href="#converting-to-apache-arrow-tables" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT range as id FROM range(5)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">arrow</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tbl</span><span class="o">.</span><span class="n">read_next_batch</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="choosing-the-right-format">
 <h3><span class="section-number">3.9.5. </span>Choosing the Right Format<a class="headerlink" href="#choosing-the-right-format" title="Link to this heading">#</a></h3>
@@ -590,17 +803,90 @@ document.write(`
 </section>
 <section id="writing-data-to-disk">
 <h2><span class="section-number">3.10. </span>Writing Data To Disk<a class="headerlink" href="#writing-data-to-disk" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT 42&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_parquet</span><span class="p">(</span><span class="s2">&quot;out.parquet&quot;</span><span class="p">)</span>  <span class="c1"># Write to a Parquet file</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT 42&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="s2">&quot;out.csv&quot;</span><span class="p">)</span>  <span class="c1"># Write to a CSV file</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY (SELECT 42) TO &#39;out.parquet&#39;&quot;</span><span class="p">)</span>  <span class="c1"># Copy to a parquet file</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="persistent-storage-and-database-files">
 <h2><span class="section-number">3.11. </span>Persistent Storage and Database Files<a class="headerlink" href="#persistent-storage-and-database-files" title="Link to this heading">#</a></h2>
 <section id="creating-a-persistent-database">
 <h3><span class="section-number">3.11.1. </span>Creating a Persistent Database<a class="headerlink" href="#creating-a-persistent-database" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create or open a connection to a file called &#39;spatial_analysis.db&#39;</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;spatial_analysis.db&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a table and load data into it</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CREATE TABLE IF NOT EXISTS cities AS</span>
+<span class="sd">    FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/cities.csv&#39;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Query the table to verify it was created</span>
+<span class="n">con</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;cities&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="connecting-to-existing-databases">
 <h3><span class="section-number">3.11.2. </span>Connecting to Existing Databases<a class="headerlink" href="#connecting-to-existing-databases" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In a new Python session or later in your workflow</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;spatial_analysis.db&quot;</span><span class="p">)</span>
+
+<span class="c1"># All your tables are still there</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SHOW TABLES&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Query your persisted data</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT COUNT(*) FROM cities&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="connection-management-and-cleanup">
 <h3><span class="section-number">3.11.3. </span>Connection Management and Cleanup<a class="headerlink" href="#connection-management-and-cleanup" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do your work with the connection</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE test AS SELECT 42 AS value&quot;</span><span class="p">)</span>
+
+<span class="c1"># Explicitly close when done</span>
+<span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># After closing, attempting to use the connection will raise an error</span>
+<span class="c1"># con.sql(&quot;SELECT * FROM test&quot;)  # This would fail</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The with statement guarantees cleanup</span>
+<span class="k">with</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;spatial_analysis.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">con</span><span class="p">:</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        CREATE TABLE IF NOT EXISTS countries AS</span>
+<span class="sd">        FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/countries.csv&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;countries&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="c1"># Connection closes automatically when the block ends</span>
+<span class="c1"># Even if an error occurred above, the connection is now closed</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="use-cases-for-persistent-vs-in-memory-databases">
 <h3><span class="section-number">3.11.4. </span>Use Cases for Persistent vs In-Memory Databases<a class="headerlink" href="#use-cases-for-persistent-vs-in-memory-databases" title="Link to this heading">#</a></h3>
@@ -608,6 +894,26 @@ document.write(`
 </section>
 <section id="prepared-statements-and-parameters">
 <h2><span class="section-number">3.12. </span>Prepared Statements and Parameters<a class="headerlink" href="#prepared-statements-and-parameters" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT ?::INT AS a, ?::INT AS b, ?::INT + ?::INT AS sum&quot;</span>
+<span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">min_pop</span> <span class="o">=</span> <span class="mi">1000000</span>
+<span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT COUNT(*) FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/cities.csv&#39;) WHERE population &gt; ?&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="n">min_pop</span><span class="p">],</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="key-takeaways">
 <h2><span class="section-number">3.13. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>14. Developing Interactive Dashboards with Streamlit and Solara &#8212; Spatial Data Management with DuckDB</title>
+    <title>14. Developing Interactive Dashboards with Voilà and Solara &#8212; Spatial Data Management with DuckDB</title>
   
   
   
@@ -197,7 +197,7 @@
 <li class="toctree-l1"><a class="reference internal" href="wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -449,7 +449,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Developing Interactive Dashboards with Streamlit and Solara</h1>
+    <h1>Developing Interactive Dashboards with Voilà and Solara</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -459,42 +459,80 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">14.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">14.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-voila">14.1.1. Understanding Voilà</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-solara">14.1.2. Understanding Solara</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-with-the-geospatial-python-ecosystem">14.1.3. Integration with the Geospatial Python Ecosystem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-framework">14.1.4. Choosing the Right Framework</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-streamlit-or-gradio">14.1.5. Why Not Streamlit or Gradio?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-ll-learn">14.1.6. What You’ll Learn</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">14.2. Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-dashboards-for-geospatial-analysis">14.3. Why Dashboards for Geospatial Analysis?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dashboard-framework-comparison">14.4. Dashboard Framework Comparison</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#streamlit">14.4.1. Streamlit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solara">14.4.2. Solara</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-voila-and-solara">14.3. Installing Voilà and Solara</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-hugging-face-spaces">14.4. Introduction to Hugging Face Spaces</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-hugging-face-account">14.4.1. Creating a Hugging Face Account</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-the-hugging-face-cli">14.4.2. Installing the Hugging Face CLI</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-in-to-hugging-face">14.4.3. Logging in to Hugging Face</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-streamlit-geospatial-dashboard">14.5. Building a Streamlit Geospatial Dashboard</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-setup">14.5.1. Project Setup</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-dashboard-structure">14.5.2. Basic Dashboard Structure</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-user-controls">14.5.3. Adding User Controls</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-querying-data">14.5.4. Loading and Querying Data</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-visualizations">14.5.5. Creating Visualizations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-interactive-maps">14.5.6. Adding Interactive Maps</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-application-logic">14.5.7. Main Application Logic</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-dashboard">14.5.8. Running the Dashboard</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-basic-voila-application">14.5. Creating a Basic Voilà Application</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-new-hugging-face-space">14.5.1. Creating a new Hugging Face Space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-the-hugging-face-space-in-your-website">14.5.2. Embedding the Hugging Face Space in Your Website</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-voila-application">14.5.3. Running the Voilà Application</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-application-code">14.5.4. Understanding the Application Code</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-map-and-imports">14.5.4.1. Setting Up the Map and Imports</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-the-duckdb-connection">14.5.4.2. Initializing the DuckDB Connection</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-building-data">14.5.4.3. Loading the Building Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-user-interface-controls">14.5.4.4. Creating the User Interface Controls</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-the-query-logic">14.5.4.5. Implementing the Query Logic</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wiring-up-the-interface">14.5.4.6. Wiring Up the Interface</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-voila-transforms-this-notebook">14.5.4.7. How Voilà Transforms This Notebook</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-solara-dashboard">14.6. Building a Solara Dashboard</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-solara-setup">14.6.1. Basic Solara Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-file-structure-of-the-space">14.5.5. Exploring the File Structure of the Space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-the-hugging-face-space">14.5.6. Updating the Hugging Face Space</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-the-space-from-the-hugging-face-website">14.5.6.1. Updating the Space from the Hugging Face Website</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-the-space-from-the-command-line">14.5.6.2. Updating the Space from the Command Line</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dashboard-best-practices">14.7. Dashboard Best Practices</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization">14.7.1. Performance Optimization</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-experience">14.7.2. User Experience</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deployment-options">14.8. Deployment Options</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#streamlit-cloud">14.8.1. Streamlit Cloud</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-server">14.8.2. Local Server</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-container">14.8.3. Docker Container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-advanced-web-application-with-solara">14.6. Creating an Advanced Web Application with Solara</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-solara-s-architecture">14.6.1. Understanding Solara’s Architecture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#development-and-deployment-flexibility">14.6.2. Development and Deployment Flexibility</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reactive-programming-model">14.6.3. Reactive Programming Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#native-ipywidgets-integration">14.6.4. Native ipywidgets Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-solara-template-for-duckdb">14.6.5. Using a Solara Template for DuckDB</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-file-structure-of-the-solara-web-app">14.6.6. Exploring the File Structure of the Solara Web App</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-solara-components">14.6.7. Introduction to Solara Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-your-first-solara-component">14.6.7.1. Creating Your First Solara Component</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-component-structure">14.6.7.2. Understanding the Component Structure</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-solara-development-pattern">14.6.7.3. The Solara Development Pattern</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">14.9. Key Takeaways</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">14.10. Exercises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-new-page">14.6.8. Creating a New Page</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#page-naming-convention">14.6.8.1. Page Naming Convention</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-building-density-visualization-page">14.6.8.2. Creating a Building Density Visualization Page</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-buildings-page">14.6.8.3. Understanding the Buildings Page</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-solara-web-app-locally">14.6.9. Running the Solara Web App Locally</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deploying-to-hugging-face-spaces">14.6.10. Deploying to Hugging Face Spaces</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#making-changes-and-deploying">14.6.10.1. Making Changes and Deploying</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-the-deployment">14.6.10.2. Monitoring the Deployment</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sharing-your-application">14.6.10.3. Sharing Your Application</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">14.7. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">14.8. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-create-a-world-population-voila-dashboard">14.8.1. Exercise 1: Create a World Population Voilà Dashboard</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-build-a-multi-dataset-solara-application">14.8.2. Exercise 2: Build a Multi-Dataset Solara Application</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-interactive-duckdb-query-dashboard-advanced">14.8.3. Exercise 3: Interactive DuckDB Query Dashboard (Advanced)</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -506,85 +544,449 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="developing-interactive-dashboards-with-streamlit-and-solara">
-<h1><span class="section-number">14. </span>Developing Interactive Dashboards with Streamlit and Solara<a class="headerlink" href="#developing-interactive-dashboards-with-streamlit-and-solara" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="developing-interactive-dashboards-with-voila-and-solara">
+<h1><span class="section-number">14. </span>Developing Interactive Dashboards with Voilà and Solara<a class="headerlink" href="#developing-interactive-dashboards-with-voila-and-solara" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2><span class="section-number">14.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<section id="understanding-voila">
+<h3><span class="section-number">14.1.1. </span>Understanding Voilà<a class="headerlink" href="#understanding-voila" title="Link to this heading">#</a></h3>
+</section>
+<section id="understanding-solara">
+<h3><span class="section-number">14.1.2. </span>Understanding Solara<a class="headerlink" href="#understanding-solara" title="Link to this heading">#</a></h3>
+</section>
+<section id="integration-with-the-geospatial-python-ecosystem">
+<h3><span class="section-number">14.1.3. </span>Integration with the Geospatial Python Ecosystem<a class="headerlink" href="#integration-with-the-geospatial-python-ecosystem" title="Link to this heading">#</a></h3>
+</section>
+<section id="choosing-the-right-framework">
+<h3><span class="section-number">14.1.4. </span>Choosing the Right Framework<a class="headerlink" href="#choosing-the-right-framework" title="Link to this heading">#</a></h3>
+</section>
+<section id="why-not-streamlit-or-gradio">
+<h3><span class="section-number">14.1.5. </span>Why Not Streamlit or Gradio?<a class="headerlink" href="#why-not-streamlit-or-gradio" title="Link to this heading">#</a></h3>
+</section>
+<section id="what-you-ll-learn">
+<h3><span class="section-number">14.1.6. </span>What You’ll Learn<a class="headerlink" href="#what-you-ll-learn" title="Link to this heading">#</a></h3>
+</section>
 </section>
 <section id="learning-objectives">
 <h2><span class="section-number">14.2. </span>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 </section>
-<section id="why-dashboards-for-geospatial-analysis">
-<h2><span class="section-number">14.3. </span>Why Dashboards for Geospatial Analysis?<a class="headerlink" href="#why-dashboards-for-geospatial-analysis" title="Link to this heading">#</a></h2>
+<section id="installing-voila-and-solara">
+<h2><span class="section-number">14.3. </span>Installing Voilà and Solara<a class="headerlink" href="#installing-voila-and-solara" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install voila solara leafmap duckdb</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">voila</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">solara</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="dashboard-framework-comparison">
-<h2><span class="section-number">14.4. </span>Dashboard Framework Comparison<a class="headerlink" href="#dashboard-framework-comparison" title="Link to this heading">#</a></h2>
-<section id="streamlit">
-<h3><span class="section-number">14.4.1. </span>Streamlit<a class="headerlink" href="#streamlit" title="Link to this heading">#</a></h3>
+<section id="introduction-to-hugging-face-spaces">
+<h2><span class="section-number">14.4. </span>Introduction to Hugging Face Spaces<a class="headerlink" href="#introduction-to-hugging-face-spaces" title="Link to this heading">#</a></h2>
+<section id="creating-a-hugging-face-account">
+<h3><span class="section-number">14.4.1. </span>Creating a Hugging Face Account<a class="headerlink" href="#creating-a-hugging-face-account" title="Link to this heading">#</a></h3>
 </section>
-<section id="solara">
-<h3><span class="section-number">14.4.2. </span>Solara<a class="headerlink" href="#solara" title="Link to this heading">#</a></h3>
+<section id="installing-the-hugging-face-cli">
+<h3><span class="section-number">14.4.2. </span>Installing the Hugging Face CLI<a class="headerlink" href="#installing-the-hugging-face-cli" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install -U &quot;huggingface_hub&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-</section>
-<section id="building-a-streamlit-geospatial-dashboard">
-<h2><span class="section-number">14.5. </span>Building a Streamlit Geospatial Dashboard<a class="headerlink" href="#building-a-streamlit-geospatial-dashboard" title="Link to this heading">#</a></h2>
-<section id="project-setup">
-<h3><span class="section-number">14.5.1. </span>Project Setup<a class="headerlink" href="#project-setup" title="Link to this heading">#</a></h3>
-</section>
-<section id="basic-dashboard-structure">
-<h3><span class="section-number">14.5.2. </span>Basic Dashboard Structure<a class="headerlink" href="#basic-dashboard-structure" title="Link to this heading">#</a></h3>
-</section>
-<section id="adding-user-controls">
-<h3><span class="section-number">14.5.3. </span>Adding User Controls<a class="headerlink" href="#adding-user-controls" title="Link to this heading">#</a></h3>
-</section>
-<section id="loading-and-querying-data">
-<h3><span class="section-number">14.5.4. </span>Loading and Querying Data<a class="headerlink" href="#loading-and-querying-data" title="Link to this heading">#</a></h3>
-</section>
-<section id="creating-visualizations">
-<h3><span class="section-number">14.5.5. </span>Creating Visualizations<a class="headerlink" href="#creating-visualizations" title="Link to this heading">#</a></h3>
-</section>
-<section id="adding-interactive-maps">
-<h3><span class="section-number">14.5.6. </span>Adding Interactive Maps<a class="headerlink" href="#adding-interactive-maps" title="Link to this heading">#</a></h3>
-</section>
-<section id="main-application-logic">
-<h3><span class="section-number">14.5.7. </span>Main Application Logic<a class="headerlink" href="#main-application-logic" title="Link to this heading">#</a></h3>
-</section>
-<section id="running-the-dashboard">
-<h3><span class="section-number">14.5.8. </span>Running the Dashboard<a class="headerlink" href="#running-the-dashboard" title="Link to this heading">#</a></h3>
-</section>
-</section>
-<section id="building-a-solara-dashboard">
-<h2><span class="section-number">14.6. </span>Building a Solara Dashboard<a class="headerlink" href="#building-a-solara-dashboard" title="Link to this heading">#</a></h2>
-<section id="basic-solara-setup">
-<h3><span class="section-number">14.6.1. </span>Basic Solara Setup<a class="headerlink" href="#basic-solara-setup" title="Link to this heading">#</a></h3>
+<section id="logging-in-to-hugging-face">
+<h3><span class="section-number">14.4.3. </span>Logging in to Hugging Face<a class="headerlink" href="#logging-in-to-hugging-face" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hf<span class="w"> </span>auth<span class="w"> </span>login
+</pre></div>
+</div>
 </section>
 </section>
-<section id="dashboard-best-practices">
-<h2><span class="section-number">14.7. </span>Dashboard Best Practices<a class="headerlink" href="#dashboard-best-practices" title="Link to this heading">#</a></h2>
-<section id="performance-optimization">
-<h3><span class="section-number">14.7.1. </span>Performance Optimization<a class="headerlink" href="#performance-optimization" title="Link to this heading">#</a></h3>
+<section id="creating-a-basic-voila-application">
+<h2><span class="section-number">14.5. </span>Creating a Basic Voilà Application<a class="headerlink" href="#creating-a-basic-voila-application" title="Link to this heading">#</a></h2>
+<section id="creating-a-new-hugging-face-space">
+<h3><span class="section-number">14.5.1. </span>Creating a new Hugging Face Space<a class="headerlink" href="#creating-a-new-hugging-face-space" title="Link to this heading">#</a></h3>
 </section>
-<section id="user-experience">
-<h3><span class="section-number">14.7.2. </span>User Experience<a class="headerlink" href="#user-experience" title="Link to this heading">#</a></h3>
+<section id="embedding-the-hugging-face-space-in-your-website">
+<h3><span class="section-number">14.5.2. </span>Embedding the Hugging Face Space in Your Website<a class="headerlink" href="#embedding-the-hugging-face-space-in-your-website" title="Link to this heading">#</a></h3>
+</section>
+<section id="running-the-voila-application">
+<h3><span class="section-number">14.5.3. </span>Running the Voilà Application<a class="headerlink" href="#running-the-voila-application" title="Link to this heading">#</a></h3>
+</section>
+<section id="understanding-the-application-code">
+<h3><span class="section-number">14.5.4. </span>Understanding the Application Code<a class="headerlink" href="#understanding-the-application-code" title="Link to this heading">#</a></h3>
+<section id="setting-up-the-map-and-imports">
+<h4><span class="section-number">14.5.4.1. </span>Setting Up the Map and Imports<a class="headerlink" href="#setting-up-the-map-and-imports" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">widgets</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.maplibregl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">sidebar_visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">layer_manager_expanded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;800px&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">,</span> <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_draw_control</span><span class="p">(</span><span class="n">controls</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;polygon&quot;</span><span class="p">,</span> <span class="s2">&quot;trash&quot;</span><span class="p">])</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="initializing-the-duckdb-connection">
+<h4><span class="section-number">14.5.4.2. </span>Initializing the DuckDB Connection<a class="headerlink" href="#initializing-the-duckdb-connection" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;h3&quot;</span><span class="p">,</span> <span class="n">repository</span><span class="o">=</span><span class="s2">&quot;community&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;h3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="loading-the-building-data">
+<h4><span class="section-number">14.5.4.3. </span>Loading the Building Data<a class="headerlink" href="#loading-the-building-data" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/duckdb/h3_res4_geo.parquet&quot;</span>
+
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;CREATE TABLE IF NOT EXISTS h3_res4_geo AS SELECT * FROM read_parquet(&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;);&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-the-user-interface-controls">
+<h4><span class="section-number">14.5.4.4. </span>Creating the User Interface Controls<a class="headerlink" href="#creating-the-user-interface-controls" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">colormaps</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">colormaps</span><span class="p">())</span>
+
+<span class="n">checkbox</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Checkbox</span><span class="p">(</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;3D Map&quot;</span><span class="p">,</span>
+    <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
+    <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;initial&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">outline_chk</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Checkbox</span><span class="p">(</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Add Hexagon Outline&quot;</span><span class="p">,</span>
+    <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
+    <span class="n">layout</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="s2">&quot;initial&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">colormap_dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+    <span class="n">options</span><span class="o">=</span><span class="n">colormaps</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Colormap:&quot;</span><span class="p">,</span>
+    <span class="n">value</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">class_slider</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">(</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Class:&quot;</span><span class="p">,</span>
+    <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">value</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;description_width&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">apply_btn</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Apply&quot;</span><span class="p">)</span>
+<span class="n">close_btn</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Close&quot;</span><span class="p">)</span>
+<span class="n">output_widget</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Output</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">output_widget</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Draw a polygon on the map. Then, </span><span class="se">\n</span><span class="s2">click on the &#39;Apply&#39; button&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="implementing-the-query-logic">
+<h4><span class="section-number">14.5.4.5. </span>Implementing the Query Logic<a class="headerlink" href="#implementing-the-query-logic" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">on_apply_btn_click</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">output_widget</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">output_widget</span><span class="o">.</span><span class="n">clear_output</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">draw_features_selected</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">geojson</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">draw_features_selected</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT * EXCLUDE (geometry), ST_AsText(geometry) AS geometry FROM h3_res4_geo</span>
+<span class="s2">            WHERE ST_Intersects(geometry, ST_GeomFromGeoJSON(&#39;</span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">geojson</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;));</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+            <span class="n">gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;H3 Hexagon&quot;</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">layer_dict</span><span class="p">:</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">remove_layer</span><span class="p">(</span><span class="s2">&quot;H3 Hexagon&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">outline_chk</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+                <span class="n">outline_color</span> <span class="o">=</span> <span class="s2">&quot;rgba(255, 255, 255, 255)&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">outline_color</span> <span class="o">=</span> <span class="s2">&quot;rgba(255, 255, 255, 0)&quot;</span>
+
+            <span class="k">if</span> <span class="n">checkbox</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+                    <span class="n">gdf</span><span class="p">,</span>
+                    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;building_count&quot;</span><span class="p">,</span>
+                    <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;JenksCaspall&quot;</span><span class="p">,</span>
+                    <span class="n">cmap</span><span class="o">=</span><span class="n">colormap_dropdown</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                    <span class="n">k</span><span class="o">=</span><span class="n">class_slider</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                    <span class="n">outline_color</span><span class="o">=</span><span class="n">outline_color</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;H3 Hexagon&quot;</span><span class="p">,</span>
+                    <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span>
+                    <span class="n">extrude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+                    <span class="n">gdf</span><span class="p">,</span>
+                    <span class="n">column</span><span class="o">=</span><span class="s2">&quot;building_count&quot;</span><span class="p">,</span>
+                    <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;JenksCaspall&quot;</span><span class="p">,</span>
+                    <span class="n">cmap</span><span class="o">=</span><span class="n">colormap_dropdown</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                    <span class="n">k</span><span class="o">=</span><span class="n">class_slider</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                    <span class="n">outline_color</span><span class="o">=</span><span class="n">outline_color</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;H3 Hexagon&quot;</span><span class="p">,</span>
+                    <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span>
+                    <span class="n">fit_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">add_legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="n">m</span><span class="o">.</span><span class="n">remove_from_sidebar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Legend&quot;</span><span class="p">)</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">add_legend_to_sidebar</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Building Count&quot;</span><span class="p">,</span>
+                <span class="n">legend_dict</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">legend_dict</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">output_widget</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">on_close_btn_click</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">remove_from_sidebar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;H3 Hexagonal Grid&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="wiring-up-the-interface">
+<h4><span class="section-number">14.5.4.6. </span>Wiring Up the Interface<a class="headerlink" href="#wiring-up-the-interface" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">apply_btn</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_apply_btn_click</span><span class="p">)</span>
+<span class="n">close_btn</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="n">on_close_btn_click</span><span class="p">)</span>
+
+<span class="n">widget</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">checkbox</span><span class="p">,</span> <span class="n">outline_chk</span><span class="p">]),</span>
+        <span class="n">colormap_dropdown</span><span class="p">,</span>
+        <span class="n">class_slider</span><span class="p">,</span>
+        <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span><span class="n">apply_btn</span><span class="p">,</span> <span class="n">close_btn</span><span class="p">]),</span>
+        <span class="n">output_widget</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_to_sidebar</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;H3 Hexagonal Grid&quot;</span><span class="p">,</span> <span class="n">widget_icon</span><span class="o">=</span><span class="s2">&quot;mdi-hexagon-multiple&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="how-voila-transforms-this-notebook">
+<h4><span class="section-number">14.5.4.7. </span>How Voilà Transforms This Notebook<a class="headerlink" href="#how-voila-transforms-this-notebook" title="Link to this heading">#</a></h4>
 </section>
 </section>
-<section id="deployment-options">
-<h2><span class="section-number">14.8. </span>Deployment Options<a class="headerlink" href="#deployment-options" title="Link to this heading">#</a></h2>
-<section id="streamlit-cloud">
-<h3><span class="section-number">14.8.1. </span>Streamlit Cloud<a class="headerlink" href="#streamlit-cloud" title="Link to this heading">#</a></h3>
+<section id="exploring-the-file-structure-of-the-space">
+<h3><span class="section-number">14.5.5. </span>Exploring the File Structure of the Space<a class="headerlink" href="#exploring-the-file-structure-of-the-space" title="Link to this heading">#</a></h3>
 </section>
-<section id="local-server">
-<h3><span class="section-number">14.8.2. </span>Local Server<a class="headerlink" href="#local-server" title="Link to this heading">#</a></h3>
+<section id="updating-the-hugging-face-space">
+<h3><span class="section-number">14.5.6. </span>Updating the Hugging Face Space<a class="headerlink" href="#updating-the-hugging-face-space" title="Link to this heading">#</a></h3>
+<section id="updating-the-space-from-the-hugging-face-website">
+<h4><span class="section-number">14.5.6.1. </span>Updating the Space from the Hugging Face Website<a class="headerlink" href="#updating-the-space-from-the-hugging-face-website" title="Link to this heading">#</a></h4>
 </section>
-<section id="docker-container">
-<h3><span class="section-number">14.8.3. </span>Docker Container<a class="headerlink" href="#docker-container" title="Link to this heading">#</a></h3>
+<section id="updating-the-space-from-the-command-line">
+<h4><span class="section-number">14.5.6.2. </span>Updating the Space from the Command Line<a class="headerlink" href="#updating-the-space-from-the-command-line" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/spaces/YOUR-USERNAME/duckdb-voila
+<span class="nb">cd</span><span class="w"> </span>duckdb-voila
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>voila<span class="w"> </span>notebooks/
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>voila<span class="w"> </span>notebooks/<span class="w"> </span>--strip_sources<span class="o">=</span>False
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="creating-an-advanced-web-application-with-solara">
+<h2><span class="section-number">14.6. </span>Creating an Advanced Web Application with Solara<a class="headerlink" href="#creating-an-advanced-web-application-with-solara" title="Link to this heading">#</a></h2>
+<section id="understanding-solara-s-architecture">
+<h3><span class="section-number">14.6.1. </span>Understanding Solara’s Architecture<a class="headerlink" href="#understanding-solara-s-architecture" title="Link to this heading">#</a></h3>
+</section>
+<section id="development-and-deployment-flexibility">
+<h3><span class="section-number">14.6.2. </span>Development and Deployment Flexibility<a class="headerlink" href="#development-and-deployment-flexibility" title="Link to this heading">#</a></h3>
+</section>
+<section id="reactive-programming-model">
+<h3><span class="section-number">14.6.3. </span>Reactive Programming Model<a class="headerlink" href="#reactive-programming-model" title="Link to this heading">#</a></h3>
+</section>
+<section id="native-ipywidgets-integration">
+<h3><span class="section-number">14.6.4. </span>Native ipywidgets Integration<a class="headerlink" href="#native-ipywidgets-integration" title="Link to this heading">#</a></h3>
+</section>
+<section id="using-a-solara-template-for-duckdb">
+<h3><span class="section-number">14.6.5. </span>Using a Solara Template for DuckDB<a class="headerlink" href="#using-a-solara-template-for-duckdb" title="Link to this heading">#</a></h3>
+</section>
+<section id="exploring-the-file-structure-of-the-solara-web-app">
+<h3><span class="section-number">14.6.6. </span>Exploring the File Structure of the Solara Web App<a class="headerlink" href="#exploring-the-file-structure-of-the-solara-web-app" title="Link to this heading">#</a></h3>
+</section>
+<section id="introduction-to-solara-components">
+<h3><span class="section-number">14.6.7. </span>Introduction to Solara Components<a class="headerlink" href="#introduction-to-solara-components" title="Link to this heading">#</a></h3>
+<section id="creating-your-first-solara-component">
+<h4><span class="section-number">14.6.7.1. </span>Creating Your First Solara Component<a class="headerlink" href="#creating-your-first-solara-component" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">solara</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.maplibregl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_map</span><span class="p">():</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;liberty&quot;</span><span class="p">,</span>
+        <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;globe&quot;</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="s2">&quot;750px&quot;</span><span class="p">,</span>
+        <span class="n">zoom</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+        <span class="n">add_sidebar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">sidebar_visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="nd">@solara</span><span class="o">.</span><span class="n">component</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Page</span><span class="p">():</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">create_map</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">to_solara</span><span class="p">()</span>
+
+
+<span class="n">Page</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="understanding-the-component-structure">
+<h4><span class="section-number">14.6.7.2. </span>Understanding the Component Structure<a class="headerlink" href="#understanding-the-component-structure" title="Link to this heading">#</a></h4>
+</section>
+<section id="the-solara-development-pattern">
+<h4><span class="section-number">14.6.7.3. </span>The Solara Development Pattern<a class="headerlink" href="#the-solara-development-pattern" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="creating-a-new-page">
+<h3><span class="section-number">14.6.8. </span>Creating a New Page<a class="headerlink" href="#creating-a-new-page" title="Link to this heading">#</a></h3>
+<section id="page-naming-convention">
+<h4><span class="section-number">14.6.8.1. </span>Page Naming Convention<a class="headerlink" href="#page-naming-convention" title="Link to this heading">#</a></h4>
+</section>
+<section id="creating-a-building-density-visualization-page">
+<h4><span class="section-number">14.6.8.2. </span>Creating a Building Density Visualization Page<a class="headerlink" href="#creating-a-building-density-visualization-page" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">solara</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.maplibregl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_map</span><span class="p">():</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;dark-matter&quot;</span><span class="p">,</span>
+        <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;globe&quot;</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="s2">&quot;750px&quot;</span><span class="p">,</span>
+        <span class="n">zoom</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+        <span class="n">add_sidebar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">sidebar_visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">add_basemap</span><span class="p">(</span><span class="s2">&quot;Esri.WorldImagery&quot;</span><span class="p">,</span> <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/duckdb/h3_res4_geo.parquet&quot;</span>
+    <span class="n">gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">read_vector</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span>
+        <span class="n">gdf</span><span class="p">,</span>
+        <span class="n">column</span><span class="o">=</span><span class="s2">&quot;building_count&quot;</span><span class="p">,</span>
+        <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;JenksCaspall&quot;</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">,</span>
+        <span class="n">outline_color</span><span class="o">=</span><span class="s2">&quot;rgba(255, 255, 255, 0)&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;H3 Hexagon&quot;</span><span class="p">,</span>
+        <span class="n">before_id</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">first_symbol_layer_id</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="nd">@solara</span><span class="o">.</span><span class="n">component</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Page</span><span class="p">():</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">create_map</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">to_solara</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="understanding-the-buildings-page">
+<h4><span class="section-number">14.6.8.3. </span>Understanding the Buildings Page<a class="headerlink" href="#understanding-the-buildings-page" title="Link to this heading">#</a></h4>
+</section>
+</section>
+<section id="running-the-solara-web-app-locally">
+<h3><span class="section-number">14.6.9. </span>Running the Solara Web App Locally<a class="headerlink" href="#running-the-solara-web-app-locally" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>duckdb-solara
+solara<span class="w"> </span>run<span class="w"> </span>pages/
+</pre></div>
+</div>
+</section>
+<section id="deploying-to-hugging-face-spaces">
+<h3><span class="section-number">14.6.10. </span>Deploying to Hugging Face Spaces<a class="headerlink" href="#deploying-to-hugging-face-spaces" title="Link to this heading">#</a></h3>
+<section id="making-changes-and-deploying">
+<h4><span class="section-number">14.6.10.1. </span>Making Changes and Deploying<a class="headerlink" href="#making-changes-and-deploying" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add buildings visualization page&quot;</span>
+git<span class="w"> </span>push
+</pre></div>
+</div>
+</section>
+<section id="monitoring-the-deployment">
+<h4><span class="section-number">14.6.10.2. </span>Monitoring the Deployment<a class="headerlink" href="#monitoring-the-deployment" title="Link to this heading">#</a></h4>
+</section>
+<section id="sharing-your-application">
+<h4><span class="section-number">14.6.10.3. </span>Sharing Your Application<a class="headerlink" href="#sharing-your-application" title="Link to this heading">#</a></h4>
+</section>
 </section>
 </section>
 <section id="key-takeaways">
-<h2><span class="section-number">14.9. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">14.7. </span>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
 </section>
 <section id="exercises">
-<h2><span class="section-number">14.10. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">14.8. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-create-a-world-population-voila-dashboard">
+<h3><span class="section-number">14.8.1. </span>Exercise 1: Create a World Population Voilà Dashboard<a class="headerlink" href="#exercise-1-create-a-world-population-voila-dashboard" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-2-build-a-multi-dataset-solara-application">
+<h3><span class="section-number">14.8.2. </span>Exercise 2: Build a Multi-Dataset Solara Application<a class="headerlink" href="#exercise-2-build-a-multi-dataset-solara-application" title="Link to this heading">#</a></h3>
+</section>
+<section id="exercise-3-interactive-duckdb-query-dashboard-advanced">
+<h3><span class="section-number">14.8.3. </span>Exercise 3: Interactive DuckDB Query Dashboard (Advanced)<a class="headerlink" href="#exercise-3-interactive-duckdb-query-dashboard-advanced" title="Link to this heading">#</a></h3>
+</section>
 </section>
 </section>
 
@@ -643,42 +1045,80 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">14.1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">14.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-voila">14.1.1. Understanding Voilà</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-solara">14.1.2. Understanding Solara</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-with-the-geospatial-python-ecosystem">14.1.3. Integration with the Geospatial Python Ecosystem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-framework">14.1.4. Choosing the Right Framework</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-streamlit-or-gradio">14.1.5. Why Not Streamlit or Gradio?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-ll-learn">14.1.6. What You’ll Learn</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">14.2. Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-dashboards-for-geospatial-analysis">14.3. Why Dashboards for Geospatial Analysis?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dashboard-framework-comparison">14.4. Dashboard Framework Comparison</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#streamlit">14.4.1. Streamlit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solara">14.4.2. Solara</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-voila-and-solara">14.3. Installing Voilà and Solara</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-hugging-face-spaces">14.4. Introduction to Hugging Face Spaces</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-hugging-face-account">14.4.1. Creating a Hugging Face Account</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-the-hugging-face-cli">14.4.2. Installing the Hugging Face CLI</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-in-to-hugging-face">14.4.3. Logging in to Hugging Face</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-streamlit-geospatial-dashboard">14.5. Building a Streamlit Geospatial Dashboard</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#project-setup">14.5.1. Project Setup</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-dashboard-structure">14.5.2. Basic Dashboard Structure</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-user-controls">14.5.3. Adding User Controls</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-querying-data">14.5.4. Loading and Querying Data</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-visualizations">14.5.5. Creating Visualizations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-interactive-maps">14.5.6. Adding Interactive Maps</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-application-logic">14.5.7. Main Application Logic</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-dashboard">14.5.8. Running the Dashboard</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-basic-voila-application">14.5. Creating a Basic Voilà Application</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-new-hugging-face-space">14.5.1. Creating a new Hugging Face Space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-the-hugging-face-space-in-your-website">14.5.2. Embedding the Hugging Face Space in Your Website</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-voila-application">14.5.3. Running the Voilà Application</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-application-code">14.5.4. Understanding the Application Code</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-map-and-imports">14.5.4.1. Setting Up the Map and Imports</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-the-duckdb-connection">14.5.4.2. Initializing the DuckDB Connection</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-building-data">14.5.4.3. Loading the Building Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-user-interface-controls">14.5.4.4. Creating the User Interface Controls</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-the-query-logic">14.5.4.5. Implementing the Query Logic</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#wiring-up-the-interface">14.5.4.6. Wiring Up the Interface</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-voila-transforms-this-notebook">14.5.4.7. How Voilà Transforms This Notebook</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-solara-dashboard">14.6. Building a Solara Dashboard</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-solara-setup">14.6.1. Basic Solara Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-file-structure-of-the-space">14.5.5. Exploring the File Structure of the Space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-the-hugging-face-space">14.5.6. Updating the Hugging Face Space</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-the-space-from-the-hugging-face-website">14.5.6.1. Updating the Space from the Hugging Face Website</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-the-space-from-the-command-line">14.5.6.2. Updating the Space from the Command Line</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dashboard-best-practices">14.7. Dashboard Best Practices</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization">14.7.1. Performance Optimization</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-experience">14.7.2. User Experience</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deployment-options">14.8. Deployment Options</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#streamlit-cloud">14.8.1. Streamlit Cloud</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-server">14.8.2. Local Server</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-container">14.8.3. Docker Container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-advanced-web-application-with-solara">14.6. Creating an Advanced Web Application with Solara</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-solara-s-architecture">14.6.1. Understanding Solara’s Architecture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#development-and-deployment-flexibility">14.6.2. Development and Deployment Flexibility</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reactive-programming-model">14.6.3. Reactive Programming Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#native-ipywidgets-integration">14.6.4. Native ipywidgets Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-solara-template-for-duckdb">14.6.5. Using a Solara Template for DuckDB</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-file-structure-of-the-solara-web-app">14.6.6. Exploring the File Structure of the Solara Web App</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-solara-components">14.6.7. Introduction to Solara Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-your-first-solara-component">14.6.7.1. Creating Your First Solara Component</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-component-structure">14.6.7.2. Understanding the Component Structure</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-solara-development-pattern">14.6.7.3. The Solara Development Pattern</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">14.9. Key Takeaways</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">14.10. Exercises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-new-page">14.6.8. Creating a New Page</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#page-naming-convention">14.6.8.1. Page Naming Convention</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-building-density-visualization-page">14.6.8.2. Creating a Building Density Visualization Page</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-buildings-page">14.6.8.3. Understanding the Buildings Page</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-solara-web-app-locally">14.6.9. Running the Solara Web App Locally</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deploying-to-hugging-face-spaces">14.6.10. Deploying to Hugging Face Spaces</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#making-changes-and-deploying">14.6.10.1. Making Changes and Deploying</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-the-deployment">14.6.10.2. Monitoring the Deployment</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sharing-your-application">14.6.10.3. Sharing Your Application</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">14.7. Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">14.8. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-create-a-world-population-voila-dashboard">14.8.1. Exercise 1: Create a World Population Voilà Dashboard</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-build-a-multi-dataset-solara-application">14.8.2. Exercise 2: Build a Multi-Dataset Solara Application</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-interactive-duckdb-query-dashboard-advanced">14.8.3. Exercise 3: Interactive DuckDB Query Dashboard (Advanced)</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

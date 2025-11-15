@@ -198,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../analytics/wetlands.html">11. Analyzing US National Wetlands Inventory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/buildings.html">12. Analyzing Global Building Footprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../analytics/taxi.html">13. Analyzing NYC Taxi Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Streamlit and Solara</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analytics/dashboards.html">14. Developing Interactive Dashboards with Voilà and Solara</a></li>
 </ul>
 
     </div>
@@ -568,32 +568,227 @@ document.write(`
 </section>
 <section id="installation-and-setup">
 <h2><span class="section-number">5.4. </span>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install duckdb pandas</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="library-import-and-initial-setup">
 <h3><span class="section-number">5.4.1. </span>Library Import and Initial Setup<a class="headerlink" href="#library-import-and-initial-setup" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DuckDB version: </span><span class="si">{</span><span class="n">duckdb</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pandas version: </span><span class="si">{</span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="installing-and-loading-extensions">
 <h2><span class="section-number">5.5. </span>Installing and Loading Extensions<a class="headerlink" href="#installing-and-loading-extensions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;httpfs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;spatial&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT extension_name, loaded, installed FROM duckdb_extensions() WHERE extension_name IN (&#39;httpfs&#39;, &#39;spatial&#39;)&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="loading-sample-data">
 <h2><span class="section-number">5.6. </span>Loading Sample Data<a class="headerlink" href="#loading-sample-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CREATE TABLE IF NOT EXISTS cities AS</span>
+<span class="sd">SELECT * FROM &#39;https://data.gishub.org/duckdb/cities.parquet&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;cities&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;SELECT COUNT(*) AS city_count, MIN(population) AS min_pop, MAX(population) AS max_pop, AVG(population) AS avg_pop FROM cities&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SUMMARIZE SELECT population FROM cities&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SUMMARIZE SELECT population FROM cities&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exporting-to-pandas-dataframes">
 <h2><span class="section-number">5.7. </span>Exporting to Pandas DataFrames<a class="headerlink" href="#exporting-to-pandas-dataframes" title="Link to this heading">#</a></h2>
 <section id="basic-dataframe-export">
 <h3><span class="section-number">5.7.1. </span>Basic DataFrame Export<a class="headerlink" href="#basic-dataframe-export" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cities_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;cities&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">cities_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cities_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exporting-filtered-query-results">
 <h3><span class="section-number">5.7.2. </span>Exporting Filtered Query Results<a class="headerlink" href="#exporting-filtered-query-results" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Export only large cities in the United States</span>
+<span class="n">us_large_cities_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT name, population, latitude, longitude</span>
+<span class="sd">    FROM cities</span>
+<span class="sd">    WHERE country = &#39;USA&#39; AND population &gt; 500000</span>
+<span class="sd">    ORDER BY population DESC</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+
+<span class="n">us_large_cities_df</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="working-with-geometry-columns-in-dataframes">
 <h3><span class="section-number">5.7.3. </span>Working with Geometry Columns in DataFrames<a class="headerlink" href="#working-with-geometry-columns-in-dataframes" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Export without geometry for statistical analysis</span>
+<span class="n">cities_stats_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT name, country, population, latitude, longitude</span>
+<span class="sd">    FROM cities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+
+<span class="n">cities_stats_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cities_stats_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * EXCLUDE geometry FROM cities&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">cities_stats_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="converting-geometries-to-text-for-dataframes">
 <h3><span class="section-number">5.7.4. </span>Converting Geometries to Text for DataFrames<a class="headerlink" href="#converting-geometries-to-text-for-dataframes" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cities_with_wkt_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT name, country, population,</span>
+<span class="sd">           ST_AsText(geometry) AS geometry_wkt</span>
+<span class="sd">    FROM cities</span>
+<span class="sd">    LIMIT 5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">cities_with_wkt_df</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="integrating-with-geopandas-for-spatial-operations">
 <h3><span class="section-number">5.7.5. </span>Integrating with GeoPandas for Spatial Operations<a class="headerlink" href="#integrating-with-geopandas-for-spatial-operations" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Export with WKT geometry for GeoPandas conversion</span>
+<span class="n">df_for_geopandas</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SELECT name, country, population,</span>
+<span class="sd">           latitude, longitude,</span>
+<span class="sd">           ST_AsText(geometry) AS wkt</span>
+<span class="sd">    FROM cities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely</span><span class="w"> </span><span class="kn">import</span> <span class="n">wkt</span>
+
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
+    <span class="n">df_for_geopandas</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">df_for_geopandas</span><span class="p">[</span><span class="s2">&quot;wkt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">wkt</span><span class="o">.</span><span class="n">loads</span><span class="p">),</span> <span class="n">crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span>
+<span class="p">)</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="performance-considerations-for-dataframe-export">
 <h3><span class="section-number">5.7.6. </span>Performance Considerations for DataFrame Export<a class="headerlink" href="#performance-considerations-for-dataframe-export" title="Link to this heading">#</a></h3>
@@ -603,12 +798,97 @@ document.write(`
 <h2><span class="section-number">5.8. </span>Exporting to CSV Files<a class="headerlink" href="#exporting-to-csv-files" title="Link to this heading">#</a></h2>
 <section id="basic-csv-export">
 <h3><span class="section-number">5.8.1. </span>Basic CSV Export<a class="headerlink" href="#basic-csv-export" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY cities TO &#39;cities.csv&#39; (HEADER, DELIMITER &#39;,&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="streaming-query-results-to-csv">
 <h3><span class="section-number">5.8.2. </span>Streaming Query Results to CSV<a class="headerlink" href="#streaming-query-results-to-csv" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT * FROM cities WHERE country=&#39;USA&#39;</span>
+<span class="sd">    ) TO &#39;cities_us.csv&#39; (HEADER, DELIMITER &#39;,&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT country,</span>
+<span class="sd">               COUNT(*) AS city_count,</span>
+<span class="sd">               SUM(population) AS total_population,</span>
+<span class="sd">               AVG(population) AS avg_population</span>
+<span class="sd">        FROM cities</span>
+<span class="sd">        GROUP BY country</span>
+<span class="sd">        HAVING COUNT(*) &gt; 5</span>
+<span class="sd">        ORDER BY total_population DESC</span>
+<span class="sd">    ) TO &#39;country_stats.csv&#39; (HEADER, DELIMITER &#39;,&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="handling-geometries-in-csv-exports">
 <h3><span class="section-number">5.8.3. </span>Handling Geometries in CSV Exports<a class="headerlink" href="#handling-geometries-in-csv-exports" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT * EXCLUDE geometry FROM cities</span>
+<span class="sd">    ) TO &#39;cities_no_geometry.csv&#39; (HEADER, DELIMITER &#39;,&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT name, country, population,</span>
+<span class="sd">               ST_X(geometry) AS longitude,</span>
+<span class="sd">               ST_Y(geometry) AS latitude</span>
+<span class="sd">        FROM cities</span>
+<span class="sd">    ) TO &#39;cities_with_coords.csv&#39; (HEADER, DELIMITER &#39;,&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT name, country, population,</span>
+<span class="sd">               ST_AsText(geometry) AS geometry_wkt</span>
+<span class="sd">        FROM cities</span>
+<span class="sd">        LIMIT 10</span>
+<span class="sd">    ) TO &#39;cities_with_wkt.csv&#39; (HEADER, DELIMITER &#39;,&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="when-to-use-csv-export">
 <h3><span class="section-number">5.8.4. </span>When to Use CSV Export<a class="headerlink" href="#when-to-use-csv-export" title="Link to this heading">#</a></h3>
@@ -618,12 +898,49 @@ document.write(`
 <h2><span class="section-number">5.9. </span>Exporting to JSON Files<a class="headerlink" href="#exporting-to-json-files" title="Link to this heading">#</a></h2>
 <section id="basic-json-export">
 <h3><span class="section-number">5.9.1. </span>Basic JSON Export<a class="headerlink" href="#basic-json-export" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY cities TO &#39;cities.json&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exporting-filtered-query-results-to-json">
 <h3><span class="section-number">5.9.2. </span>Exporting Filtered Query Results to JSON<a class="headerlink" href="#exporting-filtered-query-results-to-json" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY (SELECT * FROM cities WHERE country=&#39;USA&#39;) TO &#39;cities_us.json&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="handling-geometries-in-json-exports">
 <h3><span class="section-number">5.9.3. </span>Handling Geometries in JSON Exports<a class="headerlink" href="#handling-geometries-in-json-exports" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY (SELECT * EXCLUDE geometry FROM cities) TO &#39;cities_attributes.json&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT name, country, population,</span>
+<span class="sd">               ST_X(geometry) AS longitude,</span>
+<span class="sd">               ST_Y(geometry) AS latitude</span>
+<span class="sd">        FROM cities</span>
+<span class="sd">    ) TO &#39;cities_with_coords.json&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="when-to-use-json-export">
 <h3><span class="section-number">5.9.4. </span>When to Use JSON Export<a class="headerlink" href="#when-to-use-json-export" title="Link to this heading">#</a></h3>
@@ -636,15 +953,70 @@ document.write(`
 </section>
 <section id="installing-and-loading-the-excel-extension">
 <h3><span class="section-number">5.10.2. </span>Installing and Loading the Excel Extension<a class="headerlink" href="#installing-and-loading-the-excel-extension" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">install_extension</span><span class="p">(</span><span class="s2">&quot;excel&quot;</span><span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">load_extension</span><span class="p">(</span><span class="s2">&quot;excel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="basic-excel-export-without-geometries">
 <h3><span class="section-number">5.10.3. </span>Basic Excel Export Without Geometries<a class="headerlink" href="#basic-excel-export-without-geometries" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;COPY (SELECT * EXCLUDE geometry FROM cities) TO &#39;cities.xlsx&#39; WITH (FORMAT xlsx, HEADER true)&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="including-spatial-information-as-text-columns">
 <h3><span class="section-number">5.10.4. </span>Including Spatial Information as Text Columns<a class="headerlink" href="#including-spatial-information-as-text-columns" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT name, country, population,</span>
+<span class="sd">               ST_X(geometry) AS longitude,</span>
+<span class="sd">               ST_Y(geometry) AS latitude,</span>
+<span class="sd">               ST_AsText(geometry) AS wkt</span>
+<span class="sd">        FROM cities</span>
+<span class="sd">    ) TO &#39;cities_with_coords.xlsx&#39; WITH (FORMAT xlsx, HEADER true)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exporting-filtered-and-aggregated-results-to-excel">
 <h3><span class="section-number">5.10.5. </span>Exporting Filtered and Aggregated Results to Excel<a class="headerlink" href="#exporting-filtered-and-aggregated-results-to-excel" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT country,</span>
+<span class="sd">               COUNT(*) AS city_count,</span>
+<span class="sd">               SUM(population) AS total_population,</span>
+<span class="sd">               AVG(population) AS avg_population,</span>
+<span class="sd">               MAX(population) AS largest_city_pop</span>
+<span class="sd">        FROM cities</span>
+<span class="sd">        GROUP BY country</span>
+<span class="sd">        HAVING COUNT(*) &gt;= 5</span>
+<span class="sd">        ORDER BY total_population DESC</span>
+<span class="sd">    ) TO &#39;country_summary.xlsx&#39; WITH (FORMAT xlsx, HEADER true)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="when-to-use-excel-export">
 <h3><span class="section-number">5.10.6. </span>When to Use Excel Export<a class="headerlink" href="#when-to-use-excel-export" title="Link to this heading">#</a></h3>
@@ -657,12 +1029,38 @@ document.write(`
 </section>
 <section id="basic-parquet-export">
 <h3><span class="section-number">5.11.2. </span>Basic Parquet Export<a class="headerlink" href="#basic-parquet-export" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY cities TO &#39;cities.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exporting-filtered-query-results-to-parquet">
 <h3><span class="section-number">5.11.3. </span>Exporting Filtered Query Results to Parquet<a class="headerlink" href="#exporting-filtered-query-results-to-parquet" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY (SELECT * FROM cities WHERE country=&#39;USA&#39;) TO &#39;cities_us.parquet&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="partitioned-parquet-writes">
 <h3><span class="section-number">5.11.4. </span>Partitioned Parquet Writes<a class="headerlink" href="#partitioned-parquet-writes" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY cities TO &#39;cities_parquet/&#39;</span>
+<span class="sd">    WITH (FORMAT PARQUET, PARTITION_BY (country))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="exporting-to-geojson-format">
@@ -672,12 +1070,62 @@ document.write(`
 </section>
 <section id="basic-geojson-export">
 <h3><span class="section-number">5.12.2. </span>Basic GeoJSON Export<a class="headerlink" href="#basic-geojson-export" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY cities TO &#39;cities.geojson&#39; WITH (FORMAT GDAL, DRIVER &#39;GeoJSON&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exporting-filtered-subsets-to-geojson">
 <h3><span class="section-number">5.12.3. </span>Exporting Filtered Subsets to GeoJSON<a class="headerlink" href="#exporting-filtered-subsets-to-geojson" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;COPY (SELECT * FROM cities WHERE country=&#39;USA&#39;) TO &#39;cities_us.geojson&#39; WITH (FORMAT GDAL, DRIVER &#39;GeoJSON&#39;)&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (</span>
+<span class="sd">        SELECT name, country, population,</span>
+<span class="sd">               CASE</span>
+<span class="sd">                   WHEN population &gt; 10000000 THEN &#39;Megacity&#39;</span>
+<span class="sd">                   WHEN population &gt; 5000000 THEN &#39;Large City&#39;</span>
+<span class="sd">                   ELSE &#39;City&#39;</span>
+<span class="sd">               END AS size_category,</span>
+<span class="sd">               geometry</span>
+<span class="sd">        FROM cities</span>
+<span class="sd">        WHERE population &gt; 1000000</span>
+<span class="sd">    ) TO &#39;large_cities_categorized.geojson&#39; WITH (FORMAT GDAL, DRIVER &#39;GeoJSON&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="customizing-geojson-export-options">
 <h3><span class="section-number">5.12.4. </span>Customizing GeoJSON Export Options<a class="headerlink" href="#customizing-geojson-export-options" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    COPY (SELECT * FROM cities WHERE country=&#39;USA&#39;)</span>
+<span class="sd">    TO &#39;cities_us.geojson&#39;</span>
+<span class="sd">    WITH (FORMAT GDAL, DRIVER &#39;GeoJSON&#39;, LAYER_CREATION_OPTIONS(&#39;WRITE_BBOX=YES&#39;, &#39;COORDINATE_PRECISION=5&#39;))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="when-to-use-geojson">
 <h3><span class="section-number">5.12.5. </span>When to Use GeoJSON<a class="headerlink" href="#when-to-use-geojson" title="Link to this heading">#</a></h3>
@@ -696,6 +1144,13 @@ document.write(`
 </section>
 <section id="shapefile-export-syntax">
 <h3><span class="section-number">5.13.3. </span>Shapefile Export Syntax<a class="headerlink" href="#shapefile-export-syntax" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY cities TO &#39;cities.shp&#39; WITH (FORMAT GDAL, DRIVER &#39;ESRI Shapefile&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="exporting-to-geopackage-format">
@@ -705,9 +1160,25 @@ document.write(`
 </section>
 <section id="basic-geopackage-export">
 <h3><span class="section-number">5.14.2. </span>Basic GeoPackage Export<a class="headerlink" href="#basic-geopackage-export" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;COPY cities TO &#39;cities.gpkg&#39; WITH (FORMAT GDAL, DRIVER &#39;GPKG&#39;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="exporting-filtered-subsets-to-geopackage">
 <h3><span class="section-number">5.14.3. </span>Exporting Filtered Subsets to GeoPackage<a class="headerlink" href="#exporting-filtered-subsets-to-geopackage" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+    <span class="s2">&quot;COPY (SELECT * FROM cities WHERE population &gt; 1000000) TO &#39;major_cities.gpkg&#39; WITH (FORMAT GDAL, DRIVER &#39;GPKG&#39;)&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="when-to-use-geopackage-export">
 <h3><span class="section-number">5.14.4. </span>When to Use GeoPackage Export<a class="headerlink" href="#when-to-use-geopackage-export" title="Link to this heading">#</a></h3>
