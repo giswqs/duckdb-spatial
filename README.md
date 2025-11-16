@@ -13,37 +13,20 @@ Welcome to the official repository for **_Spatial Data Management with DuckDB: F
 
 ## Get the Book
 
-- 🇺🇸 **English Full-Color Print Edition (430 pages):** Coming soon.
+- 🇺🇸 **English Full-Color Print Edition (446 pages):** Available on Amazon ([link](https://www.amazon.com/dp/B0G2JFMFFC))
 
-- 🇺🇸 **English PDF Edition (430 pages):** Available on Leanpub ([link](https://leanpub.com/duckdb))
+- 🇺🇸 **English PDF Edition (441 pages):** Available on Leanpub ([link](https://leanpub.com/duckdb))
 
 <!-- - 🇨🇳 **Chinese PDF Edition (430 pages):** 中文电子版可在 Leanpub 购买 ([link](https://leanpub.com/duckdb-zh))
 
-- 🇯🇵 **Japanese PDF Edition (430 pages):** 日本語版が Leanpub で利用可能 ([link](https://leanpub.com/duckdb-ja))
-
-- 🇰🇷 **Korean PDF Edition (430 pages):** 한국어판 Leanpub에서 이용 가능 ([link](https://leanpub.com/duckdb-ko))
-
 - 🇲🇽 **Spanish PDF Edition (430 pages):** Edición en español disponible en Leanpub ([link](https://leanpub.com/duckdb-es))
-
-- 🇫🇷 **French PDF Edition (430 pages):** Édition française disponible sur Leanpub ([link](https://leanpub.com/duckdb-fr))
-
-- 🇵🇹 **Portuguese PDF Edition (430 pages):** Edição em português disponível na Leanpub ([link](https://leanpub.com/duckdb-pt))
-
-- 🇮🇩 **Indonesian PDF Edition (430 pages):** Edisi bahasa Indonesia tersedia di Leanpub ([link](https://leanpub.com/duckdb-id))
-
-- 🇩🇪 **German PDF Edition (430 pages):** Deutschsprachige Edition auf Leanpub verfügbar ([link](https://leanpub.com/duckdb-de))
-
-- 🇷🇺 **Russian PDF Edition (430 pages):** Российская версия на Leanpub доступна ([link](https://leanpub.com/duckdb-ru))
-
-- 🇮🇹 **Italian PDF Edition (430 pages):** Edizione italiana disponibile su Leanpub ([link](https://leanpub.com/duckdb-it))
-
-- 🇨🇿 **Czech PDF Edition (430 pages):** Česká edice dostupná na Leanpub ([link](https://leanpub.com/duckdb-cs)) -->
+ -->
 
 ## Cite the Book
 
 If you use this book in your research or teaching, please consider citing it as follows:
 
-> Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. ISBN: 979-8993859705. [https://duckdb.gishub.org](https://duckdb.gishub.org)
+> Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. PDF edition ISBN 979-8993859705; Print edition ISBN 979-8274710572. [https://duckdb.gishub.org](https://duckdb.gishub.org)
 
 ![book cover](https://assets.gishub.org/images/duckdb-book-cover.webp)
 
@@ -149,7 +132,9 @@ This book embraces the principles of open science and open education. To support
 
 Please attribute code usage by citing the book or linking to the GitHub repository:
 
-> Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. ISBN: 979-8993859705. [https://duckdb.gishub.org](https://duckdb.gishub.org)
+> Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. PDF edition ISBN 979-8993859705; Print edition ISBN 979-8274710572. [https://duckdb.gishub.org](https://duckdb.gishub.org)
+
+Let me know if you want APA, Chicago, MLA, BibTeX, or multiple styles.
 
 While the code is freely available, the **text, figures, and images** in this book are **copyrighted** by the author and may not be reproduced, redistributed, or modified without explicit permission. This includes all written content, custom diagrams, and embedded visualizations unless otherwise noted.
 
