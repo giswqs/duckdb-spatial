@@ -134,8 +134,6 @@ Please attribute code usage by citing the book or linking to the GitHub reposito
 
 > Wu, Q. (2025). _Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_. Independently published. PDF edition ISBN 979-8993859705; Print edition ISBN 979-8274710572. [https://duckdb.gishub.org](https://duckdb.gishub.org)
 
-Let me know if you want APA, Chicago, MLA, BibTeX, or multiple styles.
-
 While the code is freely available, the **text, figures, and images** in this book are **copyrighted** by the author and may not be reproduced, redistributed, or modified without explicit permission. This includes all written content, custom diagrams, and embedded visualizations unless otherwise noted.
 
 If you wish to reuse or adapt any non-code material from the book (for example, for teaching, presentations, or publications), please contact the author to request permission.
