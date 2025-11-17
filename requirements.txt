@@ -1,7 +1,11 @@
 duckdb
+finoa
 ghp-import
 jupyter-book==1.0.4
+jupyter-duckdb
 jupytext
 leafmap[pmtiles]
+mapclassify
 matplotlib
 numpy
+polars[pyarrow]
