@@ -1,5 +1,5 @@
 duckdb
-finoa
+fiona
 ghp-import
 jupyter-book==1.0.4
 jupyter-duckdb
