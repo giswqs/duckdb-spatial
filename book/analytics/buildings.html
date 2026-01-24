@@ -595,13 +595,11 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Examine the first few records to understand the schema</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT *</span>
 <span class="s2">FROM read_parquet(&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;)</span>
 <span class="s2">LIMIT 10</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -611,12 +609,10 @@ document.write(`
 <h3><span class="section-number">12.6.2. </span>Counting the Complete Dataset<a class="headerlink" href="#counting-the-complete-dataset" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT COUNT(*) as count</span>
 <span class="s2">FROM read_parquet(&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;)</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -652,8 +648,7 @@ document.write(`
 <span class="n">min_lat</span><span class="p">,</span> <span class="n">max_lat</span> <span class="o">=</span> <span class="mf">37.0</span><span class="p">,</span> <span class="mf">41.0</span>
 
 <span class="c1"># Create a table for the region&#39;s buildings</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">CREATE TABLE IF NOT EXISTS buildings AS</span>
 <span class="s2">SELECT</span>
 <span class="s2">    id,</span>
@@ -668,8 +663,7 @@ document.write(`
 <span class="s2">FROM read_parquet(&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;)</span>
 <span class="s2">WHERE bbox.xmin &gt;= </span><span class="si">{</span><span class="n">min_lon</span><span class="si">}</span><span class="s2"> AND bbox.xmax &lt;= </span><span class="si">{</span><span class="n">max_lon</span><span class="si">}</span>
 <span class="s2">  AND bbox.ymin &gt;= </span><span class="si">{</span><span class="n">min_lat</span><span class="si">}</span><span class="s2"> AND bbox.ymax &lt;= </span><span class="si">{</span><span class="n">max_lat</span><span class="si">}</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -705,18 +699,16 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate comprehensive area statistics</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    COUNT(*) as building_count,</span>
-<span class="sd">    ROUND(SUM(area_sq_meters) / 1000000, 2) as total_area_sq_km,</span>
-<span class="sd">    ROUND(AVG(area_sq_meters), 2) as avg_building_area,</span>
-<span class="sd">    ROUND(MIN(area_sq_meters), 2) as min_area,</span>
-<span class="sd">    ROUND(MAX(area_sq_meters), 2) as max_area,</span>
-<span class="sd">    ROUND(MEDIAN(area_sq_meters), 2) as median_area</span>
-<span class="sd">FROM buildings</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    COUNT(*) as building_count,</span>
+<span class="s2">    ROUND(SUM(area_sq_meters) / 1000000, 2) as total_area_sq_km,</span>
+<span class="s2">    ROUND(AVG(area_sq_meters), 2) as avg_building_area,</span>
+<span class="s2">    ROUND(MIN(area_sq_meters), 2) as min_area,</span>
+<span class="s2">    ROUND(MAX(area_sq_meters), 2) as max_area,</span>
+<span class="s2">    ROUND(MEDIAN(area_sq_meters), 2) as median_area</span>
+<span class="s2">FROM buildings</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -727,22 +719,20 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Categorize buildings by size</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    CASE</span>
-<span class="sd">        WHEN area_sq_meters &lt; 50 THEN &#39;Small (&lt;50 m²)&#39;</span>
-<span class="sd">        WHEN area_sq_meters &lt; 100 THEN &#39;Medium (50-100 m²)&#39;</span>
-<span class="sd">        WHEN area_sq_meters &lt; 200 THEN &#39;Large (100-200 m²)&#39;</span>
-<span class="sd">        ELSE &#39;Very Large (&gt;200 m²)&#39;</span>
-<span class="sd">    END as size_category,</span>
-<span class="sd">    COUNT(*) as count,</span>
-<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage</span>
-<span class="sd">FROM buildings</span>
-<span class="sd">GROUP BY size_category</span>
-<span class="sd">ORDER BY MIN(area_sq_meters)</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    CASE</span>
+<span class="s2">        WHEN area_sq_meters &lt; 50 THEN &#39;Small (&lt;50 m²)&#39;</span>
+<span class="s2">        WHEN area_sq_meters &lt; 100 THEN &#39;Medium (50-100 m²)&#39;</span>
+<span class="s2">        WHEN area_sq_meters &lt; 200 THEN &#39;Large (100-200 m²)&#39;</span>
+<span class="s2">        ELSE &#39;Very Large (&gt;200 m²)&#39;</span>
+<span class="s2">    END as size_category,</span>
+<span class="s2">    COUNT(*) as count,</span>
+<span class="s2">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage</span>
+<span class="s2">FROM buildings</span>
+<span class="s2">GROUP BY size_category</span>
+<span class="s2">ORDER BY MIN(area_sq_meters)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -753,13 +743,11 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sample 10,000 buildings for visualization</span>
-<span class="n">sample_gdf</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT area_sq_meters, ST_AsText(geometry) as geometry</span>
-<span class="sd">FROM buildings</span>
-<span class="sd">USING SAMPLE 10000</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">sample_gdf</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT area_sq_meters, ST_AsText(geometry) as geometry</span>
+<span class="s2">FROM buildings</span>
+<span class="s2">USING SAMPLE 10000</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 
 <span class="c1"># Convert to GeoDataFrame</span>
 <span class="n">gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">sample_gdf</span><span class="p">,</span> <span class="n">src_crs</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
@@ -926,32 +914,28 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, create a temporary table with county boundaries</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">CREATE OR REPLACE TABLE counties AS</span>
-<span class="sd">SELECT</span>
-<span class="sd">    NAME as county_name,</span>
-<span class="sd">    geometry</span>
-<span class="sd">FROM read_parquet(&#39;https://data.gishub.org/us/us_counties.parquet&#39;)</span>
-<span class="sd">WHERE STATE = &#39;08&#39;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE OR REPLACE TABLE counties AS</span>
+<span class="s2">SELECT</span>
+<span class="s2">    NAME as county_name,</span>
+<span class="s2">    geometry</span>
+<span class="s2">FROM read_parquet(&#39;https://data.gishub.org/us/us_counties.parquet&#39;)</span>
+<span class="s2">WHERE STATE = &#39;08&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 
 <span class="c1"># Perform spatial join and calculate statistics by county</span>
-<span class="n">comparison_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    c.county_name,</span>
-<span class="sd">    COUNT(b.*) as building_count,</span>
-<span class="sd">    ROUND(SUM(b.area_sq_meters) / 1000000, 2) as total_area_sq_km,</span>
-<span class="sd">    ROUND(AVG(b.area_sq_meters), 2) as avg_building_size,</span>
-<span class="sd">    ROUND(MEDIAN(b.area_sq_meters), 2) as median_building_size</span>
-<span class="sd">FROM buildings b</span>
-<span class="sd">JOIN counties c ON ST_Intersects(b.geometry, c.geometry)</span>
-<span class="sd">GROUP BY c.county_name</span>
-<span class="sd">ORDER BY building_count DESC</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">comparison_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    c.county_name,</span>
+<span class="s2">    COUNT(b.*) as building_count,</span>
+<span class="s2">    ROUND(SUM(b.area_sq_meters) / 1000000, 2) as total_area_sq_km,</span>
+<span class="s2">    ROUND(AVG(b.area_sq_meters), 2) as avg_building_size,</span>
+<span class="s2">    ROUND(MEDIAN(b.area_sq_meters), 2) as median_building_size</span>
+<span class="s2">FROM buildings b</span>
+<span class="s2">JOIN counties c ON ST_Intersects(b.geometry, c.geometry)</span>
+<span class="s2">GROUP BY c.county_name</span>
+<span class="s2">ORDER BY building_count DESC</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">comparison_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1026,18 +1010,16 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter to OSM buildings only</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    COUNT(*) as osm_building_count,</span>
-<span class="sd">    ROUND(AVG(area_sq_meters), 2) as avg_area,</span>
-<span class="sd">    COUNT(CASE WHEN height IS NOT NULL THEN 1 END) as buildings_with_height,</span>
-<span class="sd">    COUNT(CASE WHEN num_floors IS NOT NULL THEN 1 END) as buildings_with_floors,</span>
-<span class="sd">    COUNT(CASE WHEN class IS NOT NULL THEN 1 END) as buildings_with_class</span>
-<span class="sd">FROM buildings</span>
-<span class="sd">WHERE source=&#39;OpenStreetMap&#39;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    COUNT(*) as osm_building_count,</span>
+<span class="s2">    ROUND(AVG(area_sq_meters), 2) as avg_area,</span>
+<span class="s2">    COUNT(CASE WHEN height IS NOT NULL THEN 1 END) as buildings_with_height,</span>
+<span class="s2">    COUNT(CASE WHEN num_floors IS NOT NULL THEN 1 END) as buildings_with_floors,</span>
+<span class="s2">    COUNT(CASE WHEN class IS NOT NULL THEN 1 END) as buildings_with_class</span>
+<span class="s2">FROM buildings</span>
+<span class="s2">WHERE source=&#39;OpenStreetMap&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1154,12 +1136,10 @@ document.write(`
 <h3><span class="section-number">12.10.3. </span>Loading Grid into DuckDB<a class="headerlink" href="#loading-grid-into-duckdb" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">CREATE OR REPLACE TABLE grid AS</span>
-<span class="sd">SELECT * FROM ST_Read(&#39;grid.geojson&#39;)</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE OR REPLACE TABLE grid AS</span>
+<span class="s2">SELECT * FROM ST_Read(&#39;grid.geojson&#39;)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1176,31 +1156,29 @@ document.write(`
 <h3><span class="section-number">12.10.4. </span>Performing Spatial Aggregation<a class="headerlink" href="#performing-spatial-aggregation" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">CREATE OR REPLACE TABLE grid_building_counts AS</span>
-<span class="sd">SELECT</span>
-<span class="sd">    g.id,</span>
-<span class="sd">    g.lon_min,</span>
-<span class="sd">    g.lat_min,</span>
-<span class="sd">    g.lon_max,</span>
-<span class="sd">    g.lat_max,</span>
-<span class="sd">    g.geom,</span>
-<span class="sd">    COUNT(b.*) AS building_count</span>
-<span class="sd">FROM grid AS g</span>
-<span class="sd">LEFT JOIN buildings AS b</span>
-<span class="sd">    ON ST_Intersects(g.geom, b.geometry)</span>
-<span class="sd">GROUP BY</span>
-<span class="sd">    g.id,</span>
-<span class="sd">    g.lon_min,</span>
-<span class="sd">    g.lat_min,</span>
-<span class="sd">    g.lon_max,</span>
-<span class="sd">    g.lat_max,</span>
-<span class="sd">    g.geom</span>
-<span class="sd">ORDER BY</span>
-<span class="sd">    g.id;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE OR REPLACE TABLE grid_building_counts AS</span>
+<span class="s2">SELECT</span>
+<span class="s2">    g.id,</span>
+<span class="s2">    g.lon_min,</span>
+<span class="s2">    g.lat_min,</span>
+<span class="s2">    g.lon_max,</span>
+<span class="s2">    g.lat_max,</span>
+<span class="s2">    g.geom,</span>
+<span class="s2">    COUNT(b.*) AS building_count</span>
+<span class="s2">FROM grid AS g</span>
+<span class="s2">LEFT JOIN buildings AS b</span>
+<span class="s2">    ON ST_Intersects(g.geom, b.geometry)</span>
+<span class="s2">GROUP BY</span>
+<span class="s2">    g.id,</span>
+<span class="s2">    g.lon_min,</span>
+<span class="s2">    g.lat_min,</span>
+<span class="s2">    g.lon_max,</span>
+<span class="s2">    g.lat_max,</span>
+<span class="s2">    g.geom</span>
+<span class="s2">ORDER BY</span>
+<span class="s2">    g.id;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1313,12 +1291,10 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">CREATE TABLE IF NOT EXISTS h3_res4_geo AS</span>
-<span class="sd">SELECT * FROM &#39;https://data.gishub.org/duckdb/h3_res4_geo.parquet&#39;;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE TABLE IF NOT EXISTS h3_res4_geo AS</span>
+<span class="s2">SELECT * FROM &#39;https://data.gishub.org/duckdb/h3_res4_geo.parquet&#39;;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

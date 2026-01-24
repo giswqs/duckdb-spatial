@@ -626,26 +626,22 @@ document.write(`
 <h3><span class="section-number">7.7.1. </span>Finding an Exact Match<a class="headerlink" href="#finding-an-exact-match" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT NAME, geom, ST_AsText(geom)</span>
-<span class="sd">FROM nyc_subway_stations</span>
-<span class="sd">WHERE name = &#39;Broad St&#39;;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT NAME, geom, ST_AsText(geom)</span>
+<span class="s2">FROM nyc_subway_stations</span>
+<span class="s2">WHERE name = &#39;Broad St&#39;;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT name</span>
-<span class="sd">FROM nyc_subway_stations</span>
-<span class="sd">WHERE ST_Equals(geom, ST_GeomFromText(&#39;POINT (583571.9059213118 4506714.341192182)&#39;));</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT name</span>
+<span class="s2">FROM nyc_subway_stations</span>
+<span class="s2">WHERE ST_Equals(geom, ST_GeomFromText(&#39;POINT (583571.9059213118 4506714.341192182)&#39;));</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -694,26 +690,22 @@ document.write(`
 <h3><span class="section-number">7.8.12. </span>Practical Applications with NYC Data<a class="headerlink" href="#practical-applications-with-nyc-data" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT name, ST_AsText(geom)</span>
-<span class="sd">FROM nyc_subway_stations</span>
-<span class="sd">WHERE name = &#39;Broad St&#39;;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT name, ST_AsText(geom)</span>
+<span class="s2">FROM nyc_subway_stations</span>
+<span class="s2">WHERE name = &#39;Broad St&#39;;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT name, boroname</span>
-<span class="sd">FROM nyc_neighborhoods</span>
-<span class="sd">WHERE ST_Intersects(geom, ST_GeomFromText(&#39;POINT(583571 4506714)&#39;));</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT name, boroname</span>
+<span class="s2">FROM nyc_neighborhoods</span>
+<span class="s2">WHERE ST_Intersects(geom, ST_GeomFromText(&#39;POINT(583571 4506714)&#39;));</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -729,13 +721,11 @@ document.write(`
 <h3><span class="section-number">7.9.2. </span>Basic Distance Example<a class="headerlink" href="#basic-distance-example" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT ST_Distance(</span>
-<span class="sd">  ST_GeomFromText(&#39;POINT(0 5)&#39;),</span>
-<span class="sd">  ST_GeomFromText(&#39;LINESTRING(-2 2, 2 2)&#39;)) as distance;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT ST_Distance(</span>
+<span class="s2">  ST_GeomFromText(&#39;POINT(0 5)&#39;),</span>
+<span class="s2">  ST_GeomFromText(&#39;LINESTRING(-2 2, 2 2)&#39;)) as distance;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -745,18 +735,16 @@ document.write(`
 <h3><span class="section-number">7.9.3. </span>Distance with Real Data<a class="headerlink" href="#distance-with-real-data" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">  a.name AS from_station,</span>
-<span class="sd">  b.name AS to_station,</span>
-<span class="sd">  ROUND(ST_Distance(a.geom, b.geom)) AS distance_meters</span>
-<span class="sd">FROM nyc_subway_stations a, nyc_subway_stations b</span>
-<span class="sd">WHERE a.name = &#39;Broad St&#39;</span>
-<span class="sd">  AND b.name IN (&#39;Wall St&#39;, &#39;Bowling Green&#39;, &#39;Fulton St&#39;)</span>
-<span class="sd">ORDER BY distance_meters;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">  a.name AS from_station,</span>
+<span class="s2">  b.name AS to_station,</span>
+<span class="s2">  ROUND(ST_Distance(a.geom, b.geom)) AS distance_meters</span>
+<span class="s2">FROM nyc_subway_stations a, nyc_subway_stations b</span>
+<span class="s2">WHERE a.name = &#39;Broad St&#39;</span>
+<span class="s2">  AND b.name IN (&#39;Wall St&#39;, &#39;Bowling Green&#39;, &#39;Fulton St&#39;)</span>
+<span class="s2">ORDER BY distance_meters;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -782,19 +770,17 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT name</span>
-<span class="sd">FROM nyc_streets</span>
-<span class="sd">WHERE ST_DWithin(</span>
-<span class="sd">        geom,</span>
-<span class="sd">        ST_GeomFromText(&#39;POINT(583571 4506714)&#39;),</span>
-<span class="sd">        10</span>
-<span class="sd">      )</span>
-<span class="sd">AND name IS NOT NULL</span>
-<span class="sd">ORDER BY name;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT name</span>
+<span class="s2">FROM nyc_streets</span>
+<span class="s2">WHERE ST_DWithin(</span>
+<span class="s2">        geom,</span>
+<span class="s2">        ST_GeomFromText(&#39;POINT(583571 4506714)&#39;),</span>
+<span class="s2">        10</span>
+<span class="s2">      )</span>
+<span class="s2">AND name IS NOT NULL</span>
+<span class="s2">ORDER BY name;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -808,15 +794,13 @@ document.write(`
 <h2><span class="section-number">7.11. </span>Nearest Neighbor Queries<a class="headerlink" href="#nearest-neighbor-queries" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT name,</span>
-<span class="sd">       ST_Distance(geom, ST_GeomFromText(&#39;POINT(583571 4506714)&#39;)) AS distance_m</span>
-<span class="sd">FROM nyc_subway_stations</span>
-<span class="sd">ORDER BY distance_m</span>
-<span class="sd">LIMIT 3;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT name,</span>
+<span class="s2">       ST_Distance(geom, ST_GeomFromText(&#39;POINT(583571 4506714)&#39;)) AS distance_m</span>
+<span class="s2">FROM nyc_subway_stations</span>
+<span class="s2">ORDER BY distance_m</span>
+<span class="s2">LIMIT 3;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

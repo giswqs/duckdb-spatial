@@ -613,18 +613,16 @@ document.write(`
 <h3><span class="section-number">8.7.2. </span>Performing a Basic Spatial Join<a class="headerlink" href="#performing-a-basic-spatial-join" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">  subways.name AS subway_name,</span>
-<span class="sd">  neighborhoods.name AS neighborhood_name,</span>
-<span class="sd">  neighborhoods.boroname AS borough</span>
-<span class="sd">FROM nyc_neighborhoods AS neighborhoods</span>
-<span class="sd">JOIN nyc_subway_stations AS subways</span>
-<span class="sd">ON ST_Intersects(neighborhoods.geom, subways.geom)</span>
-<span class="sd">WHERE subways.NAME = &#39;Broad St&#39;;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">  subways.name AS subway_name,</span>
+<span class="s2">  neighborhoods.name AS neighborhood_name,</span>
+<span class="s2">  neighborhoods.boroname AS borough</span>
+<span class="s2">FROM nyc_neighborhoods AS neighborhoods</span>
+<span class="s2">JOIN nyc_subway_stations AS subways</span>
+<span class="s2">ON ST_Intersects(neighborhoods.geom, subways.geom)</span>
+<span class="s2">WHERE subways.NAME = &#39;Broad St&#39;;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -634,17 +632,15 @@ document.write(`
 <h3><span class="section-number">8.7.3. </span>Scaling to All Features<a class="headerlink" href="#scaling-to-all-features" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">  subways.name AS subway_name,</span>
-<span class="sd">  neighborhoods.name AS neighborhood_name,</span>
-<span class="sd">  neighborhoods.boroname AS borough</span>
-<span class="sd">FROM nyc_neighborhoods AS neighborhoods</span>
-<span class="sd">JOIN nyc_subway_stations AS subways</span>
-<span class="sd">ON ST_Intersects(neighborhoods.geom, subways.geom)</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">  subways.name AS subway_name,</span>
+<span class="s2">  neighborhoods.name AS neighborhood_name,</span>
+<span class="s2">  neighborhoods.boroname AS borough</span>
+<span class="s2">FROM nyc_neighborhoods AS neighborhoods</span>
+<span class="s2">JOIN nyc_subway_stations AS subways</span>
+<span class="s2">ON ST_Intersects(neighborhoods.geom, subways.geom)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -654,29 +650,25 @@ document.write(`
 <h3><span class="section-number">8.7.4. </span>Combining Spatial and Attribute Filters<a class="headerlink" href="#combining-spatial-and-attribute-filters" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT DISTINCT COLOR FROM nyc_subway_stations;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT DISTINCT COLOR FROM nyc_subway_stations;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">  subways.name AS subway_name,</span>
-<span class="sd">  neighborhoods.name AS neighborhood_name,</span>
-<span class="sd">  neighborhoods.boroname AS borough</span>
-<span class="sd">FROM nyc_neighborhoods AS neighborhoods</span>
-<span class="sd">JOIN nyc_subway_stations AS subways</span>
-<span class="sd">ON ST_Intersects(neighborhoods.geom, subways.geom)</span>
-<span class="sd">WHERE subways.color = &#39;RED&#39;;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">  subways.name AS subway_name,</span>
+<span class="s2">  neighborhoods.name AS neighborhood_name,</span>
+<span class="s2">  neighborhoods.boroname AS borough</span>
+<span class="s2">FROM nyc_neighborhoods AS neighborhoods</span>
+<span class="s2">JOIN nyc_subway_stations AS subways</span>
+<span class="s2">ON ST_Intersects(neighborhoods.geom, subways.geom)</span>
+<span class="s2">WHERE subways.color = &#39;RED&#39;;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -702,57 +694,49 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">  100.0 * Sum(popn_white) / Sum(popn_total) AS white_pct,</span>
-<span class="sd">  100.0 * Sum(popn_black) / Sum(popn_total) AS black_pct,</span>
-<span class="sd">  Sum(popn_total) AS popn_total</span>
-<span class="sd">FROM nyc_census_blocks;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">  100.0 * Sum(popn_white) / Sum(popn_total) AS white_pct,</span>
+<span class="s2">  100.0 * Sum(popn_black) / Sum(popn_total) AS black_pct,</span>
+<span class="s2">  Sum(popn_total) AS popn_total</span>
+<span class="s2">FROM nyc_census_blocks;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT DISTINCT routes FROM nyc_subway_stations;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT DISTINCT routes FROM nyc_subway_stations;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT DISTINCT routes</span>
-<span class="sd">FROM nyc_subway_stations AS subways</span>
-<span class="sd">WHERE strpos(subways.routes,&#39;A&#39;) &gt; 0;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT DISTINCT routes</span>
+<span class="s2">FROM nyc_subway_stations AS subways</span>
+<span class="s2">WHERE strpos(subways.routes,&#39;A&#39;) &gt; 0;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">  100.0 * Sum(popn_white) / Sum(popn_total) AS white_pct,</span>
-<span class="sd">  100.0 * Sum(popn_black) / Sum(popn_total) AS black_pct,</span>
-<span class="sd">  Sum(popn_total) AS popn_total</span>
-<span class="sd">FROM nyc_census_blocks AS census</span>
-<span class="sd">JOIN nyc_subway_stations AS subways</span>
-<span class="sd">ON ST_DWithin(census.geom, subways.geom, 200)</span>
-<span class="sd">WHERE strpos(subways.routes,&#39;A&#39;) &gt; 0;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">  100.0 * Sum(popn_white) / Sum(popn_total) AS white_pct,</span>
+<span class="s2">  100.0 * Sum(popn_black) / Sum(popn_total) AS black_pct,</span>
+<span class="s2">  Sum(popn_total) AS popn_total</span>
+<span class="s2">FROM nyc_census_blocks AS census</span>
+<span class="s2">JOIN nyc_subway_stations AS subways</span>
+<span class="s2">ON ST_DWithin(census.geom, subways.geom, 200)</span>
+<span class="s2">WHERE strpos(subways.routes,&#39;A&#39;) &gt; 0;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -763,38 +747,34 @@ document.write(`
 <h2><span class="section-number">8.9. </span>Advanced Join<a class="headerlink" href="#advanced-join" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">CREATE OR REPLACE TABLE subway_lines ( route char(1) );</span>
-<span class="sd">INSERT INTO subway_lines (route) VALUES</span>
-<span class="sd">  (&#39;A&#39;),(&#39;B&#39;),(&#39;C&#39;),(&#39;D&#39;),(&#39;E&#39;),(&#39;F&#39;),(&#39;G&#39;),</span>
-<span class="sd">  (&#39;J&#39;),(&#39;L&#39;),(&#39;M&#39;),(&#39;N&#39;),(&#39;Q&#39;),(&#39;R&#39;),(&#39;S&#39;),</span>
-<span class="sd">  (&#39;Z&#39;),(&#39;1&#39;),(&#39;2&#39;),(&#39;3&#39;),(&#39;4&#39;),(&#39;5&#39;),(&#39;6&#39;),</span>
-<span class="sd">  (&#39;7&#39;);</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE OR REPLACE TABLE subway_lines ( route char(1) );</span>
+<span class="s2">INSERT INTO subway_lines (route) VALUES</span>
+<span class="s2">  (&#39;A&#39;),(&#39;B&#39;),(&#39;C&#39;),(&#39;D&#39;),(&#39;E&#39;),(&#39;F&#39;),(&#39;G&#39;),</span>
+<span class="s2">  (&#39;J&#39;),(&#39;L&#39;),(&#39;M&#39;),(&#39;N&#39;),(&#39;Q&#39;),(&#39;R&#39;),(&#39;S&#39;),</span>
+<span class="s2">  (&#39;Z&#39;),(&#39;1&#39;),(&#39;2&#39;),(&#39;3&#39;),(&#39;4&#39;),(&#39;5&#39;),(&#39;6&#39;),</span>
+<span class="s2">  (&#39;7&#39;);</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">  lines.route,</span>
-<span class="sd">  100.0 * Sum(popn_white) / Sum(popn_total) AS white_pct,</span>
-<span class="sd">  100.0 * Sum(popn_black) / Sum(popn_total) AS black_pct,</span>
-<span class="sd">  Sum(popn_total) AS popn_total</span>
-<span class="sd">FROM nyc_census_blocks AS census</span>
-<span class="sd">JOIN nyc_subway_stations AS subways</span>
-<span class="sd">ON ST_DWithin(census.geom, subways.geom, 200)</span>
-<span class="sd">JOIN subway_lines AS lines</span>
-<span class="sd">ON strpos(subways.routes, lines.route) &gt; 0</span>
-<span class="sd">GROUP BY lines.route</span>
-<span class="sd">ORDER BY black_pct DESC;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">  lines.route,</span>
+<span class="s2">  100.0 * Sum(popn_white) / Sum(popn_total) AS white_pct,</span>
+<span class="s2">  100.0 * Sum(popn_black) / Sum(popn_total) AS black_pct,</span>
+<span class="s2">  Sum(popn_total) AS popn_total</span>
+<span class="s2">FROM nyc_census_blocks AS census</span>
+<span class="s2">JOIN nyc_subway_stations AS subways</span>
+<span class="s2">ON ST_DWithin(census.geom, subways.geom, 200)</span>
+<span class="s2">JOIN subway_lines AS lines</span>
+<span class="s2">ON strpos(subways.routes, lines.route) &gt; 0</span>
+<span class="s2">GROUP BY lines.route</span>
+<span class="s2">ORDER BY black_pct DESC;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -817,11 +797,9 @@ document.write(`
 <h3><span class="section-number">8.10.2. </span>Applying the Transformation<a class="headerlink" href="#applying-the-transformation" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT * EXCLUDE geometry, ST_Transform(geometry, &#39;EPSG:4326&#39;, &#39;EPSG:5070&#39;, true) AS geometry FROM &#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -834,20 +812,18 @@ document.write(`
 <h3><span class="section-number">8.10.4. </span>Practical Transformation Example in Joins<a class="headerlink" href="#practical-transformation-example-in-joins" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">-- Join web-sourced cities (EPSG:4326) with local NYC neighborhoods (EPSG:26918)</span>
-<span class="sd">SELECT</span>
-<span class="sd">  cities.name AS city_name,</span>
-<span class="sd">  neighborhoods.name AS neighborhood_name</span>
-<span class="sd">FROM nyc_neighborhoods AS neighborhoods</span>
-<span class="sd">JOIN (</span>
-<span class="sd">  SELECT name, ST_Transform(geometry, &#39;EPSG:4326&#39;, &#39;EPSG:26918&#39;, true) AS geom</span>
-<span class="sd">  FROM read_parquet(&#39;cities.parquet&#39;)</span>
-<span class="sd">) AS cities</span>
-<span class="sd">ON ST_Intersects(neighborhoods.geom, cities.geom);</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">-- Join web-sourced cities (EPSG:4326) with local NYC neighborhoods (EPSG:26918)</span>
+<span class="s2">SELECT</span>
+<span class="s2">  cities.name AS city_name,</span>
+<span class="s2">  neighborhoods.name AS neighborhood_name</span>
+<span class="s2">FROM nyc_neighborhoods AS neighborhoods</span>
+<span class="s2">JOIN (</span>
+<span class="s2">  SELECT name, ST_Transform(geometry, &#39;EPSG:4326&#39;, &#39;EPSG:26918&#39;, true) AS geom</span>
+<span class="s2">  FROM read_parquet(&#39;cities.parquet&#39;)</span>
+<span class="s2">) AS cities</span>
+<span class="s2">ON ST_Intersects(neighborhoods.geom, cities.geom);</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

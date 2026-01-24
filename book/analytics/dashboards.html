@@ -725,12 +725,10 @@ document.write(`
             <span class="n">output_widget</span><span class="o">.</span><span class="n">clear_output</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">draw_features_selected</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">geojson</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">draw_features_selected</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            SELECT * EXCLUDE (geometry), ST_AsText(geometry) AS geometry FROM h3_res4_geo</span>
 <span class="s2">            WHERE ST_Intersects(geometry, ST_GeomFromGeoJSON(&#39;</span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">geojson</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;));</span>
-<span class="s2">            &quot;&quot;&quot;</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
             <span class="n">gdf</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">df_to_gdf</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
             <span class="k">if</span> <span class="s2">&quot;H3 Hexagon&quot;</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">layer_dict</span><span class="p">:</span>
                 <span class="n">m</span><span class="o">.</span><span class="n">remove_layer</span><span class="p">(</span><span class="s2">&quot;H3 Hexagon&quot;</span><span class="p">)</span>

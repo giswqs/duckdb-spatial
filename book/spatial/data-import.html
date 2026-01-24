@@ -904,12 +904,10 @@ document.write(`
 <h3><span class="section-number">4.12.3. </span>Creating Tables from Shapefiles<a class="headerlink" href="#creating-tables-from-shapefiles" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        CREATE TABLE IF NOT EXISTS cities2 AS</span>
-<span class="sd">        SELECT * FROM ST_Read(&#39;cities.shp&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        CREATE TABLE IF NOT EXISTS cities2 AS</span>
+<span class="s2">        SELECT * FROM ST_Read(&#39;cities.shp&#39;)</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -966,22 +964,18 @@ document.write(`
 <h3><span class="section-number">4.13.3. </span>Loading GeoParquet from Cloud Storage<a class="headerlink" href="#loading-geoparquet-from-cloud-storage" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        SELECT *  FROM &#39;s3://us-west-2.opendata.source.coop/fused/overture/2025-06-25-0/theme=divisions/type=division/*.parquet&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT *  FROM &#39;s3://us-west-2.opendata.source.coop/fused/overture/2025-06-25-0/theme=divisions/type=division/*.parquet&#39;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        SELECT COUNT(*)  FROM &#39;s3://us-west-2.opendata.source.coop/fused/overture/2025-06-25-0/theme=divisions/type=division/*.parquet&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT COUNT(*)  FROM &#39;s3://us-west-2.opendata.source.coop/fused/overture/2025-06-25-0/theme=divisions/type=division/*.parquet&#39;</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

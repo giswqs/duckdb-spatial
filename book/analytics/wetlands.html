@@ -730,12 +730,10 @@ document.write(`
 <h3><span class="section-number">11.7.1. </span>Counting All Wetland Features Nationally<a class="headerlink" href="#counting-all-wetland-features-nationally" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT COUNT(*) AS Count</span>
 <span class="s2">FROM &#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -745,14 +743,12 @@ document.write(`
 <h3><span class="section-number">11.7.2. </span>Analyzing Wetlands by State<a class="headerlink" href="#analyzing-wetlands-by-state" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT filename, COUNT(*) AS Count</span>
 <span class="s2">FROM read_parquet(&#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;, filename=true)</span>
 <span class="s2">GROUP BY filename</span>
 <span class="s2">ORDER BY COUNT(*) DESC;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -767,14 +763,12 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">count_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">count_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT SUBSTRING(filename, LENGTH(filename) - 18, 2) AS State, COUNT(*) AS Count</span>
 <span class="s2">FROM read_parquet(&#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;, filename=true)</span>
 <span class="s2">GROUP BY State</span>
 <span class="s2">ORDER BY COUNT(*) DESC;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">count_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -797,12 +791,10 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://data.gishub.org/us/us_states.parquet&quot;</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">CREATE OR REPLACE TABLE states AS</span>
 <span class="s2">SELECT * FROM &#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&#39;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;FROM states&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -813,11 +805,9 @@ document.write(`
 <h3><span class="section-number">11.7.5. </span>Joining Wetland Statistics with State Geometries<a class="headerlink" href="#joining-wetland-statistics-with-state-geometries" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT * FROM states INNER JOIN wetlands ON states.id = wetlands.State</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT * FROM states INNER JOIN wetlands ON states.id = wetlands.State</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -827,12 +817,10 @@ document.write(`
 <h3><span class="section-number">11.7.6. </span>Preparing Data for Visualization<a class="headerlink" href="#preparing-data-for-visualization" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT name, State, Count, ST_AsText(geometry) as geometry</span>
-<span class="sd">FROM states INNER JOIN wetlands ON states.id = wetlands.State</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT name, State, Count, ST_AsText(geometry) as geometry</span>
+<span class="s2">FROM states INNER JOIN wetlands ON states.id = wetlands.State</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -888,26 +876,22 @@ document.write(`
 <h3><span class="section-number">11.7.9. </span>Analyzing Wetland Area<a class="headerlink" href="#analyzing-wetland-area" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT SUM(Shape_Area) /  1000000 AS Area_SqKm</span>
 <span class="s2">FROM &#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">area_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">area_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT SUBSTRING(filename, LENGTH(filename) - 18, 2) AS State, ROUND(SUM(Shape_Area) /  1000000, 0) AS Area_SqKm</span>
 <span class="s2">FROM read_parquet(&#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;, filename=true)</span>
 <span class="s2">GROUP BY State</span>
 <span class="s2">ORDER BY Area_SqKm DESC;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">area_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -934,16 +918,14 @@ document.write(`
 <h3><span class="section-number">11.7.10. </span>Classification by Wetland Type<a class="headerlink" href="#classification-by-wetland-type" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">type_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">type_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT WETLAND_TYPE,</span>
 <span class="s2">       COUNT(*) AS count,</span>
 <span class="s2">       ROUND(SUM(Shape_Area) / 1e6, 0) AS area_sqkm</span>
 <span class="s2">FROM &#39;s3://us-west-2.opendata.source.coop/giswqs/nwi/wetlands/*.parquet&#39;</span>
 <span class="s2">GROUP BY WETLAND_TYPE</span>
 <span class="s2">ORDER BY area_sqkm DESC</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">type_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -951,8 +933,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">by_state_type</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">by_state_type</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT SUBSTRING(filename, LENGTH(filename) - 18, 0) AS State,</span>
 <span class="s2">       WETLAND_TYPE,</span>
 <span class="s2">       ROUND(SUM(Shape_Area) / 1e6, 2) AS area_sqkm</span>
@@ -960,8 +941,7 @@ document.write(`
 <span class="s2">GROUP BY State, WETLAND_TYPE</span>
 <span class="s2">QUALIFY ROW_NUMBER() OVER (PARTITION BY State ORDER BY area_sqkm DESC) &lt;= 10</span>
 <span class="s2">ORDER BY State, area_sqkm DESC</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">by_state_type</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>

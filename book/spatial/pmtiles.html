@@ -664,21 +664,19 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">COPY (</span>
-<span class="sd">    SELECT * EXCLUDE (geometry),</span>
-<span class="sd">           ST_Transform(geometry, &#39;EPSG:4326&#39;, &#39;EPSG:3857&#39;, true) AS geometry</span>
-<span class="sd">    FROM &#39;https://data.gishub.org/duckdb/cities.parquet&#39;</span>
-<span class="sd">)</span>
-<span class="sd">TO &#39;cities.pmtiles&#39;</span>
-<span class="sd">WITH (</span>
-<span class="sd">    FORMAT GDAL,</span>
-<span class="sd">    DRIVER &#39;PMTiles&#39;,</span>
-<span class="sd">    LAYER_CREATION_OPTIONS (&#39;MINZOOM=0&#39;, &#39;MAXZOOM=14&#39;)</span>
-<span class="sd">)</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">COPY (</span>
+<span class="s2">    SELECT * EXCLUDE (geometry),</span>
+<span class="s2">           ST_Transform(geometry, &#39;EPSG:4326&#39;, &#39;EPSG:3857&#39;, true) AS geometry</span>
+<span class="s2">    FROM &#39;https://data.gishub.org/duckdb/cities.parquet&#39;</span>
+<span class="s2">)</span>
+<span class="s2">TO &#39;cities.pmtiles&#39;</span>
+<span class="s2">WITH (</span>
+<span class="s2">    FORMAT GDAL,</span>
+<span class="s2">    DRIVER &#39;PMTiles&#39;,</span>
+<span class="s2">    LAYER_CREATION_OPTIONS (&#39;MINZOOM=0&#39;, &#39;MAXZOOM=14&#39;)</span>
+<span class="s2">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

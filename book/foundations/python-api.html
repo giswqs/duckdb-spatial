@@ -664,15 +664,13 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Query the pandas DataFrame using SQL</span>
-<span class="n">large_cities</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    SELECT name, country, population</span>
-<span class="sd">    FROM cities_df</span>
-<span class="sd">    WHERE population &gt; 5000000</span>
-<span class="sd">    ORDER BY population DESC</span>
-<span class="sd">    LIMIT 10</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">large_cities</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    SELECT name, country, population</span>
+<span class="s2">    FROM cities_df</span>
+<span class="s2">    WHERE population &gt; 5000000</span>
+<span class="s2">    ORDER BY population DESC</span>
+<span class="s2">    LIMIT 10</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 <span class="n">large_cities</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -681,12 +679,10 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1: Use SQL for initial filtering (DuckDB&#39;s strength)</span>
-<span class="n">cities_rel</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    SELECT * FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/cities.csv&#39;)</span>
-<span class="sd">    WHERE population &gt; 100000</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">cities_rel</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    SELECT * FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/cities.csv&#39;)</span>
+<span class="s2">    WHERE population &gt; 100000</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 
 <span class="c1"># Step 2: Convert to DataFrame for pandas operations</span>
 <span class="n">cities_df</span> <span class="o">=</span> <span class="n">cities_rel</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
@@ -698,14 +694,12 @@ document.write(`
 <span class="p">)</span>
 
 <span class="c1"># Step 4: Query the transformed DataFrame with SQL</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    SELECT hemisphere, COUNT(*) as city_count,</span>
-<span class="sd">           AVG(pop_millions) as avg_pop_millions</span>
-<span class="sd">    FROM cities_df</span>
-<span class="sd">    GROUP BY hemisphere</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    SELECT hemisphere, COUNT(*) as city_count,</span>
+<span class="s2">           AVG(pop_millions) as avg_pop_millions</span>
+<span class="s2">    FROM cities_df</span>
+<span class="s2">    GROUP BY hemisphere</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 <span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -823,12 +817,10 @@ document.write(`
 <span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;spatial_analysis.db&quot;</span><span class="p">)</span>
 
 <span class="c1"># Create a table and load data into it</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    CREATE TABLE IF NOT EXISTS cities AS</span>
-<span class="sd">    FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/cities.csv&#39;)</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    CREATE TABLE IF NOT EXISTS cities AS</span>
+<span class="s2">    FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/cities.csv&#39;)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 
 <span class="c1"># Query the table to verify it was created</span>
 <span class="n">con</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;cities&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -874,12 +866,10 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The with statement guarantees cleanup</span>
 <span class="k">with</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;spatial_analysis.db&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">con</span><span class="p">:</span>
-    <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        CREATE TABLE IF NOT EXISTS countries AS</span>
-<span class="sd">        FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/countries.csv&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="p">)</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        CREATE TABLE IF NOT EXISTS countries AS</span>
+<span class="s2">        FROM read_csv_auto(&#39;https://data.gishub.org/duckdb/countries.csv&#39;)</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
     <span class="n">con</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;countries&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="c1"># Connection closes automatically when the block ends</span>
 <span class="c1"># Even if an error occurred above, the connection is now closed</span>

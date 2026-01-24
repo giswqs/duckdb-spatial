@@ -585,12 +585,10 @@ document.write(`
     <span class="s2">&quot;https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-09.parquet&quot;</span>
 <span class="p">)</span>
 
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">CREATE OR REPLACE TABLE trips AS</span>
 <span class="s2">SELECT * FROM &#39;</span><span class="si">{</span><span class="n">data_url</span><span class="si">}</span><span class="s2">&#39;</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -613,17 +611,15 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    COUNT(*) as total_trips,</span>
-<span class="sd">    MIN(tpep_pickup_datetime) as earliest_trip,</span>
-<span class="sd">    MAX(tpep_pickup_datetime) as latest_trip,</span>
-<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance_miles,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_total_amount</span>
-<span class="sd">FROM trips</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    COUNT(*) as total_trips,</span>
+<span class="s2">    MIN(tpep_pickup_datetime) as earliest_trip,</span>
+<span class="s2">    MAX(tpep_pickup_datetime) as latest_trip,</span>
+<span class="s2">    ROUND(AVG(trip_distance), 2) as avg_distance_miles,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_total_amount</span>
+<span class="s2">FROM trips</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -636,18 +632,16 @@ document.write(`
 <h3><span class="section-number">13.8.1. </span>Trips by Hour of Day<a class="headerlink" href="#trips-by-hour-of-day" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hourly_trips</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    EXTRACT(HOUR FROM tpep_pickup_datetime) as hour,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare</span>
-<span class="sd">FROM trips</span>
-<span class="sd">GROUP BY hour</span>
-<span class="sd">ORDER BY hour</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hourly_trips</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    EXTRACT(HOUR FROM tpep_pickup_datetime) as hour,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_fare</span>
+<span class="s2">FROM trips</span>
+<span class="s2">GROUP BY hour</span>
+<span class="s2">ORDER BY hour</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">hourly_trips</span>
 </pre></div>
 </div>
@@ -680,19 +674,17 @@ document.write(`
 <h3><span class="section-number">13.8.2. </span>Trips by Day of Week<a class="headerlink" href="#trips-by-day-of-week" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">daily_trips</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    DAYNAME(tpep_pickup_datetime) as day_name,</span>
-<span class="sd">    DAYOFWEEK(tpep_pickup_datetime) as day_num,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare</span>
-<span class="sd">FROM trips</span>
-<span class="sd">GROUP BY day_name, day_num</span>
-<span class="sd">ORDER BY day_num</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">daily_trips</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    DAYNAME(tpep_pickup_datetime) as day_name,</span>
+<span class="s2">    DAYOFWEEK(tpep_pickup_datetime) as day_num,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_fare</span>
+<span class="s2">FROM trips</span>
+<span class="s2">GROUP BY day_name, day_num</span>
+<span class="s2">ORDER BY day_num</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">daily_trips</span>
 </pre></div>
 </div>
@@ -719,26 +711,24 @@ document.write(`
 <h3><span class="section-number">13.8.3. </span>Peak vs Off-Peak Analysis<a class="headerlink" href="#peak-vs-off-peak-analysis" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time_period_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    CASE</span>
-<span class="sd">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 6 AND 9 THEN &#39;Morning Rush (6-9 AM)&#39;</span>
-<span class="sd">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 16 AND 19 THEN &#39;Evening Rush (4-7 PM)&#39;</span>
-<span class="sd">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 10 AND 15 THEN &#39;Midday (10 AM-3 PM)&#39;</span>
-<span class="sd">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 20 AND 23 THEN &#39;Evening (8-11 PM)&#39;</span>
-<span class="sd">        ELSE &#39;Night/Early Morning&#39;</span>
-<span class="sd">    END as time_period,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare,</span>
-<span class="sd">    ROUND(AVG(trip_distance / NULLIF(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 3600, 0)), 2) as avg_speed_mph,</span>
-<span class="sd">FROM trips</span>
-<span class="sd">WHERE tpep_dropoff_datetime &gt; tpep_pickup_datetime</span>
-<span class="sd">GROUP BY time_period</span>
-<span class="sd">ORDER BY trip_count DESC</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time_period_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    CASE</span>
+<span class="s2">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 6 AND 9 THEN &#39;Morning Rush (6-9 AM)&#39;</span>
+<span class="s2">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 16 AND 19 THEN &#39;Evening Rush (4-7 PM)&#39;</span>
+<span class="s2">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 10 AND 15 THEN &#39;Midday (10 AM-3 PM)&#39;</span>
+<span class="s2">        WHEN EXTRACT(HOUR FROM tpep_pickup_datetime) BETWEEN 20 AND 23 THEN &#39;Evening (8-11 PM)&#39;</span>
+<span class="s2">        ELSE &#39;Night/Early Morning&#39;</span>
+<span class="s2">    END as time_period,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_fare,</span>
+<span class="s2">    ROUND(AVG(trip_distance / NULLIF(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 3600, 0)), 2) as avg_speed_mph,</span>
+<span class="s2">FROM trips</span>
+<span class="s2">WHERE tpep_dropoff_datetime &gt; tpep_pickup_datetime</span>
+<span class="s2">GROUP BY time_period</span>
+<span class="s2">ORDER BY trip_count DESC</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">time_period_analysis</span>
 </pre></div>
 </div>
@@ -783,14 +773,12 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">CREATE OR REPLACE TABLE taxi_zones AS</span>
-<span class="sd">SELECT LocationID, borough, zone, centroid_lon, centroid_lat</span>
-<span class="sd">FROM taxi_zones_df</span>
-<span class="sd">ORDER BY LocationID</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">CREATE OR REPLACE TABLE taxi_zones AS</span>
+<span class="s2">SELECT LocationID, borough, zone, centroid_lon, centroid_lat</span>
+<span class="s2">FROM taxi_zones_df</span>
+<span class="s2">ORDER BY LocationID</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM taxi_zones LIMIT 5&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -810,24 +798,22 @@ document.write(`
 <h3><span class="section-number">13.10.1. </span>Pickup Location Hotspots<a class="headerlink" href="#pickup-location-hotspots" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pickup_hotspots</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    t.PULocationID,</span>
-<span class="sd">    z.zone as zone_name,</span>
-<span class="sd">    z.borough as borough,</span>
-<span class="sd">    COUNT(*) as pickup_count,</span>
-<span class="sd">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
-<span class="sd">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
-<span class="sd">    z.centroid_lon,</span>
-<span class="sd">    z.centroid_lat</span>
-<span class="sd">FROM trips t</span>
-<span class="sd">JOIN taxi_zones z ON t.PULocationID = z.LocationID</span>
-<span class="sd">GROUP BY t.PULocationID, z.zone, z.borough, z.centroid_lon, z.centroid_lat</span>
-<span class="sd">ORDER BY pickup_count DESC</span>
-<span class="sd">LIMIT 50</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pickup_hotspots</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    t.PULocationID,</span>
+<span class="s2">    z.zone as zone_name,</span>
+<span class="s2">    z.borough as borough,</span>
+<span class="s2">    COUNT(*) as pickup_count,</span>
+<span class="s2">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
+<span class="s2">    z.centroid_lon,</span>
+<span class="s2">    z.centroid_lat</span>
+<span class="s2">FROM trips t</span>
+<span class="s2">JOIN taxi_zones z ON t.PULocationID = z.LocationID</span>
+<span class="s2">GROUP BY t.PULocationID, z.zone, z.borough, z.centroid_lon, z.centroid_lat</span>
+<span class="s2">ORDER BY pickup_count DESC</span>
+<span class="s2">LIMIT 50</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">pickup_hotspots</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -838,25 +824,23 @@ document.write(`
 <h3><span class="section-number">13.10.2. </span>Trip Distance Distribution<a class="headerlink" href="#trip-distance-distribution" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distance_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    CASE</span>
-<span class="sd">        WHEN trip_distance &lt; 1 THEN &#39;Very Short (&lt;1 mi)&#39;</span>
-<span class="sd">        WHEN trip_distance &lt; 2 THEN &#39;Short (1-2 mi)&#39;</span>
-<span class="sd">        WHEN trip_distance &lt; 5 THEN &#39;Medium (2-5 mi)&#39;</span>
-<span class="sd">        WHEN trip_distance &lt; 10 THEN &#39;Long (5-10 mi)&#39;</span>
-<span class="sd">        ELSE &#39;Very Long (&gt;10 mi)&#39;</span>
-<span class="sd">    END as distance_category,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare</span>
-<span class="sd">FROM trips</span>
-<span class="sd">WHERE trip_distance &gt; 0</span>
-<span class="sd">GROUP BY distance_category</span>
-<span class="sd">ORDER BY MIN(trip_distance)</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distance_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    CASE</span>
+<span class="s2">        WHEN trip_distance &lt; 1 THEN &#39;Very Short (&lt;1 mi)&#39;</span>
+<span class="s2">        WHEN trip_distance &lt; 2 THEN &#39;Short (1-2 mi)&#39;</span>
+<span class="s2">        WHEN trip_distance &lt; 5 THEN &#39;Medium (2-5 mi)&#39;</span>
+<span class="s2">        WHEN trip_distance &lt; 10 THEN &#39;Long (5-10 mi)&#39;</span>
+<span class="s2">        ELSE &#39;Very Long (&gt;10 mi)&#39;</span>
+<span class="s2">    END as distance_category,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_fare</span>
+<span class="s2">FROM trips</span>
+<span class="s2">WHERE trip_distance &gt; 0</span>
+<span class="s2">GROUP BY distance_category</span>
+<span class="s2">ORDER BY MIN(trip_distance)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">distance_analysis</span>
 </pre></div>
 </div>
@@ -896,22 +880,20 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aggregate pickups to H3 hexagons (resolution 8) using zone centroids</span>
-<span class="n">h3_pickups_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    h3_latlng_to_cell(z.centroid_lat, z.centroid_lon, 8) as h3_index,</span>
-<span class="sd">    COUNT(*) as pickup_count,</span>
-<span class="sd">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
-<span class="sd">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
-<span class="sd">    COUNT(DISTINCT t.PULocationID) as num_zones,</span>
-<span class="sd">    h3_cell_to_boundary_wkt(h3_index) as geometry</span>
-<span class="sd">FROM trips t</span>
-<span class="sd">JOIN taxi_zones z ON t.PULocationID = z.LocationID</span>
-<span class="sd">GROUP BY h3_index</span>
-<span class="sd">HAVING COUNT(*) &gt; 50</span>
-<span class="sd">ORDER BY pickup_count DESC</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">h3_pickups_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    h3_latlng_to_cell(z.centroid_lat, z.centroid_lon, 8) as h3_index,</span>
+<span class="s2">    COUNT(*) as pickup_count,</span>
+<span class="s2">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
+<span class="s2">    COUNT(DISTINCT t.PULocationID) as num_zones,</span>
+<span class="s2">    h3_cell_to_boundary_wkt(h3_index) as geometry</span>
+<span class="s2">FROM trips t</span>
+<span class="s2">JOIN taxi_zones z ON t.PULocationID = z.LocationID</span>
+<span class="s2">GROUP BY h3_index</span>
+<span class="s2">HAVING COUNT(*) &gt; 50</span>
+<span class="s2">ORDER BY pickup_count DESC</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">h3_pickups_df</span>
 </pre></div>
 </div>
@@ -942,29 +924,27 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyze common origin-destination pairs using taxi zones</span>
-<span class="n">od_pairs</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    t.PULocationID as origin_zone_id,</span>
-<span class="sd">    zo.zone as origin_zone_name,</span>
-<span class="sd">    zo.borough as origin_borough,</span>
-<span class="sd">    t.DOLocationID as dest_zone_id,</span>
-<span class="sd">    zd.zone as dest_zone_name,</span>
-<span class="sd">    zd.borough as dest_borough,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
-<span class="sd">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
-<span class="sd">    ROUND(AVG(EXTRACT(EPOCH FROM (t.tpep_dropoff_datetime - t.tpep_pickup_datetime)) / 60), 1) as avg_duration_min</span>
-<span class="sd">FROM trips t</span>
-<span class="sd">JOIN taxi_zones zo ON t.PULocationID = zo.LocationID</span>
-<span class="sd">JOIN taxi_zones zd ON t.DOLocationID = zd.LocationID</span>
-<span class="sd">WHERE t.tpep_dropoff_datetime &gt; t.tpep_pickup_datetime</span>
-<span class="sd">GROUP BY t.PULocationID, zo.zone, zo.Borough, t.DOLocationID, zd.zone, zd.Borough</span>
-<span class="sd">HAVING COUNT(*) &gt; 100</span>
-<span class="sd">ORDER BY trip_count DESC</span>
-<span class="sd">LIMIT 50</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="n">od_pairs</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    t.PULocationID as origin_zone_id,</span>
+<span class="s2">    zo.zone as origin_zone_name,</span>
+<span class="s2">    zo.borough as origin_borough,</span>
+<span class="s2">    t.DOLocationID as dest_zone_id,</span>
+<span class="s2">    zd.zone as dest_zone_name,</span>
+<span class="s2">    zd.borough as dest_borough,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(t.trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(t.total_amount), 2) as avg_fare,</span>
+<span class="s2">    ROUND(AVG(EXTRACT(EPOCH FROM (t.tpep_dropoff_datetime - t.tpep_pickup_datetime)) / 60), 1) as avg_duration_min</span>
+<span class="s2">FROM trips t</span>
+<span class="s2">JOIN taxi_zones zo ON t.PULocationID = zo.LocationID</span>
+<span class="s2">JOIN taxi_zones zd ON t.DOLocationID = zd.LocationID</span>
+<span class="s2">WHERE t.tpep_dropoff_datetime &gt; t.tpep_pickup_datetime</span>
+<span class="s2">GROUP BY t.PULocationID, zo.zone, zo.Borough, t.DOLocationID, zd.zone, zd.Borough</span>
+<span class="s2">HAVING COUNT(*) &gt; 100</span>
+<span class="s2">ORDER BY trip_count DESC</span>
+<span class="s2">LIMIT 50</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 
 <span class="n">od_pairs</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
@@ -976,27 +956,25 @@ document.write(`
 <h3><span class="section-number">13.11.2. </span>Airport Trips Analysis<a class="headerlink" href="#airport-trips-analysis" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    CASE RatecodeID</span>
-<span class="sd">        WHEN 1 THEN &#39;Standard Rate&#39;</span>
-<span class="sd">        WHEN 2 THEN &#39;JFK Airport&#39;</span>
-<span class="sd">        WHEN 3 THEN &#39;Newark Airport&#39;</span>
-<span class="sd">        WHEN 4 THEN &#39;Nassau/Westchester&#39;</span>
-<span class="sd">        WHEN 5 THEN &#39;Negotiated Fare&#39;</span>
-<span class="sd">        WHEN 6 THEN &#39;Group Ride&#39;</span>
-<span class="sd">        ELSE &#39;Unknown&#39;</span>
-<span class="sd">    END as trip_type,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_fare,</span>
-<span class="sd">    ROUND(AVG(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 60), 1) as avg_duration_min</span>
-<span class="sd">FROM trips</span>
-<span class="sd">GROUP BY trip_type</span>
-<span class="sd">ORDER BY trip_count DESC</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    CASE RatecodeID</span>
+<span class="s2">        WHEN 1 THEN &#39;Standard Rate&#39;</span>
+<span class="s2">        WHEN 2 THEN &#39;JFK Airport&#39;</span>
+<span class="s2">        WHEN 3 THEN &#39;Newark Airport&#39;</span>
+<span class="s2">        WHEN 4 THEN &#39;Nassau/Westchester&#39;</span>
+<span class="s2">        WHEN 5 THEN &#39;Negotiated Fare&#39;</span>
+<span class="s2">        WHEN 6 THEN &#39;Group Ride&#39;</span>
+<span class="s2">        ELSE &#39;Unknown&#39;</span>
+<span class="s2">    END as trip_type,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_fare,</span>
+<span class="s2">    ROUND(AVG(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 60), 1) as avg_duration_min</span>
+<span class="s2">FROM trips</span>
+<span class="s2">GROUP BY trip_type</span>
+<span class="s2">ORDER BY trip_count DESC</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1021,28 +999,26 @@ document.write(`
 <h3><span class="section-number">13.12.1. </span>Payment Type Analysis<a class="headerlink" href="#payment-type-analysis" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    CASE payment_type</span>
-<span class="sd">        WHEN 1 THEN &#39;Credit Card&#39;</span>
-<span class="sd">        WHEN 2 THEN &#39;Cash&#39;</span>
-<span class="sd">        WHEN 3 THEN &#39;No Charge&#39;</span>
-<span class="sd">        WHEN 4 THEN &#39;Dispute&#39;</span>
-<span class="sd">        ELSE &#39;Unknown&#39;</span>
-<span class="sd">    END as payment_method,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(AVG(fare_amount), 2) as avg_fare,</span>
-<span class="sd">    ROUND(AVG(tip_amount), 2) as avg_tip,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_total,</span>
-<span class="sd">    ROUND(AVG(tip_amount) / NULLIF(AVG(fare_amount), 0) * 100, 1) as avg_tip_percentage,</span>
-<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
-<span class="sd">FROM trips</span>
-<span class="sd">WHERE fare_amount &gt; 0</span>
-<span class="sd">GROUP BY payment_method</span>
-<span class="sd">ORDER BY trip_count DESC</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    CASE payment_type</span>
+<span class="s2">        WHEN 1 THEN &#39;Credit Card&#39;</span>
+<span class="s2">        WHEN 2 THEN &#39;Cash&#39;</span>
+<span class="s2">        WHEN 3 THEN &#39;No Charge&#39;</span>
+<span class="s2">        WHEN 4 THEN &#39;Dispute&#39;</span>
+<span class="s2">        ELSE &#39;Unknown&#39;</span>
+<span class="s2">    END as payment_method,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(fare_amount), 2) as avg_fare,</span>
+<span class="s2">    ROUND(AVG(tip_amount), 2) as avg_tip,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_total,</span>
+<span class="s2">    ROUND(AVG(tip_amount) / NULLIF(AVG(fare_amount), 0) * 100, 1) as avg_tip_percentage,</span>
+<span class="s2">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="s2">FROM trips</span>
+<span class="s2">WHERE fare_amount &gt; 0</span>
+<span class="s2">GROUP BY payment_method</span>
+<span class="s2">ORDER BY trip_count DESC</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1052,27 +1028,25 @@ document.write(`
 <h3><span class="section-number">13.12.2. </span>Tipping Patterns<a class="headerlink" href="#tipping-patterns" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    CASE</span>
-<span class="sd">        WHEN trip_distance &lt; 2 THEN &#39;Short (&lt;2 mi)&#39;</span>
-<span class="sd">        WHEN trip_distance &lt; 5 THEN &#39;Medium (2-5 mi)&#39;</span>
-<span class="sd">        WHEN trip_distance &lt; 10 THEN &#39;Long (5-10 mi)&#39;</span>
-<span class="sd">        ELSE &#39;Very Long (&gt;10 mi)&#39;</span>
-<span class="sd">    END AS distance_category,</span>
-<span class="sd">    COUNT(*) AS trip_count,</span>
-<span class="sd">    ROUND(AVG(tip_amount), 2) AS avg_tip,</span>
-<span class="sd">    ROUND(AVG(tip_amount / NULLIF(fare_amount, 0)) * 100, 1) AS avg_tip_percentage,</span>
-<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
-<span class="sd">FROM trips</span>
-<span class="sd">WHERE payment_type = 1  -- Credit card only</span>
-<span class="sd">  AND fare_amount &gt; 0</span>
-<span class="sd">  AND tip_amount &gt;= 0</span>
-<span class="sd">GROUP BY distance_category</span>
-<span class="sd">ORDER BY MIN(trip_distance)</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    CASE</span>
+<span class="s2">        WHEN trip_distance &lt; 2 THEN &#39;Short (&lt;2 mi)&#39;</span>
+<span class="s2">        WHEN trip_distance &lt; 5 THEN &#39;Medium (2-5 mi)&#39;</span>
+<span class="s2">        WHEN trip_distance &lt; 10 THEN &#39;Long (5-10 mi)&#39;</span>
+<span class="s2">        ELSE &#39;Very Long (&gt;10 mi)&#39;</span>
+<span class="s2">    END AS distance_category,</span>
+<span class="s2">    COUNT(*) AS trip_count,</span>
+<span class="s2">    ROUND(AVG(tip_amount), 2) AS avg_tip,</span>
+<span class="s2">    ROUND(AVG(tip_amount / NULLIF(fare_amount, 0)) * 100, 1) AS avg_tip_percentage,</span>
+<span class="s2">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="s2">FROM trips</span>
+<span class="s2">WHERE payment_type = 1  -- Credit card only</span>
+<span class="s2">  AND fare_amount &gt; 0</span>
+<span class="s2">  AND tip_amount &gt;= 0</span>
+<span class="s2">GROUP BY distance_category</span>
+<span class="s2">ORDER BY MIN(trip_distance)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1082,23 +1056,21 @@ document.write(`
 <h3><span class="section-number">13.12.3. </span>Fare per Mile Analysis<a class="headerlink" href="#fare-per-mile-analysis" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fare_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    EXTRACT(HOUR FROM tpep_pickup_datetime) as hour,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(AVG(fare_amount / NULLIF(trip_distance, 0)), 2) as avg_fare_per_mile,</span>
-<span class="sd">    ROUND(AVG(trip_distance / NULLIF(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 3600, 0)), 2) as avg_speed_mph,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_total_fare,</span>
-<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
-<span class="sd">FROM trips</span>
-<span class="sd">WHERE trip_distance &gt; 0</span>
-<span class="sd">  AND tpep_dropoff_datetime &gt; tpep_pickup_datetime</span>
-<span class="sd">  AND EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) &gt; 60  -- At least 1 minute</span>
-<span class="sd">GROUP BY hour</span>
-<span class="sd">ORDER BY hour</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fare_analysis</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    EXTRACT(HOUR FROM tpep_pickup_datetime) as hour,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(fare_amount / NULLIF(trip_distance, 0)), 2) as avg_fare_per_mile,</span>
+<span class="s2">    ROUND(AVG(trip_distance / NULLIF(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 3600, 0)), 2) as avg_speed_mph,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_total_fare,</span>
+<span class="s2">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="s2">FROM trips</span>
+<span class="s2">WHERE trip_distance &gt; 0</span>
+<span class="s2">  AND tpep_dropoff_datetime &gt; tpep_pickup_datetime</span>
+<span class="s2">  AND EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) &gt; 60  -- At least 1 minute</span>
+<span class="s2">GROUP BY hour</span>
+<span class="s2">ORDER BY hour</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">fare_analysis</span>
 </pre></div>
 </div>
@@ -1124,21 +1096,19 @@ document.write(`
 <h2><span class="section-number">13.13. </span>Passenger Behavior Analysis<a class="headerlink" href="#passenger-behavior-analysis" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT</span>
-<span class="sd">    passenger_count,</span>
-<span class="sd">    COUNT(*) as trip_count,</span>
-<span class="sd">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
-<span class="sd">    ROUND(AVG(total_amount), 2) as avg_total,</span>
-<span class="sd">    ROUND(AVG(total_amount / passenger_count), 2) as avg_per_passenger,</span>
-<span class="sd">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
-<span class="sd">FROM trips</span>
-<span class="sd">WHERE passenger_count BETWEEN 1 AND 6</span>
-<span class="sd">GROUP BY passenger_count</span>
-<span class="sd">ORDER BY passenger_count</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT</span>
+<span class="s2">    passenger_count,</span>
+<span class="s2">    COUNT(*) as trip_count,</span>
+<span class="s2">    ROUND(AVG(trip_distance), 2) as avg_distance,</span>
+<span class="s2">    ROUND(AVG(total_amount), 2) as avg_total,</span>
+<span class="s2">    ROUND(AVG(total_amount / passenger_count), 2) as avg_per_passenger,</span>
+<span class="s2">    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) as percentage,</span>
+<span class="s2">FROM trips</span>
+<span class="s2">WHERE passenger_count BETWEEN 1 AND 6</span>
+<span class="s2">GROUP BY passenger_count</span>
+<span class="s2">ORDER BY passenger_count</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1151,8 +1121,7 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">months</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="n">months_to_analyze</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;yellow_tripdata_2025-</span><span class="si">{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">.parquet&quot;</span> <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="n">months</span><span class="p">]</span>
 
-<span class="n">monthly_comparison</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="n">monthly_comparison</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">SELECT</span>
 <span class="s2">    EXTRACT(YEAR FROM tpep_pickup_datetime) as year,</span>
 <span class="s2">    EXTRACT(MONTH FROM tpep_pickup_datetime) as month,</span>
@@ -1164,8 +1133,7 @@ document.write(`
 <span class="s2">WHERE year = 2025</span>
 <span class="s2">GROUP BY year, month</span>
 <span class="s2">ORDER BY year, month</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 
 <span class="n">monthly_comparison</span>
 </pre></div>
@@ -1198,13 +1166,11 @@ document.write(`
 <h3><span class="section-number">13.15.1. </span>Aggregating Trip Data by Zone<a class="headerlink" href="#aggregating-trip-data-by-zone" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pickup_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    SELECT PULocationID, COUNT(*) as pickup_count</span>
-<span class="sd">    FROM trips</span>
-<span class="sd">    GROUP BY PULocationID</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pickup_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    SELECT PULocationID, COUNT(*) as pickup_count</span>
+<span class="s2">    FROM trips</span>
+<span class="s2">    GROUP BY PULocationID</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">pickup_df</span>
 </pre></div>
 </div>
@@ -1212,13 +1178,11 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dropoff_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    SELECT DOLocationID, COUNT(*) as dropoff_count</span>
-<span class="sd">    FROM trips</span>
-<span class="sd">    GROUP BY DOLocationID</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dropoff_df</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    SELECT DOLocationID, COUNT(*) as dropoff_count</span>
+<span class="s2">    FROM trips</span>
+<span class="s2">    GROUP BY DOLocationID</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
 <span class="n">dropoff_df</span>
 </pre></div>
 </div>
@@ -1328,14 +1292,12 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: Filter before aggregation</span>
-<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT COUNT(*)</span>
-<span class="sd">FROM trips</span>
-<span class="sd">WHERE tpep_pickup_datetime &gt;= &#39;2025-09-15&#39;</span>
-<span class="sd">  AND tpep_pickup_datetime &lt; &#39;2025-09-16&#39;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT COUNT(*)</span>
+<span class="s2">FROM trips</span>
+<span class="s2">WHERE tpep_pickup_datetime &gt;= &#39;2025-09-15&#39;</span>
+<span class="s2">  AND tpep_pickup_datetime &lt; &#39;2025-09-16&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1345,13 +1307,11 @@ document.write(`
 <h3><span class="section-number">13.16.2. </span>Sample for Exploration<a class="headerlink" href="#sample-for-exploration" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SELECT *</span>
-<span class="sd">FROM trips</span>
-<span class="sd">USING SAMPLE 1%  -- Analyze 1% of data quickly</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">con</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT *</span>
+<span class="s2">FROM trips</span>
+<span class="s2">USING SAMPLE 1%  -- Analyze 1</span><span class="si">% o</span><span class="s2">f data quickly</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
