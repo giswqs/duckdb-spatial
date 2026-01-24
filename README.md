@@ -21,6 +21,8 @@ Welcome to the official repository for **_Spatial Data Management with DuckDB: F
 
 - 🇨🇳 **Chinese PDF Edition (412 pages):** 中文电子版可在 Leanpub 购买 ([link](https://leanpub.com/duckdb-zh))
 
+- 🇫🇷 **French PDF Edition (474 pages):** Edition en français disponible en Leanpub ([link](https://leanpub.com/duckdb-fr))
+  
 ## Cite the Book
 
 If you use this book in your research or teaching, please consider citing it as follows:
