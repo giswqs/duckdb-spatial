@@ -23,6 +23,8 @@ Welcome to the official website for **_Spatial Data Management with DuckDB: From
 
 - 🇫🇷 **French PDF Edition (474 pages):** Edition en français disponible en Leanpub ([link](https://leanpub.com/duckdb-fr))
 
+- 🇩🇪 **German PDF Edition (470 pages):** Edition in Deutsch verfügbar auf Leanpub ([link](https://leanpub.com/duckdb-de))
+
 ## Cite the Book
 
 If you use this book in your research or teaching, please consider citing it as follows:
