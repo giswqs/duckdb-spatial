@@ -32,10 +32,19 @@ jobs:
           uv venv
           uv pip install -r requirements.txt
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install MyST
+        run: npm install -g mystmd
+
       # Build the book
       - name: Build the book
         run: |
-          uv run jupyter-book build .
+          myst build --html
+
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:

@@ -26,10 +26,18 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install MyST
+        run: npm install -g mystmd
+
       # Build the book
       - name: Build the book
         run: |
-          jupyter-book build .
+          myst build --html
 
       # Deploy the book's HTML to gh-pages branch
       - name: GitHub Pages action
