@@ -1,13 +1,15 @@
 name: build
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
 
-# This job installs dependencies, build the book, and pushes it to `gh-pages`
 jobs:
-  build-the-book:
+  build-and-deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -40,15 +42,13 @@ jobs:
       - name: Install MyST
         run: npm install -g mystmd
 
-      # Build the book
       - name: Build the book
-        run: |
-          myst build --html
+        run: myst build --html
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
-          publish-dir: "./_build/site"
+          publish-dir: "./_build/html"
           production-branch: main
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
