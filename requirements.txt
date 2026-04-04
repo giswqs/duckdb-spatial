@@ -1,7 +1,7 @@
 duckdb
 fiona
 ghp-import
-jupyter-book==1.0.4
+jupyter-book
 jupyter-duckdb
 jupytext
 leafmap[pmtiles]
