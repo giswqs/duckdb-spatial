@@ -13,17 +13,13 @@ Welcome to the official repository for **_Spatial Data Management with DuckDB: F
 
 ## Get the Book
 
-- 🇺🇸 **English Full-Color Print Edition (446 pages):** Available on Amazon ([link](https://www.amazon.com/dp/B0G2JFMFFC))
+### Print Edition
 
-- 🇺🇸 **English PDF Edition (441 pages):** Available on Leanpub ([link](https://leanpub.com/duckdb))
+- 🇺🇸 English Full-Color Print Edition (446 pages) is available on Amazon ([link](https://www.amazon.com/dp/B0G2JFMFFC))
 
-- 🇲🇽 **Spanish PDF Edition (468 pages):** Edición en español disponible en Leanpub ([link](https://leanpub.com/duckdb-es))
+### PDF and EPUB Editions
 
-- 🇨🇳 **Chinese PDF Edition (412 pages):** 中文电子版可在 Leanpub 购买 ([link](https://leanpub.com/duckdb-zh))
-
-- 🇫🇷 **French PDF Edition (474 pages):** Edition en français disponible en Leanpub ([link](https://leanpub.com/duckdb-fr))
-
-- 🇩🇪 **German PDF Edition (470 pages):** Edition in Deutsch verfügbar auf Leanpub ([link](https://leanpub.com/duckdb-de))
+- 🇺🇸 [English](https://leanpub.com/duckdb) | 🇲🇽 [Spanish](https://leanpub.com/duckdb-es) | 🇨🇳 [Chinese](https://leanpub.com/duckdb-zh) | 🇫🇷 [French](https://leanpub.com/duckdb-fr) | 🇩🇪 [German](https://leanpub.com/duckdb-de)
 
 ## Cite the Book
 
