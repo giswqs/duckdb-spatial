@@ -46,6 +46,9 @@ project:
 site:
   options:
     logo: logo.png
+    logo_dark: logo.png
     favicon: fav.ico
     folders: true
   template: book-theme
+  parts:
+    primary_sidebar_footer: ''
