@@ -19,7 +19,7 @@ Welcome to the official repository for **_Spatial Data Management with DuckDB: F
 
 ### PDF and EPUB Editions
 
-- 🇺🇸 [English](https://leanpub.com/duckdb) | 🇲🇽 [Spanish](https://leanpub.com/duckdb-es) | 🇨🇳 [Chinese](https://leanpub.com/duckdb-zh) | 🇫🇷 [French](https://leanpub.com/duckdb-fr) | 🇩🇪 [German](https://leanpub.com/duckdb-de)
+- 🇺🇸 [English](https://opengeopub.com/books/duckdb) | 🇲🇽 [Spanish](https://opengeopub.com/books/duckdb-es) | 🇨🇳 [Chinese](https://opengeopub.com/books/duckdb-zh) | 🇫🇷 [French](https://opengeopub.com/books/duckdb-fr) | 🇩🇪 [German](https://opengeopub.com/books/duckdb-de)
 
 ## Cite the Book
 
