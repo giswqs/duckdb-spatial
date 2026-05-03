@@ -1,12 +1,5 @@
 # Spatial Data Management with DuckDB
 
-[![image](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/duckdb-spatial/HEAD)
-[![image](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/main)
-
-<!-- [![Docker Image](https://img.shields.io/badge/docker-giswqs%2Fpygis%3Abook-blue?logo=docker)](https://hub.docker.com/r/giswqs/pygis/tags) -->
-
-<!-- [![Amazon](https://img.shields.io/badge/Buy%20on-Amazon-orange?logo=amazon&logoColor=white)](https://amazon.com/dp/B0FFW34LL3) -->
-
 ## Introduction
 
 Welcome to the official website for **_Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_**. This website contains all the code examples featured in the book, designed to help you learn and apply DuckDB for geospatial analysis.
@@ -19,7 +12,7 @@ Welcome to the official website for **_Spatial Data Management with DuckDB: From
 
 ### PDF and EPUB Editions
 
-- 🇺🇸 [English](https://opengeopub.com/books/duckdb) | 🇲🇽 [Spanish](https://opengeopub.com/books/duckdb-es) | 🇨🇳 [Chinese](https://opengeopub.com/books/duckdb-zh) | 🇫🇷 [French](https://opengeopub.com/books/duckdb-fr) | 🇩🇪 [German](https://opengeopub.com/books/duckdb-de)
+🇺🇸 [English](https://opengeopub.com/books/duckdb) | 🇨🇳 [Chinese](https://opengeopub.com/books/duckdb-zh) | 🇨🇿 [Czech](https://opengeopub.com/books/duckdb-cs) | 🇫🇷 [French](https://opengeopub.com/books/duckdb-fr) | 🇩🇪 [German](https://opengeopub.com/books/duckdb-de) | 🇮🇩 [Indonesian](https://opengeopub.com/books/duckdb-id) | 🇮🇹 [Italian](https://opengeopub.com/books/duckdb-it) | 🇯🇵 [Japanese](https://opengeopub.com/books/duckdb-ja) | 🇰🇷 [Korean](https://opengeopub.com/books/duckdb-ko) | 🇵🇹 [Portuguese](https://opengeopub.com/books/duckdb-pt) | 🇷🇺 [Russian](https://opengeopub.com/books/duckdb-ru) | 🇲🇽 [Spanish](https://opengeopub.com/books/duckdb-es)
 
 ## Cite the Book
 
@@ -34,7 +27,6 @@ If you use this book in your research or teaching, please consider citing it as 
 <!-- To download a PDF version of the Table of Contents, please visit <https://duckdb.gishub.org/book-toc.pdf>. -->
 
 - **Preface**
-
   - Introduction
   - Who This Book Is For
   - What This Book Covers
@@ -48,13 +40,11 @@ If you use this book in your research or teaching, please consider citing it as 
   - Licensing and Copyright
 
 - **DuckDB Foundations**
-
   - Getting Started with DuckDB
   - Essential SQL for Spatial Analysis
   - DuckDB Python Integration
 
 - **Spatial Data Operations**
-
   - Loading Spatial Data Formats
   - Exporting and Converting Spatial Data
   - Geometry Operations and Functions
@@ -64,7 +54,6 @@ If you use this book in your research or teaching, please consider citing it as 
   - Working with Vector Tiles and PMTiles
 
 - **Real-World Geospatial Analytics**
-
   - Analyzing the US National Wetlands Inventory
   - Analyzing Global Building Footprints
   - Analyzing NYC Taxi Data
