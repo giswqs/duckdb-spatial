@@ -10,6 +10,10 @@ kernelspec:
   display_name: DuckDB
   language: ''
 ---
+
+[![image](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/main/book/foundations/sql-basics.ipynb)
+[![image](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/duckdb-spatial/main?urlpath=lab/tree/book/foundations/sql-basics.ipynb)
+
 # Essential SQL for Spatial Analysis
 
 ## Introduction

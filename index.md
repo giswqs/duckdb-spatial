@@ -1,5 +1,10 @@
 # Spatial Data Management with DuckDB
 
+[![image](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/main)
+[![image](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/duckdb-spatial/HEAD)
+[![Amazon](https://img.shields.io/badge/Buy%20on-Amazon-orange?logo=amazon&logoColor=white)](https://www.amazon.com/dp/B0G2JFMFFC)
+[![YouTube](https://img.shields.io/badge/Watch-Video-red?logo=youtube&logoColor=white)](https://www.youtube.com/@giswqs)
+
 ## Introduction
 
 Welcome to the official website for **_Spatial Data Management with DuckDB: From SQL Basics to Advanced Geospatial Analytics_**. This website contains all the code examples featured in the book, designed to help you learn and apply DuckDB for geospatial analysis.
