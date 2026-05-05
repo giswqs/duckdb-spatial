@@ -10,6 +10,10 @@ kernelspec:
   language: python
   name: python3
 ---
+
+[![image](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/giswqs/duckdb-spatial/blob/main/book/spatial/spatial-relationships.ipynb)
+[![image](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/duckdb-spatial/main?urlpath=lab/tree/book/spatial/spatial-relationships.ipynb)
+
 # Spatial Queries and Relationships
 
 ## Introduction
