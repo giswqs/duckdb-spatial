@@ -17,7 +17,7 @@ Welcome to the official website for **_Spatial Data Management with DuckDB: From
 
 ### PDF and EPUB Editions
 
-🇺🇸 [English](https://opengeopub.com/books/duckdb) | 🇨🇳 [Chinese](https://opengeopub.com/books/duckdb-zh) | 🇨🇿 [Czech](https://opengeopub.com/books/duckdb-cs) | 🇫🇷 [French](https://opengeopub.com/books/duckdb-fr) | 🇩🇪 [German](https://opengeopub.com/books/duckdb-de) | 🇮🇩 [Indonesian](https://opengeopub.com/books/duckdb-id) | 🇮🇹 [Italian](https://opengeopub.com/books/duckdb-it) | 🇯🇵 [Japanese](https://opengeopub.com/books/duckdb-ja) | 🇰🇷 [Korean](https://opengeopub.com/books/duckdb-ko) | 🇵🇹 [Portuguese](https://opengeopub.com/books/duckdb-pt) | 🇷🇺 [Russian](https://opengeopub.com/books/duckdb-ru) | 🇲🇽 [Spanish](https://opengeopub.com/books/duckdb-es)
+🇺🇸 [English](https://opengeopub.com/books/duckdb) | 🇨🇳 [Chinese](https://opengeopub.com/books/duckdb-zh) | 🇨🇿 [Czech](https://opengeopub.com/books/duckdb-cs) | 🇳🇱 [Dutch](https://opengeopub.com/books/duckdb-nl) | 🇫🇷 [French](https://opengeopub.com/books/duckdb-fr) | 🇩🇪 [German](https://opengeopub.com/books/duckdb-de) | 🇮🇳 [Hindi](https://opengeopub.com/books/duckdb-hi) | 🇮🇩 [Indonesian](https://opengeopub.com/books/duckdb-id) | 🇮🇹 [Italian](https://opengeopub.com/books/duckdb-it) | 🇯🇵 [Japanese](https://opengeopub.com/books/duckdb-ja) | 🇰🇷 [Korean](https://opengeopub.com/books/duckdb-ko) | 🇵🇹 [Portuguese](https://opengeopub.com/books/duckdb-pt) | 🇷🇺 [Russian](https://opengeopub.com/books/duckdb-ru) | 🇲🇽 [Spanish](https://opengeopub.com/books/duckdb-es) | 🇹🇷 [Turkish](https://opengeopub.com/books/duckdb-tr)
 
 ## Cite the Book
 
